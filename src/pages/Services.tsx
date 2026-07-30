@@ -1,64 +1,52 @@
 import React, { useState } from 'react';
-import { 
-  Container, 
-  Grid, 
-  Box, 
-  Typography,
+import {
+  Container,
+  Grid,
+  Box,
   Stack,
-  Divider,
-  useTheme,
-  Collapse,
-  alpha
 } from '@mui/material';
-import { Giant, H1, H2, BodyText, Button, SEOHead, GeometricIcon, BinaryOverlay, RegistrationMarks, MoireText } from '@/components/shared/ui/atoms';
-import { ServiceCard, DiagnosticCTA, RelatedPages } from '@/components/shared/ui/molecules';
+import { Giant, H2, BodyText, CodeText, SEOHead, BinaryOverlay, RegistrationMarks, MoireText } from '@/components/shared/ui/atoms';
+import { DiagnosticCTA, RelatedPages } from '@/components/shared/ui/molecules';
 import { SuperAIModal } from '@/components/shared/ui/organisms';
-import { AI4U_PALETTE } from '@/components/shared/ui/tokens/palette';
 import { useServicesContext, SurfaceProvider } from '@/context';
 import { useColors, usePerformanceMonitoring } from '@/hooks';
-import { ServiceSuperCategory } from '@/types/service';
 import { getServicesStructuredData, getPageMetaTags } from '@/utils/seo';
 import { getRelatedLinks } from '@/data/internalLinkingStrategy';
-import { SHADOW_TOKENS } from '@/components/shared/ui/tokens/theme';
-import { COMPONENT_SPACING, SPACING_TOKENS } from '@/components/shared/ui/tokens/spacing';
-import { TEXT_VARIANTS } from '@/components/shared/ui/tokens/typography';
+import { COMPONENT_SPACING } from '@/components/shared/ui/tokens/spacing';
+import { BRAND_ORANGE } from '@/components/shared/ui/tokens/brandAccent';
 
-// Cuerpo real de la página — vive dentro del SurfaceProvider "cream" que exporta
-// el wrapper Services de más abajo (mismo patrón que Home.tsx/HomeBody).
+// Camino 1 — cualquier empresa que ya tenga un ERP (SAP Business One incluido,
+// pero no exclusivo). Nos conectamos directo — es tu primera línea de IA.
+const ERP_ITEMS = [
+  { n: '01', name: 'dashboards en vivo', desc: 'ventas, cartera, inventario y producción conectados en tiempo real a tu ERP.', price: 'desde $250.000', note: 'mensual' },
+  { n: '02', name: 'automatización de procesos', desc: 'pedidos, cartera, facturación — el proceso que más tiempo te cuesta, resuelto.', price: 'desde $1.500.000', note: 'mensual c/u' },
+  { n: '03', name: 'agentes conectados a tu ERP', desc: 'chat, alertas y cobranza que hablan con la data real de tu sistema.', price: 'desde $500.000', note: 'mensual' },
+];
+
+// Camino 2 — cualquier pyme, sin ERP, que quiere lo mismo: un equipo digital
+// trabajando todos los días.
+const PYME_ITEMS = [
+  { n: '01', name: 'empleado de automatización', desc: 'mensualidad fija, entrega continua — el proceso que elijas, automatizado y mantenido.', price: '$2.000.000', note: 'mensual' },
+  { n: '02', name: 'agentes especializados', desc: 'servicio al cliente, prospección o cobranza — un rol completo, no una herramienta.', price: 'desde $500.000', note: 'mensual' },
+];
+
+// Grupos del laboratorio — por lo que hacen, no por su nombre interno.
+const LAB_GROUPS: { label: string; category: string }[] = [
+  { label: 'automatización', category: 'automation' },
+  { label: 'analítica', category: 'analytics' },
+  { label: 'asistentes ia', category: 'ai_assistant' },
+  { label: 'e-commerce', category: 'ecommerce' },
+  { label: 'consultoría', category: 'consulting' },
+  { label: 'formación', category: 'training' },
+];
+
+// Cuerpo real — vive dentro del SurfaceProvider "cream" que exporta el wrapper
+// Services de más abajo (mismo patrón que Home.tsx/HomeBody).
 const ServicesBody: React.FC = () => {
   const colors = useColors();
   const [isSuperAIModalOpen, setIsSuperAIModalOpen] = useState(false);
-  const [expandedAxes, setExpandedAxes] = useState<Record<string, boolean>>({});
 
-  const toggleAxis = (axisId: string) => {
-    const isExpanding = !expandedAxes[axisId];
-    setExpandedAxes(prev => ({
-      ...prev,
-      [axisId]: isExpanding
-    }));
-
-    if (isExpanding) {
-      // Pequeño delay para dejar que la animación de Collapse comience
-      setTimeout(() => {
-        const element = document.getElementById(axisId);
-        if (element) {
-          const headerOffset = 100;
-          const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          });
-        }
-      }, 100);
-    }
-  };
-
-  const { 
-    getFilteredServices,
-    getServicesBySuperCategory
-  } = useServicesContext();
+  const { getFilteredServices } = useServicesContext();
 
   usePerformanceMonitoring('services', { lcp: 2500, fcp: 1800 });
 
@@ -66,53 +54,17 @@ const ServicesBody: React.FC = () => {
   const structuredData = getServicesStructuredData();
   const relatedLinks = getRelatedLinks('/servicios');
 
-  // Definición de los 4 ejes con su estilo y contenido del Pitch
-  const axes = [
-    {
-      id: ServiceSuperCategory.OPERATION,
-      title: 'Operación',
-      subtitle: 'Eficiencia continua',
-      description: 'Optimiza tiempo y recursos.',
-      color: colors.contrast.text.primary,
-      bgColor: colors.contrast.background,
-      textColor: colors.contrast.text.primary,
-      accentColor: colors.contrast.text.primary
-    },
-    {
-      id: ServiceSuperCategory.STRATEGY,
-      title: 'Estrategia',
-      subtitle: 'Data real',
-      description: 'Decisiones con ventaja competitiva.',
-      color: colors.contrast.text.primary,
-      bgColor: colors.contrast.background,
-      textColor: colors.contrast.text.primary,
-      accentColor: colors.contrast.text.primary
-    },
-    {
-      id: ServiceSuperCategory.EDUCATION,
-      title: 'Educación',
-      subtitle: 'Evolución humana',
-      description: 'Tu equipo dominando la IA.',
-      color: colors.contrast.text.primary,
-      bgColor: colors.contrast.background,
-      textColor: colors.contrast.text.primary,
-      accentColor: colors.contrast.text.primary
-    },
-    {
-      id: ServiceSuperCategory.TRANSFORMATION,
-      title: 'Transformación',
-      subtitle: 'Infraestructura IA',
-      description: 'Diseñada para escalar.',
-      color: colors.contrast.text.primary,
-      bgColor: colors.contrast.background,
-      textColor: colors.contrast.text.primary,
-      accentColor: colors.contrast.text.primary
-    }
-  ];
+  // Todo lo que también hemos construido — evidencia de rango, no la oferta
+  // principal. Sitios web vive en su propia página (capa 3, aparte). Agrupado
+  // por lo que hace cada cosa (categoría real), no por su nombre interno.
+  const labServices = getFilteredServices().filter(s => s.id !== 'desarrollo-web');
+  const labGroups = LAB_GROUPS
+    .map(g => ({ ...g, items: labServices.filter(s => s.category === g.category) }))
+    .filter(g => g.items.length > 0);
 
   return (
-    <Box sx={{ 
-      minHeight: '100vh', 
+    <Box sx={{
+      minHeight: '100vh',
       bgcolor: colors.contrast.background,
       position: 'relative'
     }}>
@@ -124,324 +76,184 @@ const ServicesBody: React.FC = () => {
         structuredData={structuredData}
       />
 
-      {/* Hero Section - Los 4 Ejes de AI4U */}
+      {/* Hero */}
       <Box sx={{
         py: COMPONENT_SPACING.layout.section,
-        bgcolor: colors.contrast.background,
         color: colors.contrast.text.primary,
         borderTop: `1px solid ${colors.contrast.text.primary}`,
         position: 'relative',
         overflow: 'hidden'
       }}>
-        {/* Binary Overlay Pattern */}
         <BinaryOverlay />
         <RegistrationMarks corners={['tl', 'tr']} circles />
-        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
-          <Grid container spacing={0} alignItems="center">
-            <Grid item xs={12} lg={8} sx={{ pr: { lg: 10 } }}>
-              <Typography
-                sx={{
-                  color: colors.contrast.text.primary,
-                  opacity: 0.6,
-                  fontWeight: 400,
-                  letterSpacing: 4,
-                  fontSize: '1.2rem',
-                  mb: 4,
-                  display: 'block',
-                  ...TEXT_VARIANTS.ui.code
-                }}
-              >
-                // ai4u.lab // 2026.v3
-              </Typography>
-              <Giant sx={{
-                color: colors.contrast.text.primary,
-                mb: 6,
-                lineHeight: 0.85,
-                fontSize: { xs: '3.5rem', md: '8rem' },
-                letterSpacing: '-0.05em',
-                fontWeight: 400,
-                maxWidth: '1000px'
-              }}>
-                nuestros 4 <MoireText sx={{ fontSize: 'inherit', lineHeight: 'inherit', letterSpacing: 'inherit' }}>ejes</MoireText> de servicio
-              </Giant>
-              <BodyText sx={{
-                fontSize: '1.8rem',
-                fontWeight: 400,
-                color: colors.contrast.text.primary,
-                maxWidth: '800px',
-                mb: 10,
-                lineHeight: 1.1,
-                opacity: 0.9
-              }}>
-                Cuatro frentes. Un objetivo: que tu operación trabaje sola.
-              </BodyText>
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+          <CodeText sx={{ fontSize: '0.72rem', letterSpacing: '0.25em', color: BRAND_ORANGE, mb: 4, display: 'block' }}>
+            // ai4u.agentes
+          </CodeText>
+          <Giant sx={{
+            color: colors.contrast.text.primary,
+            mb: 5,
+            lineHeight: 0.85,
+            fontSize: { xs: '3rem', md: '6.5rem' },
+            letterSpacing: '-0.04em',
+            fontWeight: 400,
+            maxWidth: '900px'
+          }}>
+            <MoireText sx={{ fontSize: 'inherit', lineHeight: 'inherit', letterSpacing: 'inherit' }}>agentes</MoireText> dentro de tu operación
+          </Giant>
+          <BodyText sx={{
+            fontSize: { xs: '1.2rem', md: '1.5rem' },
+            color: colors.contrast.text.primary,
+            maxWidth: '700px',
+            opacity: 0.85,
+            fontWeight: 300
+          }}>
+            dos caminos, un solo objetivo: que tu operación trabaje sola.
+          </BodyText>
+        </Container>
+      </Box>
 
-              {/* Quick Links to Axes */}
-              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mb: { xs: 8, lg: 0 } }}>
-                {axes.map((axis) => (
-                  <Button
-                    key={axis.id}
-                    variant="outline"
-                    onClick={() => toggleAxis(axis.id)}
-                    sx={{
-                      borderColor: `${colors.contrast.text.primary}40`,
-                      color: colors.contrast.text.primary,
-                      borderRadius: '9999px',
-                      px: 4,
-                      py: 2,
-                      textTransform: 'none',
-                      fontSize: '1.1rem',
-                      '&:hover': {
-                        borderColor: colors.contrast.text.primary,
-                        bgcolor: colors.contrast.text.primary,
-                        color: colors.contrast.background,
-                        transform: 'translateY(-5px)'
-                      }
-                    }}
-                  >
-                    {axis.title}
-                  </Button>
-                ))}
-              </Stack>
-            </Grid>
-
-            <Grid item xs={12} lg={4} sx={{ mt: { xs: 8, lg: 0 } }}>
-              <Box sx={{
-                p: 6,
-                bgcolor: 'transparent',
-                border: `1px solid ${colors.contrast.text.primary}`,
-                position: 'relative'
-              }}>
-                <Stack spacing={6}>
-                  {axes.map((axis, idx) => (
-                    <Box
-                      key={axis.id}
-                      onClick={() => toggleAxis(axis.id)}
-                      sx={{
-                        display: 'flex',
-                        gap: 4,
-                        alignItems: 'flex-start',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s ease',
-                        '&:hover': {
-                          transform: 'translateX(15px)',
-                          '& .idx': { opacity: 1 }
-                        }
-                      }}
-                    >
-                      <Typography className="idx" sx={{
-                        fontWeight: 400,
-                        fontSize: '1.2rem',
-                        color: colors.contrast.text.primary,
-                        opacity: 0.5,
-                        fontFamily: '"Necto Mono", monospace',
-                        mt: 0.5,
-                        transition: 'opacity 0.3s ease'
-                      }}>
-                        0{idx + 1}
-                      </Typography>
+      {/* Camino 1 — conectados a tu ERP (negro, foso profundo) */}
+      <SurfaceProvider surface="black">
+        <Box sx={{ py: COMPONENT_SPACING.layout.section, bgcolor: '#000000', color: '#FFFFFF', position: 'relative' }}>
+          <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+            <CodeText sx={{ fontSize: '0.72rem', letterSpacing: '0.2em', color: BRAND_ORANGE, mb: 3, display: 'block' }}>
+              // camino 01
+            </CodeText>
+            <H2 sx={{ fontWeight: 400, textTransform: 'none', fontSize: { xs: '2.2rem', md: '3.5rem' }, lineHeight: 0.95, mb: 2, color: '#FFFFFF' }}>
+              si tu empresa ya tiene un erp
+            </H2>
+            <BodyText sx={{ fontSize: '1.1rem', color: '#FFFFFF', opacity: 0.7, mb: 8, maxWidth: '620px' }}>
+              nos conectamos directo a tu ERP — se vuelve tu primera línea de inteligencia artificial.
+              ya lo hicimos en producción para empresas que corren SAP Business One.
+            </BodyText>
+            <Grid container spacing={0} sx={{ borderTop: '1px solid rgba(255,255,255,0.15)' }}>
+              {ERP_ITEMS.map((item) => (
+                <Grid item xs={12} key={item.n} sx={{ borderBottom: '1px solid rgba(255,255,255,0.15)', py: 4 }}>
+                  <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" spacing={2}>
+                    <Stack direction="row" spacing={3} sx={{ flex: 1 }}>
+                      <CodeText sx={{ fontSize: '0.75rem', opacity: 0.4, width: '28px', flexShrink: 0 }}>{item.n}</CodeText>
                       <Box>
-                        <Typography sx={{ fontSize: '1.5rem', fontWeight: 400, color: colors.contrast.text.primary, textTransform: 'none', mb: 1, lineHeight: 1 }}>
-                          {axis.title}
-                        </Typography>
-                        <Typography sx={{ color: colors.contrast.text.primary, opacity: 0.7, fontWeight: 400, fontSize: '1rem' }}>
-                          {axis.description}
-                        </Typography>
+                        <Box sx={{ fontSize: '1.4rem', fontFamily: '"Red Hat Display", sans-serif', mb: 1 }}>{item.name}</Box>
+                        <BodyText sx={{ color: '#FFFFFF', opacity: 0.6, fontSize: '0.95rem', maxWidth: '480px' }}>{item.desc}</BodyText>
                       </Box>
-                    </Box>
-                  ))}
-                </Stack>
-              </Box>
+                    </Stack>
+                    <Stack sx={{ textAlign: { xs: 'left', md: 'right' }, flexShrink: 0 }}>
+                      <CodeText sx={{ fontSize: '1.2rem', color: BRAND_ORANGE, fontWeight: 700 }}>{item.price}</CodeText>
+                      <CodeText sx={{ fontSize: '0.7rem', opacity: 0.5 }}>{item.note}</CodeText>
+                    </Stack>
+                  </Stack>
+                </Grid>
+              ))}
             </Grid>
+          </Container>
+        </Box>
+      </SurfaceProvider>
+
+      {/* Camino 2 — cualquier pyme */}
+      <Box sx={{ py: COMPONENT_SPACING.layout.section, bgcolor: colors.contrast.background, color: colors.contrast.text.primary, borderBottom: `1px solid ${colors.contrast.border}` }}>
+        <Container maxWidth="lg">
+          <CodeText sx={{ fontSize: '0.72rem', letterSpacing: '0.2em', color: BRAND_ORANGE, mb: 3, display: 'block' }}>
+            // camino 02
+          </CodeText>
+          <H2 sx={{ fontWeight: 400, textTransform: 'none', fontSize: { xs: '2.2rem', md: '3.5rem' }, lineHeight: 0.95, mb: 2 }}>
+            si no tienes un erp, pero quieres lo mismo
+          </H2>
+          <BodyText sx={{ fontSize: '1.1rem', opacity: 0.7, mb: 8, maxWidth: '620px' }}>
+            un equipo digital trabajando todos los días, sin importar qué sistema uses hoy.
+          </BodyText>
+          <Grid container spacing={0} sx={{ borderTop: `1px solid ${colors.contrast.border}` }}>
+            {PYME_ITEMS.map((item) => (
+              <Grid item xs={12} key={item.n} sx={{ borderBottom: `1px solid ${colors.contrast.border}`, py: 4 }}>
+                <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" spacing={2}>
+                  <Stack direction="row" spacing={3} sx={{ flex: 1 }}>
+                    <CodeText sx={{ fontSize: '0.75rem', opacity: 0.4, width: '28px', flexShrink: 0 }}>{item.n}</CodeText>
+                    <Box>
+                      <Box sx={{ fontSize: '1.4rem', fontFamily: '"Red Hat Display", sans-serif', mb: 1 }}>{item.name}</Box>
+                      <BodyText sx={{ opacity: 0.6, fontSize: '0.95rem', maxWidth: '480px' }}>{item.desc}</BodyText>
+                    </Box>
+                  </Stack>
+                  <Stack sx={{ textAlign: { xs: 'left', md: 'right' }, flexShrink: 0 }}>
+                    <CodeText sx={{ fontSize: '1.2rem', color: BRAND_ORANGE, fontWeight: 700 }}>{item.price}</CodeText>
+                    <CodeText sx={{ fontSize: '0.7rem', opacity: 0.5 }}>{item.note}</CodeText>
+                  </Stack>
+                </Stack>
+              </Grid>
+            ))}
           </Grid>
         </Container>
       </Box>
 
-      {/* Secciones de los 4 Ejes */}
-      {axes.map((axis, index) => {
-        const axisServices = getServicesBySuperCategory(axis.id);
-        
-        return (
-          <Box
-            key={axis.id}
-            id={axis.id}
-            sx={{
-              py: COMPONENT_SPACING.layout.section,
-              bgcolor: axis.bgColor,
-              color: axis.textColor,
-              borderTop: `1px solid ${colors.contrast.text.primary}`,
-              display: 'flex',
-              justifyContent: 'center',
-              position: 'relative',
-              overflow: 'hidden'
-            }}
-          >
-            {/* Background Number */}
-            <Typography
-              sx={{
-                position: 'absolute',
-                top: -6,
-                right: 2.5,
-                fontSize: { xs: '15rem', md: '25rem' },
-                fontWeight: 400,
-                color: axis.accentColor,
-                opacity: expandedAxes[axis.id] ? 0.08 : 0.04,
-                zIndex: 0,
-                pointerEvents: 'none',
-                userSelect: 'none',
-                transition: 'all 0.4s ease'
-              }}
-            >
-              0{index + 1}
-            </Typography>
+      {/* Todo Incluido — bundle, contrato mínimo 1 año */}
+      <SurfaceProvider surface="orange">
+        <Box sx={{ py: { xs: 8, md: 10 }, bgcolor: BRAND_ORANGE, color: '#000000' }}>
+          <Container maxWidth="lg">
+            <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" alignItems={{ md: 'center' }} spacing={4}>
+              <Box>
+                <CodeText sx={{ fontSize: '0.72rem', letterSpacing: '0.2em', opacity: 0.6, mb: 2, display: 'block' }}>
+                  // todo incluido
+                </CodeText>
+                <H2 sx={{ fontWeight: 400, textTransform: 'none', fontSize: { xs: '2rem', md: '2.8rem' }, color: '#000000', mb: 1 }}>
+                  los dos caminos, en uno solo
+                </H2>
+                <BodyText sx={{ color: '#000000', opacity: 0.75, fontSize: '1rem', maxWidth: '480px' }}>
+                  contrato mínimo 1 año. el software siempre es de ai4u — se cobra mientras siga corriendo.
+                </BodyText>
+              </Box>
+              <Stack sx={{ textAlign: { xs: 'left', md: 'right' }, flexShrink: 0 }}>
+                <CodeText sx={{ fontSize: { xs: '1.8rem', md: '2.4rem' }, fontWeight: 700, color: '#000000' }}>
+                  $3.500.000–$5.000.000
+                </CodeText>
+                <CodeText sx={{ fontSize: '0.75rem', opacity: 0.6, color: '#000000' }}>mensual, indefinido</CodeText>
+              </Stack>
+            </Stack>
+          </Container>
+        </Box>
+      </SurfaceProvider>
 
-            <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
-              <Grid container spacing={0} alignItems="flex-start">
-                {/* Header del Eje */}
-                <Grid item xs={12} lg={4} sx={{ pr: { lg: 10 }, mb: { xs: 8, lg: 0 } }}>
-                  <Box sx={{ position: { lg: 'sticky' }, top: 150 }}>
-                    <Typography
-                      sx={{
-                        color: axis.accentColor,
-                        opacity: 0.6,
-                        fontWeight: 400,
-                        letterSpacing: 4,
-                        fontSize: '1rem',
-                        mb: 4,
-                        display: 'block',
-                        ...TEXT_VARIANTS.ui.code
-                      }}
-                    >
-                      // {axis.subtitle}
-                    </Typography>
-                    <H2 sx={{
-                      fontWeight: 400,
-                      textTransform: 'none',
-                      fontSize: { xs: '3.5rem', md: '6.5rem' },
-                      lineHeight: 0.85,
-                      letterSpacing: '-0.05em',
-                      mb: 6,
-                      color: 'inherit'
-                    }}>
-                      {axis.title.toLowerCase()}
-                    </H2>
-                    <BodyText sx={{ 
-                      fontSize: '1.5rem', 
-                      fontWeight: 400, 
-                      lineHeight: 1.1,
-                      maxWidth: '500px',
-                      mb: 8,
-                      color: 'inherit',
-                      opacity: 0.9
-                    }}>
-                      {axis.description}
-                    </BodyText>
-                    <Button 
-                      variant="outline"
-                      sx={{ 
-                        borderColor: axis.textColor,
-                        color: axis.textColor,
-                        borderRadius: '9999px',
-                        px: 6,
-                        py: 3,
-                        fontSize: '1.2rem',
-                        borderWidth: '2px',
-                        '&:hover': {
-                          bgcolor: axis.textColor,
-                          color: axis.bgColor,
-                          transform: 'translateY(-5px)',
-                          borderColor: axis.textColor
-                        },
-                        transition: 'all 0.3s ease',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 2
-                      }}
-                      onClick={() => toggleAxis(axis.id)}
-                    >
-                      {expandedAxes[axis.id] ? 'cerrar eje' : 'explorar soluciones'}
-                      <Box sx={{ 
-                        display: 'flex', 
-                        transform: expandedAxes[axis.id] ? 'rotate(180deg)' : 'rotate(0deg)',
-                        transition: 'transform 0.4s ease'
-                      }}>
-                        <GeometricIcon type="arrow-right" size="small" color="inherit" />
+      {/* Laboratorio — evidencia de rango, no la oferta principal */}
+      <Box sx={{ py: COMPONENT_SPACING.layout.section, bgcolor: colors.contrast.background, color: colors.contrast.text.primary, position: 'relative' }}>
+        <Container maxWidth="xl">
+          <CodeText sx={{ fontSize: '0.72rem', letterSpacing: '0.2em', color: BRAND_ORANGE, mb: 3, display: 'block' }}>
+            // laboratorio
+          </CodeText>
+          <H2 sx={{ fontWeight: 400, textTransform: 'none', fontSize: { xs: '2rem', md: '3rem' }, lineHeight: 0.95, mb: 2 }}>
+            todo lo que también hemos construido
+          </H2>
+          <BodyText sx={{ fontSize: '1.05rem', opacity: 0.7, mb: 8, maxWidth: '640px' }}>
+            no es el catálogo principal — es la prueba de que, cuando hace falta, también lo resolvemos.
+          </BodyText>
+          <Grid container spacing={6}>
+            {labGroups.map((group) => (
+              <Grid item xs={12} sm={6} md={4} key={group.category}>
+                <CodeText sx={{ fontSize: '0.72rem', letterSpacing: '0.15em', opacity: 0.5, mb: 3, display: 'block', borderBottom: `1px solid ${colors.contrast.border}`, pb: 1.5 }}>
+                  // {group.label}
+                </CodeText>
+                <Stack spacing={2.5}>
+                  {group.items.map((service) => {
+                    const clickable = service.id === 'super-ai';
+                    return (
+                      <Box
+                        key={service.id}
+                        onClick={clickable ? () => setIsSuperAIModalOpen(true) : undefined}
+                        sx={{
+                          fontSize: '0.95rem',
+                          opacity: 0.75,
+                          lineHeight: 1.4,
+                          cursor: clickable ? 'pointer' : 'default',
+                          '&:hover': clickable ? { opacity: 1, color: BRAND_ORANGE } : undefined,
+                        }}
+                      >
+                        {service.description}
                       </Box>
-                    </Button>
-                  </Box>
-                </Grid>
-
-                {/* Grid de Servicios del Eje */}
-                <Grid item xs={12} lg={8}>
-                  <Collapse in={expandedAxes[axis.id]} timeout={600}>
-                    <Grid container spacing={4}>
-                      {axisServices.map((service, sIdx) => (
-                        <Grid item xs={12} sm={6} key={service.id} sx={{ mt: { md: sIdx % 2 !== 0 ? 10 : 0 } }}>
-                          <Box sx={{ 
-                            animation: expandedAxes[axis.id] ? `fadeInUp 0.6s ease forwards ${sIdx * 0.1}s` : 'none',
-                            opacity: 0,
-                            '@keyframes fadeInUp': {
-                              from: { opacity: 0, transform: 'translateY(40px)' },
-                              to: { opacity: 1, transform: 'translateY(0)' }
-                            }
-                          }}>
-                            <ServiceCard 
-                              service={service}
-                              showPrice={false}
-                              onClick={service.id === 'super-ai' ? () => setIsSuperAIModalOpen(true) : undefined}
-                            />
-                          </Box>
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </Collapse>
-                  
-                  {!expandedAxes[axis.id] && (
-                    <Box sx={{ 
-                      height: '400px', 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center',
-                      border: `1px solid ${alpha(axis.textColor, 0.1)}`,
-                      cursor: 'pointer',
-                      position: 'relative',
-                      overflow: 'hidden',
-                      '&:hover': {
-                        '& .bg-text': { opacity: 0.1, transform: 'scale(1.1)' },
-                        '& .btn-explore': { opacity: 1, transform: 'translateY(0)' }
-                      }
-                    }}
-                    onClick={() => toggleAxis(axis.id)}
-                    >
-                      <Typography className="bg-text" sx={{ 
-                        fontWeight: 400, 
-                        fontSize: '12rem', 
-                        color: axis.textColor, 
-                        opacity: 0.05,
-                        transition: 'all 0.5s ease',
-                        userSelect: 'none'
-                      }}>
-                        {axis.title.substring(0, 3)}
-                      </Typography>
-                      <Box className="btn-explore" sx={{ 
-                        position: 'absolute', 
-                        opacity: 0.5, 
-                        transform: 'translateY(20px)',
-                        transition: 'all 0.5s ease',
-                        textAlign: 'center'
-                      }}>
-                        <Typography sx={{ fontWeight: 400, letterSpacing: 4, fontSize: '0.9rem', ...TEXT_VARIANTS.ui.code }}>
-                          // clickParaExplorar //
-                        </Typography>
-                      </Box>
-                    </Box>
-                  )}
-                </Grid>
+                    );
+                  })}
+                </Stack>
               </Grid>
-            </Container>
-          </Box>
-        );
-      })}
+            ))}
+          </Grid>
+        </Container>
+      </Box>
 
       {/* Proceso Section */}
       <Box sx={{
@@ -483,13 +295,13 @@ const ServicesBody: React.FC = () => {
                       bgcolor: `${colors.contrast.text.primary}08`,
                     }
                   }}>
-                    <Typography sx={{ color: colors.contrast.text.primary, opacity: 0.6, fontSize: '1.2rem', mb: 4, ...TEXT_VARIANTS.ui.code }}>
+                    <CodeText sx={{ color: colors.contrast.text.primary, opacity: 0.6, fontSize: '1.2rem', mb: 4 }}>
                       // {step.n}
-                    </Typography>
-                    <Typography sx={{ fontSize: '2rem', fontWeight: 400, mb: 2, color: colors.contrast.text.primary, textTransform: 'none', lineHeight: 1 }}>
+                    </CodeText>
+                    <Box sx={{ fontSize: '2rem', fontFamily: '"Red Hat Display", sans-serif', mb: 2, color: colors.contrast.text.primary, lineHeight: 1 }}>
                       {step.t}
-                    </Typography>
-                    <BodyText sx={{ fontWeight: 400, color: colors.contrast.text.primary, opacity: 0.8, fontSize: '1.1rem' }}>
+                    </Box>
+                    <BodyText sx={{ color: colors.contrast.text.primary, opacity: 0.8, fontSize: '1.1rem' }}>
                       {step.d}
                     </BodyText>
                   </Box>
@@ -546,7 +358,7 @@ const ServicesBody: React.FC = () => {
 
       {/* SEO Internal Linking */}
       <Container maxWidth="lg" sx={{ py: 8 }}>
-        <RelatedPages 
+        <RelatedPages
           pages={relatedLinks}
           title="Sigue explorando:"
           variant="horizontal"

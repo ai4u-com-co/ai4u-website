@@ -12,6 +12,7 @@ import Home from './pages/Home';
 const Services = lazy(() => import('./pages/Services'));
 const WhyAI4U = lazy(() => import('./pages/WhyAI4U'));
 const Portfolio = lazy(() => import('./pages/Portfolio'));
+const SitiosWeb = lazy(() => import('./pages/SitiosWeb'));
 const DesignSystem = lazy(() => import('./pages/DesignSystem'));
 const Pitch = lazy(() => import('./pages/Pitch'));
 const PitchBancolombia = lazy(() => import('./pages/PitchBancolombia'));
@@ -72,6 +73,12 @@ function App() {
                           <Route
                             path={ROUTES.PORTFOLIO}
                             element={<Portfolio />}
+                          />
+
+                          {/* Sitios Web Route — oferta aparte, capa 3 (no forma parte del pitch de agentes) */}
+                          <Route
+                            path={ROUTES.SITIOS_WEB}
+                            element={<SitiosWeb />}
                           />
 
                           {/* Redirect Success Cases to Why AI4U */}
