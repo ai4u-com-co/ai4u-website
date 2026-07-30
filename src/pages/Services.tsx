@@ -19,7 +19,7 @@ import { BRAND_ORANGE } from '@/components/shared/ui/tokens/brandAccent';
 // pero no exclusivo). Nos conectamos directo — es tu primera línea de IA.
 const ERP_ITEMS = [
   { n: '01', name: 'dashboards en vivo', desc: 'ventas, cartera, inventario y producción conectados en tiempo real a tu ERP.', price: 'desde $250.000', note: 'mensual' },
-  { n: '02', name: 'automatización de procesos', desc: 'pedidos, cartera, facturación — el proceso que más tiempo te cuesta, resuelto.', price: '$300.000–$700.000', note: 'mensual c/u' },
+  { n: '02', name: 'automatización de procesos', desc: 'pedidos, cartera, facturación — el proceso que más tiempo te cuesta, resuelto.', price: 'desde $1.500.000', note: 'mensual c/u' },
   { n: '03', name: 'agentes conectados a tu ERP', desc: 'chat, alertas y cobranza que hablan con la data real de tu sistema.', price: 'desde $500.000', note: 'mensual' },
 ];
 
