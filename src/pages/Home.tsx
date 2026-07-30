@@ -5,6 +5,7 @@ import { H2, BodyText, CodeText, SEOHead, GeometricIcon } from '../components/sh
 import { HeroFullscreen } from '../components/shared/ui/organisms';
 import { DiagnosticCTA, RelatedPages } from '../components/shared/ui/molecules';
 import { useColors } from '../hooks';
+import { SurfaceProvider } from '../context';
 import { usePerformanceMonitoring } from '../hooks/usePerformanceMonitoring';
 import { useErrorTracking } from '../hooks';
 import { getHomeStructuredData, getPageMetaTags } from '../utils/seo';
@@ -15,8 +16,6 @@ import { scrollToTop } from '../utils/helpers';
 import { BRAND_ORANGE } from '../components/shared/ui/tokens/brandAccent';
 
 const Home = () => {
-  const colors = useColors();
-
   usePerformanceMonitoring('home', { lcp: 2000, fcp: 1500 });
 
   const { addContext } = useErrorTracking();
@@ -29,12 +28,8 @@ const Home = () => {
   const structuredData = getHomeStructuredData();
   const relatedLinks = getRelatedLinks('/');
 
-  const divider = `1px solid ${alpha(colors.contrast.text.primary, 0.1)}`;
-  // 0.55 mantiene el look atenuado pero pasa contraste AA (0.38 fallaba en Lighthouse)
-  const muted = alpha(colors.contrast.text.primary, 0.55);
-
   return (
-    <Box sx={{ bgcolor: colors.contrast.background, color: colors.contrast.text.primary, minHeight: '100vh' }}>
+    <SurfaceProvider surface="black">
       <SEOHead
         title={metaTags.title}
         description={metaTags.description}
@@ -42,7 +37,22 @@ const Home = () => {
         canonical="https://www.ai4u.com.co/"
         structuredData={structuredData}
       />
+      <HomeBody relatedLinks={relatedLinks} />
+    </SurfaceProvider>
+  );
+};
 
+// Todo el cuerpo (más allá del hero) vive en un componente aparte: necesita
+// montarse DENTRO del SurfaceProvider de arriba para que useColors() lea la
+// superficie "black" — ya es el patrón que usa WhyAI4U.tsx.
+const HomeBody: React.FC<{ relatedLinks: ReturnType<typeof getRelatedLinks> }> = ({ relatedLinks }) => {
+  const colors = useColors();
+  const divider = `1px solid ${alpha(colors.contrast.text.primary, 0.1)}`;
+  // 0.55 mantiene el look atenuado pero pasa contraste AA (0.38 fallaba en Lighthouse)
+  const muted = alpha(colors.contrast.text.primary, 0.55);
+
+  return (
+    <Box sx={{ bgcolor: colors.contrast.background, color: colors.contrast.text.primary, minHeight: '100vh' }}>
       {/* ── HERO ── */}
       <HeroFullscreen
         badge="ai4u.equipo // siempre activo"

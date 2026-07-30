@@ -19,3 +19,6 @@ export { default as NavigationDot } from './NavigationDot';
 export { default as ServiceThumbnail } from './ServiceThumbnail';
 export { default as GiantNumber } from './GiantNumber';
 export { default as BinaryOverlay } from './BinaryOverlay';
+export { default as RegistrationMarks } from './RegistrationMarks';
+export { default as MoireText } from './MoireText';
+export { default as HalftoneSwatch } from './HalftoneSwatch';

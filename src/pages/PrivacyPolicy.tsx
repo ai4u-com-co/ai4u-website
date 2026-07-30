@@ -1,13 +1,15 @@
 import React from 'react';
 import { Box, Container, Typography, Link as MuiLink } from '@mui/material';
-import { SEOHead, BodyText, H2 } from '../components/shared/ui/atoms';
+import { SEOHead, BodyText, H2, RegistrationMarks } from '../components/shared/ui/atoms';
 import { useColors } from '../hooks';
+import { SurfaceProvider } from '../context';
 
-const PrivacyPolicy = () => {
+const PrivacyPolicyBody = () => {
   const colors = useColors();
 
   return (
-    <Box sx={{ bgcolor: colors.contrast.background, color: colors.contrast.text.primary, minHeight: '100vh', py: 10 }}>
+    <Box sx={{ bgcolor: colors.contrast.background, color: colors.contrast.text.primary, minHeight: '100vh', py: 10, position: 'relative' }}>
+      <RegistrationMarks corners={['tl', 'br']} />
       <SEOHead
         title="Política de Privacidad | Ads Manager"
         description="Información sobre cómo manejamos tus datos en nuestra aplicación de Facebook Ads."
@@ -51,5 +53,11 @@ const PrivacyPolicy = () => {
     </Box>
   );
 };
+
+const PrivacyPolicy = () => (
+  <SurfaceProvider surface="cream">
+    <PrivacyPolicyBody />
+  </SurfaceProvider>
+);
 
 export default PrivacyPolicy;

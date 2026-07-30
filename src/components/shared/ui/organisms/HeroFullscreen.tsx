@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, alpha } from '@mui/material';
-import { LazyImage, CodeText } from '../atoms';
+import { LazyImage, CodeText, RegistrationMarks, MoireText } from '../atoms';
 import { DiagnosticCTA } from '../molecules';
 import { useColors } from '../../../../hooks';
 import { BRAND_ORANGE } from '../tokens/brandAccent';
@@ -45,6 +45,8 @@ const HeroFullscreen: React.FC<HeroFullscreenProps> = ({
       flexDirection: 'column',
       justifyContent: 'flex-end',
     }}>
+
+      <RegistrationMarks circles />
 
       {/* ── ROTATING BACKGROUND IMAGES ── */}
       <Box sx={{ position: 'absolute', inset: 0 }}>
@@ -92,6 +94,19 @@ const HeroFullscreen: React.FC<HeroFullscreenProps> = ({
         color: colors.contrast.text.primary,
       }}>
         6.2442° N, 75.5812° W
+      </CodeText>
+
+      {/* ── SISTEMA — top left ── */}
+      <CodeText sx={{
+        position: 'absolute',
+        top: { xs: 72, md: 24 },
+        left: { xs: 24, md: 40 },
+        fontSize: '0.65rem',
+        opacity: 0.3,
+        zIndex: 2,
+        color: colors.contrast.text.primary,
+      }}>
+        no. 001 / 2026
       </CodeText>
 
       {/* ── SCROLL HINT ── */}
@@ -163,7 +178,9 @@ const HeroFullscreen: React.FC<HeroFullscreenProps> = ({
           >
             más tiempo<br />
             para lo que<br />
-            importa.
+            <MoireText sx={{ fontSize: 'inherit', lineHeight: 'inherit', letterSpacing: 'inherit' }}>
+              importa.
+            </MoireText>
           </Box>
           {subtitle && (
             <Box sx={{

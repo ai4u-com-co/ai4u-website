@@ -4,6 +4,7 @@ export const AI4U_PALETTE = {
   // Colores base - Absolute Industrial
   white: '#FFFFFF',
   black: '#000000',  // Pure Black
+  cream: '#F4EFE8',  // crema cálido — variante tibia del blanco, tono "referentes"
   gray: {
     50: '#F9F9F9',
     100: '#F5F5F5',
@@ -109,6 +110,30 @@ export const SURFACE_PRESETS = {
       primary: AI4U_PALETTE.black,
       secondary: AI4U_PALETTE.gray[800],
       disabled: AI4U_PALETTE.gray[600],
+    },
+    border: AI4U_PALETTE.black,
+    divider: 'rgba(0,0,0,0.1)',
+    effectiveMode: 'light' as const,
+  },
+  blue: {
+    background: AI4U_PALETTE.accentColors.blue,
+    surface: AI4U_PALETTE.accentColors.blue,
+    text: {
+      primary: AI4U_PALETTE.white,
+      secondary: 'rgba(255,255,255,0.7)',
+      disabled: 'rgba(255,255,255,0.4)',
+    },
+    border: AI4U_PALETTE.white,
+    divider: 'rgba(255,255,255,0.2)',
+    effectiveMode: 'dark' as const,
+  },
+  cream: {
+    background: AI4U_PALETTE.cream,
+    surface: AI4U_PALETTE.cream,
+    text: {
+      primary: AI4U_PALETTE.black,
+      secondary: AI4U_PALETTE.gray[600],
+      disabled: AI4U_PALETTE.gray[400],
     },
     border: AI4U_PALETTE.black,
     divider: 'rgba(0,0,0,0.1)',

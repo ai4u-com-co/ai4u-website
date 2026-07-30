@@ -7,9 +7,10 @@ import {
   useMediaQuery, 
   Stack
 } from '@mui/material';
-import { Giant, H2, BodyText, SmallText, CodeText, SEOHead, GeometricIcon } from '../components/shared/ui/atoms';
+import { Giant, H2, BodyText, SmallText, CodeText, SEOHead, GeometricIcon, RegistrationMarks, MoireText } from '../components/shared/ui/atoms';
 import { RelatedPages } from '../components/shared/ui/molecules';
 import { useColors } from '../hooks';
+import { SurfaceProvider } from '../context';
 import { getPageMetaTags } from '../utils/seo';
 import { getRelatedLinks } from '../data/internalLinkingStrategy';
 import { featuredProjects } from '../data/featuredProjects';
@@ -17,7 +18,9 @@ import { COMPONENT_SPACING } from '../components/shared/ui/tokens/spacing';
 import { TEXT_VARIANTS } from '../components/shared/ui/tokens/typography';
 import { BRAND_ORANGE } from '../components/shared/ui/tokens/brandAccent';
 
-const Portfolio = () => {
+// Cuerpo real — vive dentro del SurfaceProvider "white" que exporta el wrapper
+// Portfolio de más abajo (mismo patrón que Home.tsx/HomeBody y Services.tsx).
+const PortfolioBody = () => {
   const colors = useColors();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -44,29 +47,33 @@ const Portfolio = () => {
       />
 
       {/* Header Section / Technical Label */}
-      <Box sx={{ 
+      <Box sx={{
         pt: { xs: 12, md: 20 },
         pb: 4,
+        position: 'relative',
         borderBottom: `1px solid ${colors.contrast.border}`
       }}>
+        <RegistrationMarks corners={['tl', 'tr']} circles />
         <Container maxWidth="lg">
           <Stack direction="row" justifyContent="space-between" alignItems="flex-end">
             <Box>
-              <SmallText sx={{ 
-                color: colors.contrast.text.secondary, 
+              <SmallText sx={{
+                color: colors.contrast.text.secondary,
                 ...TEXT_VARIANTS.ui.code,
                 mb: 1,
                 textTransform: 'lowercase'
               }}>
                 // portafolio.v3.2026
               </SmallText>
-              <Giant sx={{ 
-                fontWeight: 400, 
+              <Giant sx={{
+                fontWeight: 400,
                 color: colors.contrast.text.primary,
                 lineHeight: 0.9,
                 mb: 0
               }}>
-                portafolio
+                <MoireText sx={{ fontSize: 'inherit', lineHeight: 'inherit', letterSpacing: 'inherit' }}>
+                  portafolio
+                </MoireText>
               </Giant>
             </Box>
             {!isMobile && (
@@ -241,5 +248,11 @@ const Portfolio = () => {
     </Box>
   );
 };
+
+const Portfolio = () => (
+  <SurfaceProvider surface="white">
+    <PortfolioBody />
+  </SurfaceProvider>
+);
 
 export default Portfolio;
