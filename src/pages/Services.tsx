@@ -6,7 +6,7 @@ import {
   Stack,
 } from '@mui/material';
 import { Giant, H2, BodyText, CodeText, SEOHead, BinaryOverlay, RegistrationMarks, MoireText } from '@/components/shared/ui/atoms';
-import { ServiceCard, DiagnosticCTA, RelatedPages } from '@/components/shared/ui/molecules';
+import { DiagnosticCTA, RelatedPages } from '@/components/shared/ui/molecules';
 import { SuperAIModal } from '@/components/shared/ui/organisms';
 import { useServicesContext, SurfaceProvider } from '@/context';
 import { useColors, usePerformanceMonitoring } from '@/hooks';
@@ -15,19 +15,29 @@ import { getRelatedLinks } from '@/data/internalLinkingStrategy';
 import { COMPONENT_SPACING } from '@/components/shared/ui/tokens/spacing';
 import { BRAND_ORANGE } from '@/components/shared/ui/tokens/brandAccent';
 
-// Camino 1 — empresas que ya corren SAP Business One. Tu foso más profundo:
-// ya resolviste la parte técnica más dura (Service Layer, sesiones, HANA).
-const SAP_ITEMS = [
-  { n: '01', name: 'dashboards en vivo', desc: 'ventas, cartera, inventario y producción conectados en tiempo real a tu SAP.', price: 'desde $600.000', note: 'mensual' },
-  { n: '02', name: 'automatización de procesos SAP', desc: 'pedidos, cartera, facturación — el proceso que más tiempo te cuesta, resuelto.', price: '$300.000–$700.000', note: 'mensual c/u' },
-  { n: '03', name: 'agentes conectados a tu SAP', desc: 'chat, alertas y cobranza que hablan con la data real de tu ERP.', price: 'desde $1.000.000', note: 'mensual' },
+// Camino 1 — cualquier empresa que ya tenga un ERP (SAP Business One incluido,
+// pero no exclusivo). Nos conectamos directo — es tu primera línea de IA.
+const ERP_ITEMS = [
+  { n: '01', name: 'dashboards en vivo', desc: 'ventas, cartera, inventario y producción conectados en tiempo real a tu ERP.', price: 'desde $250.000', note: 'mensual' },
+  { n: '02', name: 'automatización de procesos', desc: 'pedidos, cartera, facturación — el proceso que más tiempo te cuesta, resuelto.', price: '$300.000–$700.000', note: 'mensual c/u' },
+  { n: '03', name: 'agentes conectados a tu ERP', desc: 'chat, alertas y cobranza que hablan con la data real de tu sistema.', price: 'desde $500.000', note: 'mensual' },
 ];
 
 // Camino 2 — cualquier pyme, sin ERP, que quiere lo mismo: un equipo digital
 // trabajando todos los días.
 const PYME_ITEMS = [
   { n: '01', name: 'empleado de automatización', desc: 'mensualidad fija, entrega continua — el proceso que elijas, automatizado y mantenido.', price: '$2.000.000', note: 'mensual' },
-  { n: '02', name: 'agentes especializados', desc: 'servicio al cliente, prospección o cobranza — un rol completo, no una herramienta.', price: 'desde $1.000.000', note: 'mensual' },
+  { n: '02', name: 'agentes especializados', desc: 'servicio al cliente, prospección o cobranza — un rol completo, no una herramienta.', price: 'desde $500.000', note: 'mensual' },
+];
+
+// Grupos del laboratorio — por lo que hacen, no por su nombre interno.
+const LAB_GROUPS: { label: string; category: string }[] = [
+  { label: 'automatización', category: 'automation' },
+  { label: 'analítica', category: 'analytics' },
+  { label: 'asistentes ia', category: 'ai_assistant' },
+  { label: 'e-commerce', category: 'ecommerce' },
+  { label: 'consultoría', category: 'consulting' },
+  { label: 'formación', category: 'training' },
 ];
 
 // Cuerpo real — vive dentro del SurfaceProvider "cream" que exporta el wrapper
@@ -45,8 +55,12 @@ const ServicesBody: React.FC = () => {
   const relatedLinks = getRelatedLinks('/servicios');
 
   // Todo lo que también hemos construido — evidencia de rango, no la oferta
-  // principal. Sitios web vive en su propia página (capa 3, aparte).
+  // principal. Sitios web vive en su propia página (capa 3, aparte). Agrupado
+  // por lo que hace cada cosa (categoría real), no por su nombre interno.
   const labServices = getFilteredServices().filter(s => s.id !== 'desarrollo-web');
+  const labGroups = LAB_GROUPS
+    .map(g => ({ ...g, items: labServices.filter(s => s.category === g.category) }))
+    .filter(g => g.items.length > 0);
 
   return (
     <Box sx={{
@@ -99,7 +113,7 @@ const ServicesBody: React.FC = () => {
         </Container>
       </Box>
 
-      {/* Camino 1 — SAP Business One (negro, foso profundo) */}
+      {/* Camino 1 — conectados a tu ERP (negro, foso profundo) */}
       <SurfaceProvider surface="black">
         <Box sx={{ py: COMPONENT_SPACING.layout.section, bgcolor: '#000000', color: '#FFFFFF', position: 'relative' }}>
           <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
@@ -107,14 +121,14 @@ const ServicesBody: React.FC = () => {
               // camino 01
             </CodeText>
             <H2 sx={{ fontWeight: 400, textTransform: 'none', fontSize: { xs: '2.2rem', md: '3.5rem' }, lineHeight: 0.95, mb: 2, color: '#FFFFFF' }}>
-              si tu empresa corre sap business one
+              si tu empresa ya tiene un erp
             </H2>
             <BodyText sx={{ fontSize: '1.1rem', color: '#FFFFFF', opacity: 0.7, mb: 8, maxWidth: '620px' }}>
-              ya resolvimos la parte más difícil — sesiones, autenticación, la sintaxis real de HANA —
-              para dos empresas que hoy corren esto en producción.
+              nos conectamos directo a tu ERP — se vuelve tu primera línea de inteligencia artificial.
+              ya lo hicimos en producción para empresas que corren SAP Business One.
             </BodyText>
             <Grid container spacing={0} sx={{ borderTop: '1px solid rgba(255,255,255,0.15)' }}>
-              {SAP_ITEMS.map((item) => (
+              {ERP_ITEMS.map((item) => (
                 <Grid item xs={12} key={item.n} sx={{ borderBottom: '1px solid rgba(255,255,255,0.15)', py: 4 }}>
                   <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" spacing={2}>
                     <Stack direction="row" spacing={3} sx={{ flex: 1 }}>
@@ -143,7 +157,7 @@ const ServicesBody: React.FC = () => {
             // camino 02
           </CodeText>
           <H2 sx={{ fontWeight: 400, textTransform: 'none', fontSize: { xs: '2.2rem', md: '3.5rem' }, lineHeight: 0.95, mb: 2 }}>
-            si no tienes sap, pero quieres lo mismo
+            si no tienes un erp, pero quieres lo mismo
           </H2>
           <BodyText sx={{ fontSize: '1.1rem', opacity: 0.7, mb: 8, maxWidth: '620px' }}>
             un equipo digital trabajando todos los días, sin importar qué sistema uses hoy.
@@ -209,14 +223,32 @@ const ServicesBody: React.FC = () => {
           <BodyText sx={{ fontSize: '1.05rem', opacity: 0.7, mb: 8, maxWidth: '640px' }}>
             no es el catálogo principal — es la prueba de que, cuando hace falta, también lo resolvemos.
           </BodyText>
-          <Grid container spacing={4}>
-            {labServices.map((service) => (
-              <Grid item xs={12} sm={6} md={4} key={service.id}>
-                <ServiceCard
-                  service={service}
-                  showPrice={false}
-                  onClick={service.id === 'super-ai' ? () => setIsSuperAIModalOpen(true) : undefined}
-                />
+          <Grid container spacing={6}>
+            {labGroups.map((group) => (
+              <Grid item xs={12} sm={6} md={4} key={group.category}>
+                <CodeText sx={{ fontSize: '0.72rem', letterSpacing: '0.15em', opacity: 0.5, mb: 3, display: 'block', borderBottom: `1px solid ${colors.contrast.border}`, pb: 1.5 }}>
+                  // {group.label}
+                </CodeText>
+                <Stack spacing={2.5}>
+                  {group.items.map((service) => {
+                    const clickable = service.id === 'super-ai';
+                    return (
+                      <Box
+                        key={service.id}
+                        onClick={clickable ? () => setIsSuperAIModalOpen(true) : undefined}
+                        sx={{
+                          fontSize: '0.95rem',
+                          opacity: 0.75,
+                          lineHeight: 1.4,
+                          cursor: clickable ? 'pointer' : 'default',
+                          '&:hover': clickable ? { opacity: 1, color: BRAND_ORANGE } : undefined,
+                        }}
+                      >
+                        {service.description}
+                      </Box>
+                    );
+                  })}
+                </Stack>
               </Grid>
             ))}
           </Grid>
