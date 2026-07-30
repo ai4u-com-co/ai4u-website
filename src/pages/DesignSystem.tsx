@@ -24,12 +24,15 @@ import {
   NavigationDot,
   ServiceThumbnail,
   GiantNumber,
-  BinaryOverlay
+  BinaryOverlay,
+  RegistrationMarks,
+  MoireText,
+  HalftoneSwatch
 } from '../components/shared/ui/atoms';
 import { Card, MetricCard, BudgetCard, Breadcrumb } from '../components/shared/ui/molecules';
 import { HeroSection } from '../components/shared/ui/organisms';
 import { useColors } from '../hooks';
-import { AI4U_PALETTE } from '../components/shared/ui/tokens/palette';
+import { AI4U_PALETTE, SURFACE_PRESETS } from '../components/shared/ui/tokens/palette';
 import { BRAND_ORANGE } from '../components/shared/ui/tokens/brandAccent';
 import { SPACING_TOKENS } from '../components/shared/ui/tokens/spacing';
 import { TEXT_VARIANTS } from '../components/shared/ui/tokens/typography';
@@ -52,6 +55,7 @@ const DesignSystem = () => {
     { id: 'identidad', label: 'Identidad', icon: <PaletteIcon fontSize="small" /> },
     { id: 'tipografia', label: 'Tipografía', icon: <FontSizeIcon fontSize="small" /> },
     { id: 'atomos', label: 'Átomos', icon: <ExtensionIcon fontSize="small" /> },
+    { id: 'referentes', label: 'Referentes', icon: <CodeText>+ </CodeText> },
     { id: 'moleculas', label: 'Moléculas', icon: <MenuIcon fontSize="small" /> },
     { id: 'organismos', label: 'Organismos', icon: <MenuIcon fontSize="small" /> },
     { id: 'numeros', label: 'Números Gigantes', icon: <ExtensionIcon fontSize="small" /> },
@@ -66,6 +70,7 @@ const DesignSystem = () => {
         { name: 'Pure White', value: AI4U_PALETTE.white, description: '#FFFFFF - Gallery background.' },
         { name: 'Volt Green', value: AI4U_PALETTE.accentColors.mint, description: 'Safety Green / Neon.' },
         { name: 'Safety Orange', value: BRAND_ORANGE, description: 'Caution / Action.' },
+        { name: 'Cream', value: AI4U_PALETTE.cream, description: 'Warm alternative to white — referentes tone.' },
       ]
     },
     {
@@ -347,6 +352,63 @@ const DesignSystem = () => {
                   ))}
                 </Grid>
               </Grid>
+            </Grid>
+          </Container>
+        </Box>
+
+        {/* ─── Section: Referentes (Swiss/Brutalist print registration) ─── */}
+        <Box id="referentes" sx={{ py: 15, bgcolor: colors.helpers.background.secondary }}>
+          <Container maxWidth="lg">
+            <Typography sx={{ ...TEXT_VARIANTS.label.main, mb: 10 }}>"Phase 04.5: Referentes — Print Registration System"</Typography>
+
+            <Grid container spacing={8}>
+              <Grid item xs={12} md={4}>
+                <Typography sx={{ ...TEXT_VARIANTS.label.main, mb: 4 }}>"RegistrationMarks"</Typography>
+                <Box sx={{
+                  position: 'relative', height: 180,
+                  border: `2px solid ${colors.helpers.text.primary}`,
+                  bgcolor: colors.helpers.background.primary,
+                }}>
+                  <RegistrationMarks circles />
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography sx={{ ...TEXT_VARIANTS.label.main, mb: 4 }}>"MoireText"</Typography>
+                <Box sx={{
+                  height: 180, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  border: `2px solid ${colors.helpers.text.primary}`,
+                  bgcolor: AI4U_PALETTE.black,
+                }}>
+                  <MoireText color={AI4U_PALETTE.white} sx={{ fontSize: '3rem' }}>ai4u</MoireText>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography sx={{ ...TEXT_VARIANTS.label.main, mb: 4 }}>"HalftoneSwatch"</Typography>
+                <Box sx={{
+                  height: 180, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  border: `2px solid ${colors.helpers.text.primary}`,
+                  bgcolor: colors.helpers.background.primary,
+                }}>
+                  <HalftoneSwatch size={96} dot={10} />
+                </Box>
+              </Grid>
+            </Grid>
+
+            <Typography sx={{ ...TEXT_VARIANTS.label.main, mt: 10, mb: 4 }}>"Surface presets — dominant color per page"</Typography>
+            <Grid container spacing={2}>
+              {(['black', 'white', 'volt', 'orange', 'blue', 'cream'] as const).map((preset) => {
+                const p = SURFACE_PRESETS[preset];
+                return (
+                  <Grid item xs={6} md={2} key={preset}>
+                    <Box sx={{
+                      height: 90, display: 'flex', alignItems: 'flex-end', p: 1.5,
+                      bgcolor: p.background, border: `1px solid ${colors.helpers.border.secondary}`,
+                    }}>
+                      <CodeText sx={{ fontSize: '0.7rem', color: p.text.primary }}>{preset}</CodeText>
+                    </Box>
+                  </Grid>
+                );
+              })}
             </Grid>
           </Container>
         </Box>

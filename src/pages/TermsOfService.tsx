@@ -1,13 +1,15 @@
 import React from 'react';
 import { Box, Container, Typography } from '@mui/material';
-import { SEOHead, BodyText, H2 } from '../components/shared/ui/atoms';
+import { SEOHead, BodyText, H2, RegistrationMarks } from '../components/shared/ui/atoms';
 import { useColors } from '../hooks';
+import { SurfaceProvider } from '../context';
 
-const TermsOfService = () => {
+const TermsOfServiceBody = () => {
   const colors = useColors();
 
   return (
-    <Box sx={{ bgcolor: colors.contrast.background, color: colors.contrast.text.primary, minHeight: '100vh', py: 10 }}>
+    <Box sx={{ bgcolor: colors.contrast.background, color: colors.contrast.text.primary, minHeight: '100vh', py: 10, position: 'relative' }}>
+      <RegistrationMarks corners={['tl', 'br']} />
       <SEOHead
         title="Condiciones de Servicio | Ads Manager"
         description="Términos y condiciones legales para el uso de nuestra aplicación de Facebook Ads."
@@ -51,5 +53,11 @@ const TermsOfService = () => {
     </Box>
   );
 };
+
+const TermsOfService = () => (
+  <SurfaceProvider surface="cream">
+    <TermsOfServiceBody />
+  </SurfaceProvider>
+);
 
 export default TermsOfService;

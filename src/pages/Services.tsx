@@ -10,11 +10,11 @@ import {
   Collapse,
   alpha
 } from '@mui/material';
-import { Giant, H1, H2, BodyText, Button, SEOHead, GeometricIcon, BinaryOverlay } from '@/components/shared/ui/atoms';
+import { Giant, H1, H2, BodyText, Button, SEOHead, GeometricIcon, BinaryOverlay, RegistrationMarks, MoireText } from '@/components/shared/ui/atoms';
 import { ServiceCard, DiagnosticCTA, RelatedPages } from '@/components/shared/ui/molecules';
 import { SuperAIModal } from '@/components/shared/ui/organisms';
 import { AI4U_PALETTE } from '@/components/shared/ui/tokens/palette';
-import { useServicesContext } from '@/context';
+import { useServicesContext, SurfaceProvider } from '@/context';
 import { useColors, usePerformanceMonitoring } from '@/hooks';
 import { ServiceSuperCategory } from '@/types/service';
 import { getServicesStructuredData, getPageMetaTags } from '@/utils/seo';
@@ -23,7 +23,9 @@ import { SHADOW_TOKENS } from '@/components/shared/ui/tokens/theme';
 import { COMPONENT_SPACING, SPACING_TOKENS } from '@/components/shared/ui/tokens/spacing';
 import { TEXT_VARIANTS } from '@/components/shared/ui/tokens/typography';
 
-const Services: React.FC = () => {
+// Cuerpo real de la página — vive dentro del SurfaceProvider "cream" que exporta
+// el wrapper Services de más abajo (mismo patrón que Home.tsx/HomeBody).
+const ServicesBody: React.FC = () => {
   const colors = useColors();
   const [isSuperAIModalOpen, setIsSuperAIModalOpen] = useState(false);
   const [expandedAxes, setExpandedAxes] = useState<Record<string, boolean>>({});
@@ -133,6 +135,7 @@ const Services: React.FC = () => {
       }}>
         {/* Binary Overlay Pattern */}
         <BinaryOverlay />
+        <RegistrationMarks corners={['tl', 'tr']} circles />
         <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
           <Grid container spacing={0} alignItems="center">
             <Grid item xs={12} lg={8} sx={{ pr: { lg: 10 } }}>
@@ -159,7 +162,7 @@ const Services: React.FC = () => {
                 fontWeight: 400,
                 maxWidth: '1000px'
               }}>
-                nuestros 4 <Box component="span" sx={{ color: colors.contrast.text.primary, opacity: 0.5 }}>ejes</Box> de servicio
+                nuestros 4 <MoireText sx={{ fontSize: 'inherit', lineHeight: 'inherit', letterSpacing: 'inherit' }}>ejes</MoireText> de servicio
               </Giant>
               <BodyText sx={{
                 fontSize: '1.8rem',
@@ -550,12 +553,18 @@ const Services: React.FC = () => {
         />
       </Container>
 
-      <SuperAIModal 
+      <SuperAIModal
         open={isSuperAIModalOpen}
         onClose={() => setIsSuperAIModalOpen(false)}
       />
     </Box>
   );
 };
+
+const Services: React.FC = () => (
+  <SurfaceProvider surface="cream">
+    <ServicesBody />
+  </SurfaceProvider>
+);
 
 export default Services;
