@@ -22,3 +22,4 @@ export { default as BinaryOverlay } from './BinaryOverlay';
 export { default as RegistrationMarks } from './RegistrationMarks';
 export { default as MoireText } from './MoireText';
 export { default as HalftoneSwatch } from './HalftoneSwatch';
+export { default as AgentAvatar } from './AgentAvatar';
