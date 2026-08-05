@@ -12,11 +12,12 @@ interface AgentAvatarProps {
 }
 
 /**
- * Avatar pixel-art determinístico por agente — grilla de bloques 5x5,
- * espejada, coloreada con un acento de marca elegido por el propio nombre.
- * Sin librerías externas: un hash + un PRNG sembrado, renderizado en SVG.
+ * Cara de píxeles determinística por agente — ojos, nariz y boca compuestos
+ * a partir del hash del nombre (grilla 9x9 espejada), coloreados con un
+ * acento de marca elegido por el propio nombre. Sin librerías externas: un
+ * hash + un PRNG sembrado, renderizado en SVG.
  */
-const AgentAvatar: React.FC<AgentAvatarProps> = ({ name, size = 64, showSeed = false }) => {
+const AgentAvatar: React.FC<AgentAvatarProps> = ({ name, size = 72, showSeed = false }) => {
   const { grid, color, seed } = generateAgentIdenticon(name);
   const cells = grid.length;
   const cellSize = size / cells;

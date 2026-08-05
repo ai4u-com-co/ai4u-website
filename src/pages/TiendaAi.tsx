@@ -1,10 +1,11 @@
 import React from 'react';
-import { Box, Container, Grid, Stack, Chip } from '@mui/material';
+import { Box, Container, Grid, Stack, Chip, Tooltip } from '@mui/material';
 import { Giant, H2, BodyText, CodeText, SEOHead, BinaryOverlay, AgentAvatar } from '@/components/shared/ui/atoms';
 import { DiagnosticCTA } from '@/components/shared/ui/molecules';
 import { useColors } from '@/hooks';
 import { getPageMetaTags, getCanonicalUrl } from '@/utils/seo';
 import { AGENT_GROUPS, type AgentStatus } from '@/data/agents';
+import { TOOLS } from '@/data/tools';
 import { AI4U_PALETTE } from '@/components/shared/ui/tokens/palette';
 
 const STATUS_LABEL: Record<AgentStatus, string> = {
@@ -41,8 +42,8 @@ const TiendaAi: React.FC = () => {
             los agentes que ya<br />trabajan, no una demo
           </Giant>
           <BodyText sx={{ color: colors.contrast.text.secondary, fontSize: '17px', maxWidth: '58ch' }}>
-            cada uno de estos agentes resuelve trabajo real hoy, en empresas reales. el avatar de cada
-            uno se genera solo, a partir de su nombre — su propia numeración interna hecha visible.
+            cada uno de estos agentes resuelve trabajo real hoy, en empresas reales. la cara de cada
+            uno se genera sola, a partir de su nombre — su propia numeración interna hecha visible.
           </BodyText>
         </Stack>
 
@@ -72,7 +73,7 @@ const TiendaAi: React.FC = () => {
                       }}
                     >
                       <Stack direction="row" spacing={2} alignItems="center">
-                        <AgentAvatar name={agent.name} size={48} />
+                        <AgentAvatar name={agent.name} size={56} />
                         <Box sx={{ flex: 1, minWidth: 0 }}>
                           <BodyText sx={{ fontWeight: 700, fontSize: '15px', textTransform: 'lowercase', color: colors.contrast.text.primary }}>
                             {agent.name}
@@ -92,9 +93,39 @@ const TiendaAi: React.FC = () => {
                           />
                         </Box>
                       </Stack>
-                      <BodyText sx={{ fontSize: '13px', lineHeight: 1.55, color: colors.contrast.text.secondary }}>
+                      <BodyText sx={{ fontSize: '13px', lineHeight: 1.55, color: colors.contrast.text.secondary, flex: 1 }}>
                         {agent.pitch}
                       </BodyText>
+                      {agent.tools.length > 0 && (
+                        <Stack direction="row" alignItems="center" spacing={1} sx={{ pt: 1.5, borderTop: `1px solid ${colors.contrast.border}` }}>
+                          <CodeText sx={{ fontSize: '9px', letterSpacing: '0.06em', textTransform: 'uppercase', color: colors.contrast.text.secondary }}>
+                            funciona con
+                          </CodeText>
+                          <Stack direction="row" spacing={0.75}>
+                            {agent.tools.map((toolId) => {
+                              const tool = TOOLS[toolId];
+                              const ToolIcon = tool.Icon;
+                              return (
+                                <Tooltip key={toolId} title={tool.label} arrow>
+                                  <Box
+                                    sx={{
+                                      width: 22,
+                                      height: 22,
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center',
+                                      borderRadius: '4px',
+                                      bgcolor: AI4U_PALETTE.gray[900],
+                                    }}
+                                  >
+                                    <ToolIcon size={12} color={tool.color} aria-label={tool.label} />
+                                  </Box>
+                                </Tooltip>
+                              );
+                            })}
+                          </Stack>
+                        </Stack>
+                      )}
                     </Box>
                   </Grid>
                 ))}
