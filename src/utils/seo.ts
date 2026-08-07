@@ -157,10 +157,10 @@ export const getPageMetaTags = (page: string) => {
       description: "Explora nuestro portafolio de innovación. Proyectos reales de IA aplicados a diferentes industrias: desde Fashion Tech hasta E-Mobility.",
       keywords: "portafolio innovación, proyectos IA, casos éxito IA, IA aplicada, Fashion Tech IA, E-Mobility IA"
     },
-    tiendaAi: {
-      title: "Tienda AI | Agentes de IA en Producción | AI4U",
+    agentes: {
+      title: "Agentes de IA en Producción | AI4U",
       description: "Los agentes que hoy trabajan en operaciones reales: tickets, servicio al cliente, automatización de ERP y contenido. No es una demo, es lo que ya corre.",
-      keywords: "agentes de IA, tienda de agentes, automatización IA, agentes en producción, marketplace de IA, AI4U"
+      keywords: "agentes de IA, equipo de agentes, automatización IA, agentes en producción, AI4U"
     }
   };
 

@@ -6,7 +6,9 @@ export const ROUTES = {
   PORTFOLIO: '/portafolio',
   SITIOS_WEB: '/sitios-web',
   SUPER_AI: '/super-ai',
-  TIENDA_AI: '/tienda-ai',
+  AGENTES: '/agentes',
+  /** @deprecated nombre viejo de /agentes — solo para el redirect en App.tsx, no usar para nada nuevo */
+  TIENDA_AI_LEGACY: '/tienda-ai',
   DESIGN_SYSTEM: '/design-system',
   PITCH: '/pitch',
   PITCH_BANCOLOMBIA: '/pitch-bancolombia',

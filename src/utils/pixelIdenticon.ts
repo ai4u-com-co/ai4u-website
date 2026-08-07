@@ -114,3 +114,8 @@ export function generateAgentIdenticon(name: string): PixelIdenticon {
   const color = ACCENT_COLORS[seed % ACCENT_COLORS.length];
   return { grid, color, seed };
 }
+
+/** Código de 4 dígitos del agente (ej. "#0117") — mismo seed que su cara, solo reformateado para lucir como tag de ficha. */
+export function formatAgentCode(seed: number): string {
+  return `#${String(seed % 10000).padStart(4, '0')}`;
+}
