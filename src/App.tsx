@@ -10,7 +10,7 @@ import './utils/errorTracking';
 import Home from './pages/Home';
 
 const Services = lazy(() => import('./pages/Services'));
-const TiendaAi = lazy(() => import('./pages/TiendaAi'));
+const Agentes = lazy(() => import('./pages/Agentes'));
 const WhyAI4U = lazy(() => import('./pages/WhyAI4U'));
 const Portfolio = lazy(() => import('./pages/Portfolio'));
 const SitiosWeb = lazy(() => import('./pages/SitiosWeb'));
@@ -82,10 +82,16 @@ function App() {
                             element={<SitiosWeb />}
                           />
 
-                          {/* Tienda AI Route — catálogo público de agentes, la evidencia detrás del pitch */}
+                          {/* Agentes Route — catálogo público de agentes, la evidencia detrás del pitch */}
                           <Route
-                            path={ROUTES.TIENDA_AI}
-                            element={<TiendaAi />}
+                            path={ROUTES.AGENTES}
+                            element={<Agentes />}
+                          />
+
+                          {/* Redirect nombre viejo de la página (Tienda AI → Agentes) */}
+                          <Route
+                            path={ROUTES.TIENDA_AI_LEGACY}
+                            element={<Navigate to={ROUTES.AGENTES} replace />}
                           />
 
                           {/* Redirect Success Cases to Why AI4U */}
