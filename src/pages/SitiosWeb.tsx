@@ -145,20 +145,20 @@ const SitiosWebBody: React.FC = () => {
                   className="site-preview-image"
                   sx={{
                     width: '100%',
-                    aspectRatio: '16/9',
                     bgcolor: colors.contrast.border,
                     overflow: 'hidden',
                     filter: 'grayscale(100%)',
                     transition: 'filter 0.6s ease',
                     borderBottom: `1px solid ${colors.contrast.border}`,
+                    lineHeight: 0,
                   }}
                 >
                   <Box
                     component="img"
                     src={site.image}
-                    alt={`Captura del sitio ${site.name}`}
+                    alt={`Captura completa del landing de ${site.name}`}
                     loading="lazy"
-                    sx={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }}
+                    sx={{ width: '100%', height: 'auto', display: 'block' }}
                   />
                 </Box>
                 <Box sx={{ p: { xs: 4, md: 5 } }}>
