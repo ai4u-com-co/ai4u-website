@@ -5,6 +5,7 @@ export const ROUTES = {
   WHY_AI4U: '/por-que-ai4u',
   PORTFOLIO: '/portafolio',
   SITIOS_WEB: '/sitios-web',
+  ORDER_LOADER: '/orderloader',
   SUPER_AI: '/super-ai',
   AGENTES: '/agentes',
   /** @deprecated nombre viejo de /agentes — solo para el redirect en App.tsx, no usar para nada nuevo */

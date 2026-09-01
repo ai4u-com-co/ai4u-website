@@ -14,6 +14,7 @@ const Agentes = lazy(() => import('./pages/Agentes'));
 const WhyAI4U = lazy(() => import('./pages/WhyAI4U'));
 const Portfolio = lazy(() => import('./pages/Portfolio'));
 const SitiosWeb = lazy(() => import('./pages/SitiosWeb'));
+const OrderLoader = lazy(() => import('./pages/OrderLoader'));
 const DesignSystem = lazy(() => import('./pages/DesignSystem'));
 const Pitch = lazy(() => import('./pages/Pitch'));
 const PitchBancolombia = lazy(() => import('./pages/PitchBancolombia'));
@@ -80,6 +81,12 @@ function App() {
                           <Route
                             path={ROUTES.SITIOS_WEB}
                             element={<SitiosWeb />}
+                          />
+
+                          {/* orderLoader Route — módulo dedicado al producto que originó a AI4U */}
+                          <Route
+                            path={ROUTES.ORDER_LOADER}
+                            element={<OrderLoader />}
                           />
 
                           {/* Agentes Route — catálogo público de agentes, la evidencia detrás del pitch */}
