@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Container, Grid, Stack } from '@mui/material';
+import { Box, Container, Grid, Stack, Link as MuiLink } from '@mui/material';
 import { Giant, H2, BodyText, CodeText, SEOHead, GeometricIcon, RegistrationMarks, MoireText } from '../components/shared/ui/atoms';
 import { DiagnosticCTA, RelatedPages } from '../components/shared/ui/molecules';
 import { SurfaceProvider } from '../context';
@@ -21,6 +21,21 @@ const PLANS = [
     desc: 'formulario, base de datos, lógica propia — la misma landing, con capacidad real detrás.',
     price: '$4.000.000',
     note: 'pago único',
+  },
+];
+
+const SITES = [
+  {
+    name: 'La Magdalena',
+    desc: 'estudio de storytelling de impacto social y ambiental.',
+    url: 'https://www.lamagdalena.com.co',
+    label: 'lamagdalena.com.co',
+  },
+  {
+    name: 'Catalina Romero',
+    desc: 'portafolio de dirección de arte, estilismo y narrativa visual.',
+    url: 'https://cromero.vercel.app/',
+    label: 'cromero.vercel.app',
   },
 ];
 
@@ -96,6 +111,44 @@ const SitiosWebBody: React.FC = () => {
             <GeometricIcon type="check" size="small" variant="minimal" color={BRAND_ORANGE} />
             <BodyText sx={{ fontSize: '0.9rem', opacity: 0.7 }}>entrega en ~14 días</BodyText>
           </Stack>
+        </Container>
+      </Box>
+
+      {/* Sitios que hemos construido */}
+      <Box sx={{ py: { xs: 8, md: 12 }, borderTop: `1px solid ${colors.contrast.border}` }}>
+        <Container maxWidth="lg">
+          <CodeText sx={{ fontSize: '0.72rem', letterSpacing: '0.2em', color: colors.contrast.text.secondary, mb: 5, display: 'block' }}>
+            // sitios que hemos construido
+          </CodeText>
+          <Grid container spacing={4}>
+            {SITES.map((site) => (
+              <Grid item xs={12} md={6} key={site.name}>
+                <MuiLink
+                  href={site.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  underline="none"
+                  sx={{
+                    display: 'block',
+                    p: { xs: 4, md: 5 },
+                    height: '100%',
+                    border: `1px solid ${colors.contrast.border}`,
+                    color: 'inherit',
+                    transition: 'border-color 0.2s ease',
+                    '&:hover': { borderColor: BRAND_ORANGE },
+                  }}
+                >
+                  <H2 sx={{ fontWeight: 400, fontSize: { xs: '1.6rem', md: '2rem' }, mb: 1.5, textTransform: 'none' }}>
+                    {site.name}
+                  </H2>
+                  <BodyText sx={{ opacity: 0.75, mb: 3, fontSize: '0.95rem' }}>{site.desc}</BodyText>
+                  <CodeText sx={{ fontSize: '0.8rem', color: BRAND_ORANGE }}>
+                    {site.label} →
+                  </CodeText>
+                </MuiLink>
+              </Grid>
+            ))}
+          </Grid>
         </Container>
       </Box>
 
