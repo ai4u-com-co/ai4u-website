@@ -30,12 +30,14 @@ const SITES = [
     desc: 'estudio de storytelling de impacto social y ambiental.',
     url: 'https://www.lamagdalena.com.co',
     label: 'lamagdalena.com.co',
+    image: '/assets/images/cases/screenshots/lamagdalena-site.jpg',
   },
   {
     name: 'Catalina Romero',
     desc: 'portafolio de dirección de arte, estilismo y narrativa visual.',
     url: 'https://cromero.vercel.app/',
     label: 'cromero.vercel.app',
+    image: '/assets/images/cases/screenshots/cromero-site.jpg',
   },
 ];
 
@@ -120,35 +122,57 @@ const SitiosWebBody: React.FC = () => {
           <CodeText sx={{ fontSize: '0.72rem', letterSpacing: '0.2em', color: colors.contrast.text.secondary, mb: 5, display: 'block' }}>
             // sitios que hemos construido
           </CodeText>
-          <Grid container spacing={4}>
+          <Stack spacing={6}>
             {SITES.map((site) => (
-              <Grid item xs={12} md={6} key={site.name}>
-                <MuiLink
-                  href={site.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  underline="none"
+              <MuiLink
+                key={site.name}
+                href={site.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                underline="none"
+                sx={{
+                  display: 'block',
+                  color: 'inherit',
+                  border: `1px solid ${colors.contrast.border}`,
+                  transition: 'border-color 0.2s ease',
+                  '&:hover': {
+                    borderColor: BRAND_ORANGE,
+                    '& .site-preview-image': { filter: 'grayscale(0%)' },
+                  },
+                }}
+              >
+                <Box
+                  className="site-preview-image"
                   sx={{
-                    display: 'block',
-                    p: { xs: 4, md: 5 },
-                    height: '100%',
-                    border: `1px solid ${colors.contrast.border}`,
-                    color: 'inherit',
-                    transition: 'border-color 0.2s ease',
-                    '&:hover': { borderColor: BRAND_ORANGE },
+                    width: '100%',
+                    aspectRatio: '16/9',
+                    bgcolor: colors.contrast.border,
+                    overflow: 'hidden',
+                    filter: 'grayscale(100%)',
+                    transition: 'filter 0.6s ease',
+                    borderBottom: `1px solid ${colors.contrast.border}`,
                   }}
                 >
-                  <H2 sx={{ fontWeight: 400, fontSize: { xs: '1.6rem', md: '2rem' }, mb: 1.5, textTransform: 'none' }}>
+                  <Box
+                    component="img"
+                    src={site.image}
+                    alt={`Captura del sitio ${site.name}`}
+                    loading="lazy"
+                    sx={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }}
+                  />
+                </Box>
+                <Box sx={{ p: { xs: 4, md: 5 } }}>
+                  <H2 sx={{ fontWeight: 400, fontSize: { xs: '1.8rem', md: '2.4rem' }, mb: 1.5, textTransform: 'none' }}>
                     {site.name}
                   </H2>
-                  <BodyText sx={{ opacity: 0.75, mb: 3, fontSize: '0.95rem' }}>{site.desc}</BodyText>
+                  <BodyText sx={{ opacity: 0.75, mb: 3, fontSize: '1rem' }}>{site.desc}</BodyText>
                   <CodeText sx={{ fontSize: '0.8rem', color: BRAND_ORANGE }}>
                     {site.label} →
                   </CodeText>
-                </MuiLink>
-              </Grid>
+                </Box>
+              </MuiLink>
             ))}
-          </Grid>
+          </Stack>
         </Container>
       </Box>
 

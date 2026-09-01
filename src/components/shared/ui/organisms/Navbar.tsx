@@ -91,8 +91,10 @@ const Navbar = () => {
     { name: 'inicio', path: ROUTES.HOME },
     { name: 'servicios', path: ROUTES.SERVICES },
     { name: 'agentes', path: ROUTES.AGENTES },
+    { name: 'orderloader', path: ROUTES.ORDER_LOADER },
     { name: 'por qué ai4u', path: ROUTES.WHY_AI4U },
-    { name: 'portafolio', path: ROUTES.PORTFOLIO }
+    { name: 'portafolio', path: ROUTES.PORTFOLIO },
+    { name: 'sitios web', path: ROUTES.SITIOS_WEB }
   ];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
