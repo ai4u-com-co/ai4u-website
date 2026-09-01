@@ -54,7 +54,7 @@ const OrderLoaderBody: React.FC = () => {
           <CodeText sx={{ fontSize: '0.72rem', letterSpacing: '0.25em', color: BRAND_ORANGE, mb: 4, display: 'block' }}>
             // ai4u.orderloader
           </CodeText>
-          <Giant sx={{ fontWeight: 400, lineHeight: 0.85, fontSize: { xs: '3.5rem', md: '7rem' }, mb: 4 }}>
+          <Giant sx={{ fontWeight: 400, lineHeight: 0.85, fontSize: { xs: '2.4rem', sm: '3.5rem', md: '7rem' }, mb: 4, overflowWrap: 'break-word', wordBreak: 'break-word' }}>
             <MoireText sx={{ fontSize: 'inherit', lineHeight: 'inherit', letterSpacing: 'inherit' }}>
               orderloader
             </MoireText>
