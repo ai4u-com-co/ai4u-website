@@ -110,7 +110,7 @@ const Footer = () => {
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                 <WhatsAppIcon sx={{ color: 'inherit', fontSize: '1.2rem', opacity: 0.8 }} />
                 <MuiTypography variant="body2" sx={{ color: 'inherit', opacity: 0.7 }}>
-                  +57 321 817 5744
+                  +57 302 490 6414
                 </MuiTypography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
