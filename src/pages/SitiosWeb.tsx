@@ -143,24 +143,35 @@ const SitiosWebBody: React.FC = () => {
               >
                 <Box
                   className="site-preview-image"
+                  role="img"
+                  aria-label={`Recorrido del landing de ${site.name}`}
                   sx={{
                     width: '100%',
+                    height: { xs: 380, sm: 480, md: 600 },
                     bgcolor: colors.contrast.border,
-                    overflow: 'hidden',
+                    borderBottom: `1px solid ${colors.contrast.border}`,
+                    backgroundImage: `url(${site.image})`,
+                    backgroundSize: '100% auto',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center top',
                     filter: 'grayscale(100%)',
                     transition: 'filter 0.6s ease',
-                    borderBottom: `1px solid ${colors.contrast.border}`,
-                    lineHeight: 0,
+                    animation: 'sitePreviewPan 18s ease-in-out infinite',
+                    '@keyframes sitePreviewPan': {
+                      '0%': { backgroundPosition: 'center top', opacity: 1 },
+                      '45%': { backgroundPosition: 'center bottom', opacity: 1 },
+                      '50%': { backgroundPosition: 'center bottom', opacity: 1 },
+                      '52%': { opacity: 0 },
+                      '54%': { backgroundPosition: 'center top', opacity: 0 },
+                      '58%': { opacity: 1 },
+                      '100%': { backgroundPosition: 'center top', opacity: 1 },
+                    },
+                    '@media (prefers-reduced-motion: reduce)': {
+                      animation: 'none',
+                      backgroundPosition: 'center top',
+                    },
                   }}
-                >
-                  <Box
-                    component="img"
-                    src={site.image}
-                    alt={`Captura completa del landing de ${site.name}`}
-                    loading="lazy"
-                    sx={{ width: '100%', height: 'auto', display: 'block' }}
-                  />
-                </Box>
+                />
                 <Box sx={{ p: { xs: 4, md: 5 } }}>
                   <H2 sx={{ fontWeight: 400, fontSize: { xs: '1.8rem', md: '2.4rem' }, mb: 1.5, textTransform: 'none' }}>
                     {site.name}
