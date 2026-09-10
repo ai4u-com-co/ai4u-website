@@ -39,6 +39,13 @@ const SITES = [
     label: 'cromero.vercel.app',
     image: '/assets/images/cases/screenshots/cromero-site.jpg',
   },
+  {
+    name: 'Nakoa',
+    desc: 'perfumería de autor — lo invisible del territorio, en frasco.',
+    url: 'https://nakoa-web.vercel.app/',
+    label: 'nakoa-web.vercel.app',
+    image: '/assets/images/cases/screenshots/nakoa-site.jpg',
+  },
 ];
 
 // Cuerpo real — vive dentro del SurfaceProvider "cream" del wrapper de más abajo
