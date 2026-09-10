@@ -20,8 +20,8 @@ const STEPS = [
   },
   {
     n: '03',
-    name: 'crea el pedido en SAP',
-    desc: 'la orden queda en SAP Business One, lista para producción, sin que nadie la haya tipeado.',
+    name: 'crea el pedido en tu ERP',
+    desc: 'la orden queda lista para producción en SAP Business One, Siigo, World Office u otro ERP, sin que nadie la haya tipeado.',
   },
 ];
 
@@ -43,7 +43,7 @@ const OrderLoaderBody: React.FC = () => {
     <Box sx={{ minHeight: '100vh', bgcolor: colors.contrast.background, color: colors.contrast.text.primary }}>
       <SEOHead
         title="orderLoader | AI4U"
-        description="El correo del pedido entra, la orden sale creada en SAP Business One. Sin digitación manual, corriendo 24/7 en plantas de manufactura reales."
+        description="El correo del pedido entra, la orden sale creada en tu ERP (SAP Business One, Siigo, World Office u otro). Sin digitación manual, corriendo 24/7 en plantas de manufactura reales."
         canonical="https://www.ai4u.com.co/orderloader"
       />
 
@@ -60,8 +60,9 @@ const OrderLoaderBody: React.FC = () => {
             </MoireText>
           </Giant>
           <BodyText sx={{ fontSize: { xs: '1.2rem', md: '1.5rem' }, maxWidth: '620px', opacity: 0.85, fontWeight: 300 }}>
-            un agente lee los correos de pedidos y los crea en SAP Business One, sin que nadie
-            los digite. es el producto que originó a AI4U — hoy corre en dos plantas reales.
+            un agente lee los correos de pedidos y los crea en tu ERP — SAP Business One,
+            Siigo, World Office u otro —, sin que nadie los digite. es el producto que
+            originó a AI4U — hoy corre en dos plantas reales sobre SAP Business One.
           </BodyText>
         </Container>
       </Box>
