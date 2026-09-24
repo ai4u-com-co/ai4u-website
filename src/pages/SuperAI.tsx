@@ -155,6 +155,14 @@ const SuperAI: React.FC<SuperAIProps> = ({ isModal = false }) => {
     }
   ];
 
+  const provenCapabilities = [
+    { icon: BusinessCenter, title: 'conexiónRealASAPBusinessOne', description: 'No es una demo: lee y escribe en el ERP en vivo — inventario, cartera, órdenes de producción — a través de un gateway propio, no de un intermediario.' },
+    { icon: Chat, title: 'whatsAppConIAQueEscala', description: 'Atiende, resuelve y sabe cuándo pasarle la conversación a una persona, con memoria de cada hilo.' },
+    { icon: ShowChart, title: 'cobroDeCarteraQueSaleSolo', description: 'Revisa facturas vencidas y envía el recordatorio todos los días, sin que nadie tenga que acordarse de escribirlo.' },
+    { icon: PrecisionManufacturing, title: 'tableroDePlantaEnVivo', description: 'Reemplaza el Excel de producción por una pantalla que el propio operario actualiza en el piso de planta.' },
+    { icon: Psychology, title: 'cockpitEjecutivoDiario', description: 'Un número y una alerta por área de negocio, con el detalle a un clic — lo primero que se revisa cada mañana.' }
+  ];
+
   const marqueeSkills = [
     'salesforce-sync', 'hubspot-automation', 'sap-integration', 'oracle-data-flow', 'microsoft-365-exec',
     'logistics-tracking', 'inventory-ai', 'hr-screening', 'payroll-automation', 'financial-reconciliation',
@@ -175,9 +183,7 @@ const SuperAI: React.FC<SuperAIProps> = ({ isModal = false }) => {
   const pricing = [
     {
       name: 'Discovery',
-      implementation: null,
-      price: 'Gratis',
-      period: '',
+      tagline: 'Sin costo',
       features: [
         'Llamada diagnóstica de 30 min',
         'Roadmap de arquitectura IA personalizado',
@@ -190,9 +196,7 @@ const SuperAI: React.FC<SuperAIProps> = ({ isModal = false }) => {
     },
     {
       name: 'Starter',
-      implementation: '$1,000',
-      price: '$100',
-      period: 'usd/mes',
+      tagline: 'Un solo proceso',
       includes: 'Incluye:',
       features: [
         'Suite completo: email, drive, tasks, dashboard',
@@ -204,13 +208,11 @@ const SuperAI: React.FC<SuperAIProps> = ({ isModal = false }) => {
         'Tu asistente sigue operando al terminar el contrato'
       ],
       for: 'Emprendedores y equipos de 1-10 personas',
-      buttonText: 'Empezar ahora'
+      buttonText: 'Cotizar mi caso'
     },
     {
       name: 'Business',
-      implementation: '$2,000',
-      price: '$200',
-      period: 'usd/mes',
+      tagline: 'Varias áreas conectadas',
       includes: 'Todo lo de Starter, más:',
       features: [
         '3 skills adicionales configurados a medida',
@@ -219,13 +221,11 @@ const SuperAI: React.FC<SuperAIProps> = ({ isModal = false }) => {
       ],
       for: 'Empresas en crecimiento de 10-50 personas',
       highlight: true,
-      buttonText: 'Empezar ahora'
+      buttonText: 'Cotizar mi caso'
     },
     {
       name: 'Enterprise',
-      implementation: '$3,000',
-      price: '$300',
-      period: 'usd/mes',
+      tagline: 'Toda la operación',
       includes: 'Todo lo de Business, más:',
       features: [
         '2 skills adicionales a medida (5 total)',
@@ -749,6 +749,53 @@ const SuperAI: React.FC<SuperAIProps> = ({ isModal = false }) => {
         </Container>
       </Box>
 
+      {/* Section 4.5: PRUEBA EN PRODUCCIÓN */}
+      <Box sx={{ py: COMPONENT_SPACING.layout.section, bgcolor: colors.contrast.background, borderTop: `1px solid ${colors.contrast.text.primary}`, position: 'relative' }}>
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
+          <Box mb={10}>
+            <Typography sx={{ color: colors.contrast.text.primary, opacity: 0.6, ...TEXT_VARIANTS.ui.code, mb: 2 }}>
+              // yaEnProduccion
+            </Typography>
+            <H1 sx={{
+              color: colors.contrast.text.primary,
+              fontSize: { xs: '3.5rem', md: '6rem' },
+              lineHeight: 0.9,
+              fontWeight: 400,
+              letterSpacing: '-0.02em',
+              mb: 4
+            }}>
+              No es una promesa. <br />
+              <Box component="span" sx={{ color: colors.contrast.text.primary, opacity: 0.5 }}>Ya está corriendo.</Box>
+            </H1>
+            <BodyText sx={{ color: colors.contrast.text.primary, opacity: 0.6, maxWidth: '700px', fontSize: '1.2rem' }}>
+              Esto no es lo que vamos a construir algún día. Es lo que ya opera todos los días en negocios reales.
+            </BodyText>
+          </Box>
+
+          <Grid container spacing={0}>
+            {provenCapabilities.map((cap, idx) => (
+              <Grid item xs={12} sm={6} md={4} key={idx}>
+                <Box sx={{
+                  p: 5,
+                  height: '100%',
+                  borderLeft: `1px solid ${colors.contrast.text.primary}`,
+                  transition: 'all 0.3s ease',
+                  '&:hover': { bgcolor: `${colors.contrast.text.primary}08` }
+                }}>
+                  <cap.icon sx={{ fontSize: 44, color: colors.contrast.text.primary, opacity: 0.5, mb: 3 }} />
+                  <H4 sx={{ color: colors.contrast.text.primary, mb: 2, fontSize: '1.4rem', fontWeight: 400, textTransform: 'none' }}>
+                    {cap.title}
+                  </H4>
+                  <BodyText sx={{ color: colors.contrast.text.primary, opacity: 0.75, fontSize: '1rem', lineHeight: 1.5 }}>
+                    {cap.description}
+                  </BodyText>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
+
       {/* Section 5: DIFERENCIACIÓN */}
       <Box sx={{ py: COMPONENT_SPACING.layout.section, bgcolor: colors.contrast.background, borderTop: `1px solid ${colors.contrast.text.primary}` }}>
         <Container maxWidth="xl">
@@ -813,8 +860,8 @@ const SuperAI: React.FC<SuperAIProps> = ({ isModal = false }) => {
               letterSpacing: '-0.05em',
               mb: 4
             }}>
-              Inversión mínima. <br />
-              <Box component="span" sx={{ color: colors.contrast.text.primary, opacity: 0.5 }}>Retorno máximo.</Box>
+              Un plan por alcance, <br />
+              <Box component="span" sx={{ color: colors.contrast.text.primary, opacity: 0.5 }}>no por talla única.</Box>
             </H1>
 
             <Box
@@ -841,7 +888,7 @@ const SuperAI: React.FC<SuperAIProps> = ({ isModal = false }) => {
                   fontWeight: 400
                 }}
               >
-                // precio de lanzamiento por tiempo limitado
+                // cotización a medida en la llamada de diagnóstico
               </Typography>
             </Box>
           </Box>
@@ -874,20 +921,9 @@ const SuperAI: React.FC<SuperAIProps> = ({ isModal = false }) => {
                   <Typography sx={{ color: colors.contrast.text.primary, opacity: 0.3, fontWeight: 400, mb: 3, ...TEXT_VARIANTS.ui.code, fontSize: '0.9rem' }}>
                     superai.{tier.name.toLowerCase()}
                   </Typography>
-                  {tier.implementation != null && (
-                    <Typography sx={{ color: colors.contrast.text.primary, opacity: 0.5, mb: 1, fontSize: '0.85rem' }}>
-                      implementación: {tier.implementation} usd (una vez)
-                    </Typography>
-                  )}
-                  <Box sx={{ display: 'flex', alignItems: 'baseline', mb: 1 }}>
-                    <Typography sx={{ color: colors.contrast.text.primary, fontSize: { xs: '3rem', md: '3.5rem' }, fontWeight: 400, lineHeight: 1 }}>{tier.price}</Typography>
-                    {tier.period && <Typography sx={{ color: colors.contrast.text.primary, opacity: 0.3, ml: 1, fontWeight: 400, fontSize: '0.9rem' }}>{tier.period}</Typography>}
-                  </Box>
-                  {tier.price !== 'Gratis' && (
-                    <Typography sx={{ color: colors.contrast.text.primary, opacity: 0.4, fontSize: '0.75rem', mb: 2, ...TEXT_VARIANTS.ui.code }}>
-                      // precio de lanzamiento
-                    </Typography>
-                  )}
+                  <Typography sx={{ color: colors.contrast.text.primary, fontSize: { xs: '1.6rem', md: '1.9rem' }, fontWeight: 400, lineHeight: 1.1, mb: 2 }}>
+                    {tier.tagline}
+                  </Typography>
                   <Typography sx={{ color: colors.contrast.text.primary, opacity: 0.6, fontWeight: 400, mb: 4, fontSize: '1rem' }}>{tier.for}</Typography>
 
                   <Stack spacing={1.5} sx={{ mb: 6, flexGrow: 1 }}>
@@ -945,15 +981,7 @@ const SuperAI: React.FC<SuperAIProps> = ({ isModal = false }) => {
               border: `1px dashed ${colors.contrast.text.primary}40`,
             }}>
               <Typography sx={{ color: colors.contrast.text.primary, opacity: 0.8, fontSize: '0.95rem' }}>
-                skills adicionales desde <Box component="span" sx={{ color: colors.contrast.text.primary, fontWeight: 600 }}>$100 usd</Box> c/u
-              </Typography>
-            </Box>
-            <Box sx={{
-              p: 3,
-              border: `1px dashed ${colors.contrast.text.primary}40`,
-            }}>
-              <Typography sx={{ color: colors.contrast.text.primary, opacity: 0.8, fontSize: '0.95rem' }}>
-                reuniones adicionales <Box component="span" sx={{ color: colors.contrast.text.primary, fontWeight: 600 }}>$100 usd</Box> c/u
+                skills y reuniones adicionales se cotizan por separado según lo que necesite tu operación
               </Typography>
             </Box>
           </Box>

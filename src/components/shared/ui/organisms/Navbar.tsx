@@ -87,14 +87,18 @@ const Navbar = () => {
   }, []);
 
   // Items de navegación estáticos en español
+  // Agrupados por lo que el visitante compra: software propio, automatización
+  // a medida, sitios web y la capa de inteligencia — antes de las páginas de
+  // soporte (catálogo de prueba, por qué ai4u, portafolio).
   const navItems = [
     { name: 'inicio', path: ROUTES.HOME },
-    { name: 'servicios', path: ROUTES.SERVICES },
-    { name: 'agentes', path: ROUTES.AGENTES },
     { name: 'orderloader', path: ROUTES.ORDER_LOADER },
+    { name: 'automatización', path: ROUTES.SERVICES },
+    { name: 'sitios web', path: ROUTES.SITIOS_WEB },
+    { name: 'super ai', path: ROUTES.SUPER_AI },
+    { name: 'agentes', path: ROUTES.AGENTES },
     { name: 'por qué ai4u', path: ROUTES.WHY_AI4U },
-    { name: 'portafolio', path: ROUTES.PORTFOLIO },
-    { name: 'sitios web', path: ROUTES.SITIOS_WEB }
+    { name: 'portafolio', path: ROUTES.PORTFOLIO }
   ];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {

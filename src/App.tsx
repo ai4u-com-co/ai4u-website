@@ -15,6 +15,7 @@ const WhyAI4U = lazy(() => import('./pages/WhyAI4U'));
 const Portfolio = lazy(() => import('./pages/Portfolio'));
 const SitiosWeb = lazy(() => import('./pages/SitiosWeb'));
 const OrderLoader = lazy(() => import('./pages/OrderLoader'));
+const SuperAI = lazy(() => import('./pages/SuperAI'));
 const DesignSystem = lazy(() => import('./pages/DesignSystem'));
 const Pitch = lazy(() => import('./pages/Pitch'));
 const PitchBancolombia = lazy(() => import('./pages/PitchBancolombia'));
@@ -107,10 +108,10 @@ function App() {
                             element={<Navigate to={ROUTES.WHY_AI4U} replace />}
                           />
 
-                          {/* Redirect legacy SuperAI page — todo es ai4u */}
+                          {/* SuperAI — capa de inteligencia, cuarta categoría de la propuesta de valor */}
                           <Route
                             path={ROUTES.SUPER_AI}
-                            element={<Navigate to={ROUTES.HOME} replace />}
+                            element={<SuperAI />}
                           />
 
                           <Route

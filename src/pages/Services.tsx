@@ -18,16 +18,16 @@ import { BRAND_ORANGE } from '@/components/shared/ui/tokens/brandAccent';
 // Camino 1 — cualquier empresa que ya tenga un ERP (SAP Business One incluido,
 // pero no exclusivo). Nos conectamos directo — es tu primera línea de IA.
 const ERP_ITEMS = [
-  { n: '01', name: 'dashboards en vivo', desc: 'ventas, cartera, inventario y producción conectados en tiempo real a tu ERP.', price: 'desde $250.000', note: 'mensual' },
-  { n: '02', name: 'automatización de procesos', desc: 'pedidos, cartera, facturación — el proceso que más tiempo te cuesta, resuelto.', price: 'desde $1.500.000', note: 'mensual c/u' },
-  { n: '03', name: 'agentes conectados a tu ERP', desc: 'chat, alertas y cobranza que hablan con la data real de tu sistema.', price: 'desde $500.000', note: 'mensual' },
+  { n: '01', name: 'dashboards en vivo', desc: 'ventas, cartera, inventario y producción conectados en tiempo real a tu ERP.' },
+  { n: '02', name: 'automatización de procesos', desc: 'pedidos, cartera, facturación — el proceso que más tiempo te cuesta, resuelto.' },
+  { n: '03', name: 'agentes conectados a tu ERP', desc: 'chat, alertas y cobranza que hablan con la data real de tu sistema.' },
 ];
 
 // Camino 2 — cualquier pyme, sin ERP, que quiere lo mismo: un equipo digital
 // trabajando todos los días.
 const PYME_ITEMS = [
-  { n: '01', name: 'empleado de automatización', desc: 'mensualidad fija, entrega continua — el proceso que elijas, automatizado y mantenido.', price: '$2.000.000', note: 'mensual' },
-  { n: '02', name: 'agentes especializados', desc: 'servicio al cliente, prospección o cobranza — un rol completo, no una herramienta.', price: 'desde $500.000', note: 'mensual' },
+  { n: '01', name: 'empleado de automatización', desc: 'mensualidad fija, entrega continua — el proceso que elijas, automatizado y mantenido.' },
+  { n: '02', name: 'agentes especializados', desc: 'servicio al cliente, prospección o cobranza — un rol completo, no una herramienta.' },
 ];
 
 // Grupos del laboratorio — por lo que hacen, no por su nombre interno.
@@ -130,18 +130,12 @@ const ServicesBody: React.FC = () => {
             <Grid container spacing={0} sx={{ borderTop: '1px solid rgba(255,255,255,0.15)' }}>
               {ERP_ITEMS.map((item) => (
                 <Grid item xs={12} key={item.n} sx={{ borderBottom: '1px solid rgba(255,255,255,0.15)', py: 4 }}>
-                  <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" spacing={2}>
-                    <Stack direction="row" spacing={3} sx={{ flex: 1 }}>
-                      <CodeText sx={{ fontSize: '0.75rem', opacity: 0.4, width: '28px', flexShrink: 0 }}>{item.n}</CodeText>
-                      <Box>
-                        <Box sx={{ fontSize: '1.4rem', fontFamily: '"Red Hat Display", sans-serif', mb: 1 }}>{item.name}</Box>
-                        <BodyText sx={{ color: '#FFFFFF', opacity: 0.6, fontSize: '0.95rem', maxWidth: '480px' }}>{item.desc}</BodyText>
-                      </Box>
-                    </Stack>
-                    <Stack sx={{ textAlign: { xs: 'left', md: 'right' }, flexShrink: 0 }}>
-                      <CodeText sx={{ fontSize: '1.2rem', color: BRAND_ORANGE, fontWeight: 700 }}>{item.price}</CodeText>
-                      <CodeText sx={{ fontSize: '0.7rem', opacity: 0.5 }}>{item.note}</CodeText>
-                    </Stack>
+                  <Stack direction="row" spacing={3}>
+                    <CodeText sx={{ fontSize: '0.75rem', opacity: 0.4, width: '28px', flexShrink: 0 }}>{item.n}</CodeText>
+                    <Box>
+                      <Box sx={{ fontSize: '1.4rem', fontFamily: '"Red Hat Display", sans-serif', mb: 1 }}>{item.name}</Box>
+                      <BodyText sx={{ color: '#FFFFFF', opacity: 0.6, fontSize: '0.95rem', maxWidth: '480px' }}>{item.desc}</BodyText>
+                    </Box>
                   </Stack>
                 </Grid>
               ))}
@@ -165,18 +159,12 @@ const ServicesBody: React.FC = () => {
           <Grid container spacing={0} sx={{ borderTop: `1px solid ${colors.contrast.border}` }}>
             {PYME_ITEMS.map((item) => (
               <Grid item xs={12} key={item.n} sx={{ borderBottom: `1px solid ${colors.contrast.border}`, py: 4 }}>
-                <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" spacing={2}>
-                  <Stack direction="row" spacing={3} sx={{ flex: 1 }}>
-                    <CodeText sx={{ fontSize: '0.75rem', opacity: 0.4, width: '28px', flexShrink: 0 }}>{item.n}</CodeText>
-                    <Box>
-                      <Box sx={{ fontSize: '1.4rem', fontFamily: '"Red Hat Display", sans-serif', mb: 1 }}>{item.name}</Box>
-                      <BodyText sx={{ opacity: 0.6, fontSize: '0.95rem', maxWidth: '480px' }}>{item.desc}</BodyText>
-                    </Box>
-                  </Stack>
-                  <Stack sx={{ textAlign: { xs: 'left', md: 'right' }, flexShrink: 0 }}>
-                    <CodeText sx={{ fontSize: '1.2rem', color: BRAND_ORANGE, fontWeight: 700 }}>{item.price}</CodeText>
-                    <CodeText sx={{ fontSize: '0.7rem', opacity: 0.5 }}>{item.note}</CodeText>
-                  </Stack>
+                <Stack direction="row" spacing={3}>
+                  <CodeText sx={{ fontSize: '0.75rem', opacity: 0.4, width: '28px', flexShrink: 0 }}>{item.n}</CodeText>
+                  <Box>
+                    <Box sx={{ fontSize: '1.4rem', fontFamily: '"Red Hat Display", sans-serif', mb: 1 }}>{item.name}</Box>
+                    <BodyText sx={{ opacity: 0.6, fontSize: '0.95rem', maxWidth: '480px' }}>{item.desc}</BodyText>
+                  </Box>
                 </Stack>
               </Grid>
             ))}
@@ -200,12 +188,20 @@ const ServicesBody: React.FC = () => {
                   contrato mínimo 1 año. el software siempre es de ai4u — se cobra mientras siga corriendo.
                 </BodyText>
               </Box>
-              <Stack sx={{ textAlign: { xs: 'left', md: 'right' }, flexShrink: 0 }}>
-                <CodeText sx={{ fontSize: { xs: '1.8rem', md: '2.4rem' }, fontWeight: 700, color: '#000000' }}>
-                  $3.500.000–$5.000.000
-                </CodeText>
-                <CodeText sx={{ fontSize: '0.75rem', opacity: 0.6, color: '#000000' }}>mensual, indefinido</CodeText>
-              </Stack>
+              <Box sx={{ flexShrink: 0 }}>
+                <DiagnosticCTA
+                  variant="outline"
+                  size="large"
+                  text="cotizar este plan"
+                  message="Hola, quiero cotizar el plan Todo Incluido (los dos caminos en uno)."
+                  sx={{
+                    borderColor: '#000000',
+                    color: '#000000',
+                    fontWeight: 600,
+                    '&:hover': { bgcolor: '#000000', color: BRAND_ORANGE }
+                  }}
+                />
+              </Box>
             </Stack>
           </Container>
         </Box>
