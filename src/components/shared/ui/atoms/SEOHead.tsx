@@ -51,7 +51,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image:type" content="image/png" />
-      <meta property="og:image:alt" content="AI4U - Inteligencia Artificial para tu Negocio" />
+      <meta property="og:image:alt" content="AI4U" />
       <meta property="og:site_name" content="AI4U" />
       <meta property="og:locale" content="es_CO" />
 
@@ -60,7 +60,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       <meta property="twitter:title" content={fullTitle} />
       <meta property="twitter:description" content={description} />
       <meta property="twitter:image" content={ogImage} />
-      <meta property="twitter:image:alt" content="AI4U - Inteligencia Artificial para tu Negocio" />
+      <meta property="twitter:image:alt" content="AI4U" />
       <meta property="twitter:site" content="@ai4u_co" />
       <meta property="twitter:creator" content="@ai4u_co" />
       
