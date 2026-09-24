@@ -12,15 +12,15 @@ const PLANS = [
     n: '01',
     name: 'landing',
     desc: 'una página, sin backend. lista para publicar y empezar a recibir tráfico.',
-    price: '$3.000.000',
-    note: 'pago único',
+    ctaText: 'cotizar landing',
+    message: 'Hola, quiero cotizar un sitio tipo landing (sin backend).',
   },
   {
     n: '02',
     name: 'con backend',
     desc: 'formulario, base de datos, lógica propia — la misma landing, con capacidad real detrás.',
-    price: '$4.000.000',
-    note: 'pago único',
+    ctaText: 'cotizar con backend',
+    message: 'Hola, quiero cotizar un sitio con backend (formulario, base de datos, lógica propia).',
   },
 ];
 
@@ -101,12 +101,17 @@ const SitiosWebBody: React.FC = () => {
                     {plan.name}
                   </H2>
                   <BodyText sx={{ opacity: 0.75, mb: 5, flex: 1, fontSize: '1rem' }}>{plan.desc}</BodyText>
-                  <Stack direction="row" alignItems="baseline" spacing={1.5}>
-                    <CodeText sx={{ fontSize: { xs: '1.6rem', md: '2rem' }, fontWeight: 700, color: BRAND_ORANGE }}>
-                      {plan.price}
-                    </CodeText>
-                    <CodeText sx={{ fontSize: '0.75rem', opacity: 0.55 }}>{plan.note}</CodeText>
-                  </Stack>
+                  <DiagnosticCTA
+                    variant="outline"
+                    text={plan.ctaText}
+                    message={plan.message}
+                    sx={{
+                      alignSelf: 'flex-start',
+                      borderColor: BRAND_ORANGE,
+                      color: BRAND_ORANGE,
+                      '&:hover': { bgcolor: BRAND_ORANGE, color: '#fff' },
+                    }}
+                  />
                 </Box>
               </Grid>
             ))}
