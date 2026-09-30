@@ -220,40 +220,49 @@ const HomeBody: React.FC<{ relatedLinks: ReturnType<typeof getRelatedLinks> }> =
               lo que hacemos.
             </Box>
             <CodeText sx={{ fontSize: '0.65rem', letterSpacing: '0.15em', color: muted, pb: '3px' }}>
-              orquestación de agentes.
+              cuatro formas de trabajar con nosotros.
             </CodeText>
           </Box>
 
-          {/* Service rows */}
+          {/* Service rows — las 4 categorías reales de la oferta, cada una a su página */}
           {[
             {
               num: '01',
-              name: 'educación',
-              desc: 'Tu equipo aprende a trabajar con agentes. La ventaja no es tener la tecnología — es saber usarla.',
+              name: 'orderloader',
+              desc: 'Software propio: de correo a tu ERP, sin digitar. Ya corre en producción, listo para instalar.',
+              path: ROUTES.ORDER_LOADER,
             },
             {
               num: '02',
-              name: 'transformación',
-              desc: 'Rediseñamos tus procesos para que los agentes los puedan ejecutar. Del caos operativo al flujo orquestado.',
+              name: 'automatización a medida',
+              desc: 'Procesos, cartera, WhatsApp — resolvemos el que más tiempo te cuesta y lo dejamos corriendo solo.',
+              path: ROUTES.SERVICES,
             },
             {
               num: '03',
-              name: 'operación',
-              desc: 'Desplegamos y mantenemos tu ecosistema de agentes activo. Siempre corriendo. Siempre mejorando.',
+              name: 'sitios web',
+              desc: 'Sitios y tiendas de alto rendimiento, con diseño propio y sin plantillas genéricas.',
+              path: ROUTES.SITIOS_WEB,
             },
             {
               num: '04',
-              name: 'estrategia',
-              desc: 'Diseñamos qué automatizar primero, cómo orquestar y cómo escalar tu infraestructura de agentes.',
+              name: 'superai',
+              desc: 'Tu primer empleado digital: un agente que aprende tus procesos y opera en tus sistemas.',
+              path: ROUTES.SUPER_AI,
             },
           ].map((svc) => (
             <Box
               key={svc.num}
+              component={Link}
+              to={svc.path}
+              onClick={() => scrollToTop()}
               sx={{
                 display: 'flex', alignItems: 'center', gap: { xs: 2, md: 4 },
                 py: { xs: 3, md: 3.5 },
                 borderBottom: divider,
-                cursor: 'default',
+                cursor: 'pointer',
+                textDecoration: 'none',
+                color: 'inherit',
                 transition: 'gap 0.25s',
                 '&:hover .svc-arrow': { opacity: 1, color: BRAND_ORANGE },
               }}
@@ -273,7 +282,7 @@ const HomeBody: React.FC<{ relatedLinks: ReturnType<typeof getRelatedLinks> }> =
               </Box>
               <BodyText sx={{
                 fontSize: '0.78rem', fontWeight: 300, lineHeight: 1.4,
-                color: muted, maxWidth: '200px', textAlign: 'right',
+                color: muted, maxWidth: '220px', textAlign: 'right',
                 display: { xs: 'none', md: 'block' },
               }}>
                 {svc.desc}

@@ -10,11 +10,11 @@ export interface FeaturedProject {
 export const featuredProjects: FeaturedProject[] = [
   // TODO(mariano): reemplazar imagen por screenshot real del producto (data anonimizada)
   {
-    id: 'agentes-manufactura',
-    title: 'Agentes en Manufactura',
+    id: 'orderloader',
+    title: 'orderLoader',
     description: 'Un agente lee los correos de los clientes y crea los pedidos en SAP, sin digitación. La capa de inteligencia opera 24/7 en plantas de manufactura reales.',
     image: '/assets/images/cases/screenshots/ai4u.png',
-    link: 'https://www.ai4u.com.co/por-que-ai4u',
+    link: 'https://www.ai4u.com.co/orderloader',
     category: 'manufactura'
   },
   {
@@ -22,7 +22,7 @@ export const featuredProjects: FeaturedProject[] = [
     title: 'La Magdalena',
     description: 'Storytelling de impacto social y ambiental.',
     image: '/assets/images/cases/screenshots/la-magdalena.png',
-    link: 'https://donchelo.github.io/www.lamagdalena.com/#inicio',
+    link: 'https://www.lamagdalena.com.co',
     category: 'impactStorytelling'
   },
   {

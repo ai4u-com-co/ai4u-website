@@ -138,9 +138,9 @@ export const getBreadcrumbStructuredData = (breadcrumbs: Array<{name: string, ur
 export const getPageMetaTags = (page: string) => {
   const metaTags = {
     home: {
-      title: "AI4U - Recupera tu Tiempo con Equipos de Agentes de IA",
-      description: "El tiempo es oro. Te ayudamos a crear y administrar tu equipo de agentes de IA para orquestar tu libertad operativa. Infraestructura privada y segura.",
-      keywords: "infraestructura IA, agentes de IA, orquestación IA, digital workforce, AI4U, capa de inteligencia, automatización empresarial, Colombia"
+      title: "AI4U - Recupera tiempo automatizando tu operación",
+      description: "Automatizamos lo repetitivo, conectamos tu ERP, construimos tu software y tu sitio web. Sin vueltas, en producción.",
+      keywords: "automatización de procesos, mejora de procesos, software a medida, sitios web, conexión ERP, AI4U, Colombia"
     },
     services: {
       title: "Servicios de Inteligencia Artificial | AI4U",

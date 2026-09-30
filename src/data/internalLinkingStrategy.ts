@@ -126,6 +126,34 @@ export const INTERNAL_LINKS_MAP: Record<string, InternalLink[]> = {
       priority: 'high',
       semantic: 'evidence'
     }
+  ],
+
+  // orderLoader (/orderloader) - Módulo dedicado al producto que originó a AI4U
+  '/orderloader': [
+    {
+      to: '/agentes',
+      label: 'Ver más agentes',
+      context: 'orderLoader es uno de varios agentes ya en producción',
+      trackingLabel: 'orderloader_to_agentes',
+      priority: 'high',
+      semantic: 'related'
+    },
+    {
+      to: '/portafolio',
+      label: 'Ver portafolio',
+      context: 'Más proyectos reales de AI4U',
+      trackingLabel: 'orderloader_to_portfolio',
+      priority: 'medium',
+      semantic: 'evidence'
+    },
+    {
+      to: '/servicios',
+      label: 'Ver servicios',
+      context: 'Cómo construimos automatizaciones como esta',
+      trackingLabel: 'orderloader_to_services',
+      priority: 'medium',
+      semantic: 'progression'
+    }
   ]
 };
 

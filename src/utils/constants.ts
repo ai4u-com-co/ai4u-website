@@ -5,6 +5,7 @@ export const ROUTES = {
   WHY_AI4U: '/por-que-ai4u',
   PORTFOLIO: '/portafolio',
   SITIOS_WEB: '/sitios-web',
+  ORDER_LOADER: '/orderloader',
   SUPER_AI: '/super-ai',
   AGENTES: '/agentes',
   /** @deprecated nombre viejo de /agentes — solo para el redirect en App.tsx, no usar para nada nuevo */
@@ -26,8 +27,8 @@ export const APP_CONFIG = {
   DESCRIPTION: 'Construimos tu infraestructura de IA personalizada',
   CONTACT: {
     EMAIL: 'contacto@ai4u.com.co',
-    PHONE: '+57 321 817 5744',
-    WHATSAPP: '573218175744',
+    PHONE: '+57 302 490 6414',
+    WHATSAPP: '573024906414',
     WHATSAPP_MESSAGE: 'hola, quiero recuperar mi tiempo con ai4u',
     CALENDLY: 'calendly.com/mgarciap333/ai4u'
   },

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Container, Grid, Stack } from '@mui/material';
+import { Box, Container, Grid, Stack, Link as MuiLink } from '@mui/material';
 import { Giant, H2, BodyText, CodeText, SEOHead, GeometricIcon, RegistrationMarks, MoireText } from '../components/shared/ui/atoms';
 import { DiagnosticCTA, RelatedPages } from '../components/shared/ui/molecules';
 import { SurfaceProvider } from '../context';
@@ -12,15 +12,39 @@ const PLANS = [
     n: '01',
     name: 'landing',
     desc: 'una página, sin backend. lista para publicar y empezar a recibir tráfico.',
-    price: '$3.000.000',
-    note: 'pago único',
+    ctaText: 'cotizar landing',
+    message: 'Hola, quiero cotizar un sitio tipo landing (sin backend).',
   },
   {
     n: '02',
     name: 'con backend',
     desc: 'formulario, base de datos, lógica propia — la misma landing, con capacidad real detrás.',
-    price: '$4.000.000',
-    note: 'pago único',
+    ctaText: 'cotizar con backend',
+    message: 'Hola, quiero cotizar un sitio con backend (formulario, base de datos, lógica propia).',
+  },
+];
+
+const SITES = [
+  {
+    name: 'La Magdalena',
+    desc: 'estudio de storytelling de impacto social y ambiental.',
+    url: 'https://www.lamagdalena.com.co',
+    label: 'lamagdalena.com.co',
+    image: '/assets/images/cases/screenshots/lamagdalena-site.jpg',
+  },
+  {
+    name: 'Catalina Romero',
+    desc: 'portafolio de dirección de arte, estilismo y narrativa visual.',
+    url: 'https://cromero.vercel.app/',
+    label: 'cromero.vercel.app',
+    image: '/assets/images/cases/screenshots/cromero-site.jpg',
+  },
+  {
+    name: 'Nakoa',
+    desc: 'perfumería de autor — lo invisible del territorio, en frasco.',
+    url: 'https://nakoa-web.vercel.app/',
+    label: 'nakoa-web.vercel.app',
+    image: '/assets/images/cases/screenshots/nakoa-site.jpg',
   },
 ];
 
@@ -77,12 +101,17 @@ const SitiosWebBody: React.FC = () => {
                     {plan.name}
                   </H2>
                   <BodyText sx={{ opacity: 0.75, mb: 5, flex: 1, fontSize: '1rem' }}>{plan.desc}</BodyText>
-                  <Stack direction="row" alignItems="baseline" spacing={1.5}>
-                    <CodeText sx={{ fontSize: { xs: '1.6rem', md: '2rem' }, fontWeight: 700, color: BRAND_ORANGE }}>
-                      {plan.price}
-                    </CodeText>
-                    <CodeText sx={{ fontSize: '0.75rem', opacity: 0.55 }}>{plan.note}</CodeText>
-                  </Stack>
+                  <DiagnosticCTA
+                    variant="outline"
+                    text={plan.ctaText}
+                    message={plan.message}
+                    sx={{
+                      alignSelf: 'flex-start',
+                      borderColor: BRAND_ORANGE,
+                      color: BRAND_ORANGE,
+                      '&:hover': { bgcolor: BRAND_ORANGE, color: '#fff' },
+                    }}
+                  />
                 </Box>
               </Grid>
             ))}
@@ -95,6 +124,78 @@ const SitiosWebBody: React.FC = () => {
           <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mt: 2 }}>
             <GeometricIcon type="check" size="small" variant="minimal" color={BRAND_ORANGE} />
             <BodyText sx={{ fontSize: '0.9rem', opacity: 0.7 }}>entrega en ~14 días</BodyText>
+          </Stack>
+        </Container>
+      </Box>
+
+      {/* Sitios que hemos construido */}
+      <Box sx={{ py: { xs: 8, md: 12 }, borderTop: `1px solid ${colors.contrast.border}` }}>
+        <Container maxWidth="lg">
+          <CodeText sx={{ fontSize: '0.72rem', letterSpacing: '0.2em', color: colors.contrast.text.secondary, mb: 5, display: 'block' }}>
+            // sitios que hemos construido
+          </CodeText>
+          <Stack spacing={6}>
+            {SITES.map((site) => (
+              <MuiLink
+                key={site.name}
+                href={site.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                underline="none"
+                sx={{
+                  display: 'block',
+                  color: 'inherit',
+                  border: `1px solid ${colors.contrast.border}`,
+                  transition: 'border-color 0.2s ease',
+                  '&:hover': {
+                    borderColor: BRAND_ORANGE,
+                    '& .site-preview-image': { filter: 'grayscale(0%)' },
+                  },
+                }}
+              >
+                <Box
+                  className="site-preview-image"
+                  role="img"
+                  aria-label={`Recorrido del landing de ${site.name}`}
+                  sx={{
+                    width: '100%',
+                    height: { xs: 380, sm: 480, md: 600 },
+                    bgcolor: colors.contrast.border,
+                    borderBottom: `1px solid ${colors.contrast.border}`,
+                    backgroundImage: `url(${site.image})`,
+                    backgroundSize: '100% auto',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center 0%',
+                    filter: 'grayscale(100%)',
+                    transition: 'filter 0.6s ease',
+                    animation: 'sitePreviewPan 26s linear infinite',
+                    '@keyframes sitePreviewPan': {
+                      '0%': { backgroundPosition: 'center 0%', opacity: 1 },
+                      '6%': { backgroundPosition: 'center 0%', opacity: 1 },
+                      '80%': { backgroundPosition: 'center 100%', opacity: 1 },
+                      '88%': { backgroundPosition: 'center 100%', opacity: 1 },
+                      '90%': { opacity: 0 },
+                      '92%': { backgroundPosition: 'center 0%', opacity: 0 },
+                      '96%': { opacity: 1 },
+                      '100%': { backgroundPosition: 'center 0%', opacity: 1 },
+                    },
+                    '@media (prefers-reduced-motion: reduce)': {
+                      animation: 'none',
+                      backgroundPosition: 'center 0%',
+                    },
+                  }}
+                />
+                <Box sx={{ p: { xs: 4, md: 5 } }}>
+                  <H2 sx={{ fontWeight: 400, fontSize: { xs: '1.8rem', md: '2.4rem' }, mb: 1.5, textTransform: 'none' }}>
+                    {site.name}
+                  </H2>
+                  <BodyText sx={{ opacity: 0.75, mb: 3, fontSize: '1rem' }}>{site.desc}</BodyText>
+                  <CodeText sx={{ fontSize: '0.8rem', color: BRAND_ORANGE }}>
+                    {site.label} →
+                  </CodeText>
+                </Box>
+              </MuiLink>
+            ))}
           </Stack>
         </Container>
       </Box>
