@@ -154,7 +154,7 @@ export const getPageMetaTags = (page: string) => {
     },
     portfolio: {
       title: "Casos | Empresas que trabajan con agentes de IA | AI4U",
-      description: "Tamaprint, Flexoimpresos, La Magdalena, Estudio Índigo y Multihealth: el problema, lo que construimos y cómo trabajan hoy con agentes de IA.",
+      description: "Empresas de manufactura, contenido, hospitalidad y salud que ya trabajan con agentes de IA de Ai4U.",
       keywords: "casos de éxito IA, agentes de IA, automatización, IA aplicada, Colombia"
     },
     dashboards: {

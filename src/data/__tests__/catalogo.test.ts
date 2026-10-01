@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest';
 import { AGENT_GROUPS, ALL_AGENTS, NIVELES } from '../agents';
-import { CASES, clientesDe } from '../cases';
 
 // Catálogo ampliado (octubre 2026): 33 agentes agrupados por tipo de trabajo, con ficha de negocio.
 describe('catálogo de agentes', () => {
@@ -57,18 +56,5 @@ describe('tarjetas: ficha de negocio y niveles', () => {
     ['cierre mensual', 'reposición de inventario', 'resumen semanal', 'seguimiento de cotizaciones'].forEach(n => {
       expect(ALL_AGENTS.find(a => a.name === n)!.nivel).toBeLessThan(3);
     });
-  });
-});
-
-describe('alineaciones por cliente', () => {
-  it('todo agente nombrado en un caso existe en el catálogo', () => {
-    const nombres = new Set(ALL_AGENTS.map(a => a.name));
-    CASES.forEach(c => c.agentes.forEach(a => expect(nombres.has(a), `${c.name}: ${a}`).toBe(true)));
-  });
-
-  it('los clientes de un agente salen de los casos', () => {
-    expect(clientesDe('lector de pedidos')).toEqual(['Tamaprint', 'Flexoimpresos']);
-    expect(clientesDe('agente de huéspedes')).toEqual(['Estudio Índigo']);
-    expect(clientesDe('cierre mensual')).toEqual([]);
   });
 });

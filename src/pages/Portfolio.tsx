@@ -29,7 +29,7 @@ const Portfolio = () => {
       <header className="a4-page-head a4-wrap">
         <p className="a4-cap">Casos · {CASES.length} empresas</p>
         <h1 className="a4-display">Casos</h1>
-        <p className="a4-lead">Cómo trabajan hoy las empresas que ya usan agentes de Ai4U: el problema, lo que construimos y cómo es su día ahora.</p>
+        <p className="a4-lead">Empresas que ya trabajan con agentes de Ai4U.</p>
       </header>
 
       <section className="a4-section a4-wrap" aria-label="Casos">
@@ -40,20 +40,13 @@ const Portfolio = () => {
                 <span className="a4-cap a4-num">{String(index + 1).padStart(2, '0')}</span>
                 <h2 className="a4-h-sm">{c.name}</h2>
                 <p className="a4-cap">{c.sector}</p>
-                <p className="a4-case-agents" aria-label="Agentes que usa">
-                  {c.agentes.map((a) => (
-                    <Link key={a} className="a4-chip" to={`${ROUTES.AGENTES}`} onClick={top}>{a}</Link>
-                  ))}
-                </p>
+              </div>
+              <div className="a4-case-body">
+                <p>{c.resumen}</p>
                 {c.website && (
-                  <a className="a4-ghost" href={c.website} target="_blank" rel="noopener noreferrer">Visitar sitio →</a>
+                  <a className="a4-ghost" href={c.website} target="_blank" rel="noopener noreferrer" style={{ justifySelf: 'start' }}>Visitar sitio →</a>
                 )}
               </div>
-              <dl className="a4-case-body">
-                <div><dt className="a4-cap">El problema</dt><dd>{c.problema}</dd></div>
-                <div><dt className="a4-cap">Lo que hicimos</dt><dd>{c.hicimos}</dd></div>
-                <div><dt className="a4-cap">Cómo trabajan hoy</dt><dd>{c.hoy}</dd></div>
-              </dl>
             </article>
           ))}
         </div>

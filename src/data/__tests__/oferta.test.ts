@@ -46,17 +46,18 @@ describe('casos', () => {
     expect(CASES.map(c => c.id)).toEqual(['tamaprint', 'flexoimpresos', 'la-magdalena', 'estudio-indigo', 'multihealth']);
   });
 
-  it('cada caso cuenta problema, lo que hicimos y cómo trabajan hoy', () => {
+  it('cada caso es una sola frase general, sin el detalle de la operación del cliente', () => {
     CASES.forEach(c => {
-      expect(c.problema.length).toBeGreaterThan(20);
-      expect(c.hicimos.length).toBeGreaterThan(20);
-      expect(c.hoy.length).toBeGreaterThan(20);
-      expect(c.agentes.length).toBeGreaterThan(0);
+      expect(c.resumen.length).toBeGreaterThan(20);
+      expect(c.resumen.length).toBeLessThan(120);
+      expect(c).not.toHaveProperty('problema');
+      expect(c).not.toHaveProperty('hicimos');
+      expect(c).not.toHaveProperty('agentes');
     });
   });
 
   it('no prometen cifras, precios ni mencionan SAP', () => {
-    const texto = CASES.map(c => `${c.problema} ${c.hicimos} ${c.hoy}`).join(' ');
+    const texto = CASES.map(c => c.resumen).join(' ');
     expect(texto).not.toMatch(/\bSAP\b|\$ ?\d|COP|\d+ ?%/);
   });
 });

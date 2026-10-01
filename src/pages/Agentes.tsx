@@ -5,7 +5,6 @@ import { getPageMetaTags, getCanonicalUrl } from '@/utils/seo';
 import { AGENT_GROUPS, ALL_AGENTS, NIVELES, type Agent, type AgentStatus, type Nivel } from '@/data/agents';
 import type { ToolId } from '@/data/tools';
 import AgentCard, { Pips } from '@/components/agentes/AgentCard';
-import Alineaciones from '@/components/agentes/Alineaciones';
 import AgentConfirm from '@/components/agentes/AgentConfirm';
 import AgentFilters, { type FilterCounts } from '@/components/agentes/AgentFilters';
 import { APP_CONFIG } from '@/utils/constants';
@@ -70,12 +69,6 @@ const Agentes: React.FC = () => {
 
   const cerrar = () => setSearchParams((p) => { p.delete('agente'); p.delete('reclutado'); return p; });
   const reclutar = (agent: Agent) => setSearchParams((p) => { p.set('agente', agent.name); p.set('reclutado', '1'); return p; });
-  // Desde una alineación: se limpian los filtros para que la tarjeta esté a la vista y se da vuelta.
-  const verTarjeta = (name: string) => {
-    setSearch(''); setEstadoActivos([]); setAreaActivas([]); setToolActivas([]);
-    setSearchParams((p) => { p.set('agente', name); p.delete('reclutado'); return p; });
-  };
-
   const toggle = <T,>(list: T[], value: T, setList: (v: T[]) => void) => {
     setList(list.includes(value) ? list.filter((v) => v !== value) : [...list, value]);
   };
@@ -164,8 +157,6 @@ const Agentes: React.FC = () => {
                 </div>
               </div>
             </section>
-
-            <Alineaciones onSelect={verTarjeta} />
 
             <section className="a4-section">
               <p className="a4-cap" style={{ marginBottom: 24 }}>Siguiente</p>

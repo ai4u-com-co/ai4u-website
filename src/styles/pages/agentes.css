@@ -68,24 +68,8 @@
 .a4-ficha dt { color: #55554f; }
 .a4-ficha dd { margin: 0; font-size: 15px; line-height: 1.4; }
 
-/* alineaciones: los agentes que juegan juntos en cada cliente */
-.a4-lineups { border-top: 1px solid var(--a4-ash); margin-top: clamp(24px, 3vw, 40px); }
-.a4-lineup { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 12px clamp(19px, 3vw, 46px); padding: 22px 0; border-bottom: 1px solid var(--a4-ash); align-items: start; }
-.a4-lineup > * { min-width: 0; }
-.a4-lineup-head { display: grid; gap: 6px; }
-.a4-lineup-head h3 { margin: 0; }
-.a4-lineup-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 8px; }
-.a4-lineup-list li { display: flex; align-items: center; }
-.a4-lineup-chip { font: 400 12px/1.4 var(--a4-mono); letter-spacing: .05em; text-transform: uppercase; border: 1px solid var(--a4-ink); border-radius: 10px; padding: 10px 14px; min-height: 44px; background: var(--a4-paper); color: var(--a4-ink); cursor: pointer; }
-.a4-lineup-chip:hover, .a4-lineup-chip:focus-visible { background: var(--a4-ink); color: var(--a4-canvas); outline: none; }
-
-/* confirmación */
-.a4-agentes-confirm { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 30px clamp(19px, 4vw, 76px); align-items: start; }
-.a4-agentes-confirm > * { min-width: 0; }
-.a4-agentes-ctas { display: flex; flex-wrap: wrap; gap: 12px; }
-
 @media (max-width: 900px) {
-  .a4-agentes-layout, .a4-agentes-confirm, .a4-lineup { grid-template-columns: minmax(0, 1fr); }
+  .a4-agentes-layout, .a4-agentes-confirm { grid-template-columns: minmax(0, 1fr); }
   .a4-niveles { grid-template-columns: minmax(0, 1fr); }
   .a4-nivel, .a4-nivel + .a4-nivel { padding: 18px 0; border-left: 0; border-bottom: 1px solid var(--a4-ash); }
   .a4-agentes-aside { position: static; }
@@ -97,6 +81,6 @@
 @media (prefers-reduced-motion: reduce) { .a4-flip-inner { transition: none; } .a4-face-back, .a4-flip.is-flipped .a4-face-front { transition: none; } }
 
 /* foto de jugador: el rostro grande sobre el color del agente */
-.a4-photo { padding: 14px; }
-.a4-photo svg { width: min(100%, 128px); }
+.a4-photo { aspect-ratio: auto; height: 236px; padding: 12px 12px 0; }
+.a4-photo svg { height: 100%; width: auto; max-width: 100%; }
 .a4-face-back { border-top: 10px solid var(--agent, var(--a4-ink)); }

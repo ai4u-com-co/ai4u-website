@@ -179,7 +179,7 @@ button.a4-chip { cursor: pointer; min-height: 44px; display: inline-flex; align-
 }
 @media (prefers-reduced-motion: reduce) { .a4-menu.open { animation: none; } .a4-menu-orb, .a4-menu-orb .a4-sphere { transition: none; } }
 
-/* Rostro del agente sobre su color */
-.a4-facetile { display: grid; place-items: center; padding: 10%; border: 1px solid var(--a4-ink); min-width: 0; }
-.a4-facetile svg { display: block; width: 100%; height: auto; aspect-ratio: 1; }
-.a4-avatars .a4-facetile { padding: 8%; border-color: var(--a4-ash); }
+/* Avatar del agente: busto de robot sobre su color, apoyado en el borde de abajo */
+.a4-facetile { display: grid; place-items: end center; padding: 8% 8% 0; border: 1px solid var(--a4-ink); min-width: 0; aspect-ratio: 15 / 21; overflow: hidden; }
+.a4-facetile svg { display: block; width: 100%; height: auto; aspect-ratio: 15 / 21; }
+.a4-avatars .a4-facetile { border-color: var(--a4-ash); }

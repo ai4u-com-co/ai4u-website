@@ -27,14 +27,14 @@ const STEPS = [
   { n: '04', t: 'Mantenimiento', d: 'Lo mantenemos funcionando y lo mejoramos con tu operación.' },
 ];
 
-// Cosas que ya construimos a la medida de un cliente.
+// Cosas que ya construimos a la medida. La etiqueta es el área, no el cliente.
 const EJEMPLOS = [
-  { cliente: 'Tamaprint', name: 'Cotizador', desc: 'Cotiza al instante y deja la cotización lista en el sistema.' },
-  { cliente: 'Flexoimpresos', name: 'Planeador de producción', desc: 'Ordena las órdenes por máquina y las muestra en una pantalla junto a cada una.' },
-  { cliente: 'Tamaprint', name: 'Creación de artículos', desc: 'Crea el artículo nuevo y su lista de materiales según la tecnología, sin armarlo a mano.' },
-  { cliente: 'Tamaprint', name: 'Revisión de artes', desc: 'Revisa el arte antes de producir y avisa si algo debe corregirse.' },
-  { cliente: 'La Magdalena', name: 'Transcriptor de audios', desc: 'Convierte grabaciones largas en texto, con quién dijo qué y a qué hora.' },
-  { cliente: 'Estudio Índigo', name: 'Atención a huéspedes', desc: 'Responde mensajes, mantiene calendarios al día y avisa al equipo de aseo.' },
+  { cliente: 'Ventas', name: 'Cotizador', desc: 'Cotiza al instante y deja la cotización lista en el sistema.' },
+  { cliente: 'Producción', name: 'Planeador de producción', desc: 'Ordena las órdenes por máquina y las muestra en una pantalla junto a cada una.' },
+  { cliente: 'Productos', name: 'Creación de artículos', desc: 'Crea el artículo nuevo y su lista de materiales según la tecnología, sin armarlo a mano.' },
+  { cliente: 'Preprensa', name: 'Revisión de artes', desc: 'Revisa el arte antes de producir y avisa si algo debe corregirse.' },
+  { cliente: 'Contenido', name: 'Transcriptor de audios', desc: 'Convierte grabaciones largas en texto, con quién dijo qué y a qué hora.' },
+  { cliente: 'Hospitalidad', name: 'Atención a huéspedes', desc: 'Responde mensajes, mantiene calendarios al día y avisa al equipo de aseo.' },
 ];
 
 const Services: React.FC = () => {
@@ -103,7 +103,7 @@ const Services: React.FC = () => {
 
       <section className="a4-section a4-wrap" aria-labelledby="ya-hicimos">
         <div className="a4-sec-label"><span className="a4-cap a4-num">Lo que ya hicimos</span></div>
-        <h2 className="a4-h-lg" id="ya-hicimos" style={{ maxWidth: '14ch' }}>A la medida de cada cliente</h2>
+        <h2 className="a4-h-lg" id="ya-hicimos" style={{ maxWidth: '14ch' }}>A la medida de cada operación</h2>
         <div className="a4-rows" style={{ marginTop: 'clamp(24px, 3vw, 40px)' }}>
           {EJEMPLOS.map((e) => (
             <div className="a4-row three" key={e.name}>
