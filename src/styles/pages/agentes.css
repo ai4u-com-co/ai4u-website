@@ -1,7 +1,7 @@
 /* Página /agentes — lenguaje v2. Prefijo a4-agentes-. */
 .a4-agentes-layout { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 30px clamp(19px, 3vw, 46px); align-items: start; }
 .a4-agentes-layout > * { min-width: 0; }
-.a4-agentes-aside { position: sticky; top: 24px; }
+.a4-agentes-aside { position: sticky; top: 100px; }
 .a4-agentes-bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 14px; }
 .a4-agentes-bar .a4-input { flex: 1 1 220px; width: auto; }
 .a4-agentes-group { margin-top: clamp(32px, 4vw, 56px); }

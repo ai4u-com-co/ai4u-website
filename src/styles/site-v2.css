@@ -43,8 +43,18 @@ html, html body { background-color: var(--a4-canvas); }
 .a4-pill { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 8px 19px; border: 1px solid var(--a4-ink); border-radius: 10px; background: none; color: var(--a4-ink); font: 400 12px/1.4 var(--a4-mono); letter-spacing: .05em; text-transform: uppercase; text-decoration: none; cursor: pointer; }
 .a4-pill:hover { background: var(--a4-ink); color: var(--a4-canvas); }
 
-/* cabecera (sin sticky, como la referencia) */
-.a4-nav { position: relative; background: var(--a4-canvas); font-family: var(--a4-font); }
+/* cabecera fija: el logo y "Menú" acompañan el scroll en todas las páginas. Al bajar aparece un sombreado suave por
+   detrás (un velo del color del lienzo que se desvanece hacia abajo, con un poco de desenfoque) para que se lean
+   sobre el contenido. El efecto va en ::before y no en la cabecera: un backdrop-filter en la cabecera haría que el
+   menú de pantalla completa, que vive dentro de ella, dejara de cubrir la ventana. */
+html { scroll-padding-top: 88px; }
+.a4-nav { position: sticky; top: 0; z-index: 1200; font-family: var(--a4-font); }
+.a4-nav::before { content: ""; position: absolute; z-index: -1; left: 0; right: 0; top: 0; height: calc(100% + 26px); pointer-events: none; opacity: 0; transition: opacity .2s ease;
+  background: linear-gradient(to bottom, var(--a4-canvas) 0%, color-mix(in srgb, var(--a4-canvas) 90%, transparent) 55%, transparent 100%);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%); mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%); }
+.a4-nav.is-scrolled::before { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .a4-nav::before { transition: none; } }
 .a4-nav-in { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 22px; }
 .a4-nav-in > a img { height: 30px; width: auto; }
 .a4-nav-lang { display: flex; align-items: center; }
