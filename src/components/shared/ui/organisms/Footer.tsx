@@ -1,24 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ROUTES } from '../../../../utils/constants';
+import { SITE_LINKS, SOCIAL_LINKS } from '../../../../data/siteLinks';
 import { scrollToTop } from '../../../../utils/helpers';
 import '../../../../styles/site-v2.css';
-
-const SITE_LINKS = [
-  { name: 'Agentes', path: ROUTES.AGENTES },
-  { name: 'Tableros', path: ROUTES.TABLEROS },
-  { name: 'A tu medida', path: ROUTES.SERVICES },
-  { name: 'Sitios web', path: ROUTES.SITIOS_WEB },
-  { name: 'Casos', path: ROUTES.PORTFOLIO },
-  { name: 'Nosotros', path: ROUTES.WHY_AI4U },
-];
-
-const SOCIAL_LINKS = [
-  { name: 'Instagram', url: 'https://www.instagram.com/ai.4.u_/' },
-  { name: 'Facebook', url: 'https://www.facebook.com/artificial.intelligence.4.you/' },
-  { name: 'LinkedIn', url: 'https://www.linkedin.com/company/ai4u-com-co' },
-  { name: 'X', url: 'https://x.com/_ai4u_' },
-];
 
 const Footer = () => (
   <footer className="a4 a4-foot">

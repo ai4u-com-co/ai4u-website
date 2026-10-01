@@ -28,18 +28,18 @@ const link = (to: string, label: string, context: string, trackingLabel: string,
 export const INTERNAL_LINKS_MAP: Record<string, InternalLink[]> = {
   '/': [
     link('/agentes', 'Agentes', 'Los que hacen el trabajo repetitivo, todo el día', 'home_to_agentes', 'progression'),
-    link('/tableros', 'Tableros', 'Ve cómo va tu empresa sin pedir reportes', 'home_to_tableros', 'progression'),
+    link('/dashboards', 'Dashboards', 'Ve cómo va tu empresa sin pedir reportes', 'home_to_dashboards', 'progression'),
     link('/portafolio', 'Casos', 'Empresas que ya trabajan con agentes de Ai4U', 'home_to_casos', 'evidence'),
   ],
   '/servicios': [
-    link('/tableros', 'Tableros', 'Las cifras que necesitas, siempre al día', 'services_to_tableros', 'related'),
+    link('/dashboards', 'Dashboards', 'Las cifras que necesitas, siempre al día', 'services_to_dashboards', 'related'),
     link('/portafolio', 'Ver los casos', 'Lo que ya construimos a la medida', 'services_to_casos', 'evidence'),
     link('/por-que-ai4u', 'Nosotros', 'La parte humana de la IA', 'services_to_why', 'evidence', 'medium'),
   ],
-  '/tableros': [
-    link('/portafolio', 'Ver los casos', 'Empresas que ya ven su operación en un tablero', 'tableros_to_casos', 'evidence'),
-    link('/agentes', 'Agentes', 'El trabajo que hacen mientras tú decides', 'tableros_to_agentes', 'related'),
-    link('/servicios', 'A tu medida', 'Si necesitas algo que no existe', 'tableros_to_servicios', 'progression', 'medium'),
+  '/dashboards': [
+    link('/portafolio', 'Ver los casos', 'Empresas que ya ven su operación en un dashboard', 'dashboards_to_casos', 'evidence'),
+    link('/agentes', 'Agentes', 'El trabajo que hacen mientras tú decides', 'dashboards_to_agentes', 'related'),
+    link('/servicios', 'A tu medida', 'Si necesitas algo que no existe', 'dashboards_to_servicios', 'progression', 'medium'),
   ],
   '/por-que-ai4u': [
     link('/portafolio', 'Casos', 'Empresas que ya trabajan con nosotros', 'why_to_casos', 'evidence'),
@@ -48,7 +48,7 @@ export const INTERNAL_LINKS_MAP: Record<string, InternalLink[]> = {
   ],
   '/portafolio': [
     link('/agentes', 'Agentes', 'Los agentes que usan estas empresas', 'casos_to_agentes', 'related'),
-    link('/tableros', 'Tableros', 'Cómo ven su operación', 'casos_to_tableros', 'related'),
+    link('/dashboards', 'Dashboards', 'Cómo ven su operación', 'casos_to_dashboards', 'related'),
     link('/servicios', 'A tu medida', 'Cuando lo que necesitas no existe', 'casos_to_servicios', 'progression', 'medium'),
   ],
   '/orderloader': [

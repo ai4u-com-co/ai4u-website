@@ -29,7 +29,7 @@ export const CASES: CaseStudy[] = [
     name: 'Flexoimpresos',
     sector: 'Manufactura',
     problema: 'Programar la planta y saber si se estaban cumpliendo las entregas exigía armar reportes y coordinar a mano.',
-    hicimos: 'Un planeador ordena las órdenes de producción por máquina, con una pantalla junto a cada una. Tableros de ventas, cartera y cumplimiento de entregas. Además, el agente de pedidos y el de cobro de cartera.',
+    hicimos: 'Un planeador ordena las órdenes de producción por máquina, con una pantalla junto a cada una. Dashboards de ventas, cartera y cumplimiento de entregas. Además, el agente de pedidos y el de cobro de cartera.',
     hoy: 'Cada máquina muestra lo que sigue y la gerencia ve cómo va la empresa sin pedir reportes.',
     agentes: ['lector de pedidos', 'planeador de producción', 'cobro de cartera'],
     website: 'https://www.flexoimpresos.com.co',

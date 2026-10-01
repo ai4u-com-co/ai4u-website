@@ -7,7 +7,7 @@ import { join, extname, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const DIST = join(dirname(fileURLToPath(import.meta.url)), '..', 'dist');
-const ROUTES = ['/', '/servicios', '/portafolio', '/por-que-ai4u', '/agentes', '/tableros', '/sitios-web', '/orderloader', '/politica-de-privacidad', '/condiciones-de-servicio', '/eliminacion-de-datos'];
+const ROUTES = ['/', '/servicios', '/portafolio', '/por-que-ai4u', '/agentes', '/dashboards', '/sitios-web', '/orderloader', '/politica-de-privacidad', '/condiciones-de-servicio', '/eliminacion-de-datos'];
 const PORT = 4173;
 
 const MIME = {

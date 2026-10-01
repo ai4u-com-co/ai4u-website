@@ -28,8 +28,9 @@ test.describe('AI4U Smoke Test', () => {
   test('should navigate to services page', async ({ page }) => {
     await page.goto('/');
     
-    // Buscar enlace a servicios (ajustar selector según tu Navbar)
-    const servicesLink = page.getByRole('link', { name: /a tu medida/i }).first();
+    // Los destinos viven en el menú de pantalla completa: se abre con el botón "Menú".
+    await page.getByRole('button', { name: /menú/i }).first().click();
+    const servicesLink = page.getByRole('dialog').getByRole('link', { name: /a tu medida/i });
     await servicesLink.click();
 
     // Verificar que la URL cambió a /servicios
@@ -46,7 +47,7 @@ test.describe('AI4U Smoke Test', () => {
     const root = page.locator('#root');
     await expect(root).toBeVisible();
 
-    const nav = page.locator('nav');
+    const nav = page.locator('nav').first();
     await expect(nav).toBeVisible();
   });
 
@@ -72,7 +73,7 @@ test.describe('AI4U Smoke Test', () => {
   test('social icons should have accessible names', async ({ page }) => {
     await page.goto('/');
     for (const name of ['Instagram', 'Facebook', 'LinkedIn']) {
-      await expect(page.getByRole('link', { name }).first()).toBeVisible();
+      await expect(page.locator('footer').getByRole('link', { name })).toBeVisible();
     }
   });
 
@@ -88,9 +89,14 @@ test.describe('AI4U Smoke Test', () => {
     await expect(page.locator('h1').first()).toBeVisible();
   });
 
-  test('/tableros renders its own page', async ({ page }) => {
+  test('/tableros redirects to /dashboards', async ({ page }) => {
     await page.goto('/tableros');
-    await expect(page).toHaveTitle(/Tableros/);
+    await expect(page).toHaveURL(/\/dashboards/);
+  });
+
+  test('/dashboards renders its own page', async ({ page }) => {
+    await page.goto('/dashboards');
+    await expect(page).toHaveTitle(/Dashboards/);
     await expect(page.locator('h1').first()).toBeVisible();
   });
 
@@ -99,14 +105,29 @@ test.describe('AI4U Smoke Test', () => {
     await expect(page.locator('article.a4-case')).toHaveCount(5);
   });
 
-  test('menu shows the new entries and the unified contact', async ({ page }) => {
+  test('the bar only shows "Menú" and the full-screen menu lists the destinations without Contacto', async ({ page }) => {
     await page.goto('/');
-    const nav = page.locator('nav').first();
-    for (const name of ['Agentes', 'Tableros', 'A tu medida', 'Sitios web', 'Casos', 'Nosotros']) {
-      await expect(nav.getByRole('link', { name })).toBeVisible();
+    const bar = page.locator('header nav').first();
+    await expect(bar.getByRole('link', { name: 'Agentes' })).toHaveCount(0);
+    await page.getByRole('button', { name: /menú/i }).first().click();
+    const menu = page.getByRole('dialog');
+    await expect(menu).toBeVisible();
+    for (const name of ['Agentes', 'Dashboards', 'A tu medida', 'Sitios web', 'Casos', 'Nosotros']) {
+      await expect(menu.getByRole('link', { name: new RegExp(name) })).toBeVisible();
     }
-    await expect(page.locator('footer')).toContainText('hola@ai4u.com.co');
-    await expect(page.locator('footer')).toContainText('+57 302 490 6414');
+    await expect(menu.getByRole('link', { name: /^contacto/i })).toHaveCount(0);
+    await page.keyboard.press('Escape');
+    await expect(menu).toBeHidden();
+  });
+
+  test('every public page has the footer with the unified contact', async ({ page }) => {
+    for (const path of ['/', '/agentes', '/dashboards', '/servicios', '/sitios-web', '/portafolio', '/por-que-ai4u', '/orderloader', '/politica-de-privacidad', '/condiciones-de-servicio', '/eliminacion-de-datos']) {
+      await page.goto(path);
+      const footer = page.locator('footer');
+      await expect(footer).toHaveCount(1);
+      await expect(footer).toContainText('hola@ai4u.com.co');
+      await expect(footer).toContainText('+57 302 490 6414');
+    }
   });
 
   test('primary CTA should point to WhatsApp', async ({ page }) => {

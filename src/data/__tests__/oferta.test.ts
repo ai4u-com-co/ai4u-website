@@ -34,7 +34,7 @@ describe('mensaje', () => {
   });
 
   it('los meta tags no mencionan SAP ni prometen cifras', () => {
-    ['home', 'services', 'why', 'portfolio', 'agentes', 'tableros'].forEach(page => {
+    ['home', 'services', 'why', 'portfolio', 'agentes', 'dashboards'].forEach(page => {
       const { title, description } = getPageMetaTags(page);
       expect(`${title} ${description}`).not.toMatch(/\bSAP\b|ROI|\d+ ?%/i);
     });

@@ -148,12 +148,12 @@ export const AGENT_GROUPS: AgentGroup[] = [
     ],
   },
   {
-    id: 'tableros',
-    label: 'tableros y alertas',
+    id: 'dashboards',
+    label: 'dashboards y alertas',
     agents: [
       {
         name: 'chat con tu empresa',
-        category: 'tableros',
+        category: 'dashboards',
         clase: 'oráculo',
         nivel: 3,
         pitch: 'un chat conectado a tus bases de datos y a tu sistema de gestión: le hablas como a una persona y consulta y actúa sobre tus datos en tiempo real.',
@@ -163,17 +163,17 @@ export const AGENT_GROUPS: AgentGroup[] = [
       },
       {
         name: 'asistente del panel',
-        category: 'tableros',
+        category: 'dashboards',
         clase: 'copiloto',
         nivel: 2,
-        pitch: 'el copiloto que vive dentro de tu propio tablero, siempre con el estado real de tu operación.',
+        pitch: 'el copiloto que vive dentro de tu propio dashboard, siempre con el estado real de tu operación.',
         status: 'produccion',
         atributos: { autonomia: 55, velocidad: 85, alcance: 50 },
         tools: ['sap'],
       },
       {
-        name: 'tablero de ventas',
-        category: 'tableros',
+        name: 'dashboard de ventas',
+        category: 'dashboards',
         clase: 'analista',
         nivel: 3,
         pitch: 'ventas por cliente, vendedor y mes, y comparativos con el año anterior, sin pedir reportes.',
@@ -182,8 +182,8 @@ export const AGENT_GROUPS: AgentGroup[] = [
         tools: ['sap'],
       },
       {
-        name: 'tablero de cartera',
-        category: 'tableros',
+        name: 'dashboard de cartera',
+        category: 'dashboards',
         clase: 'analista',
         nivel: 3,
         pitch: 'quién debe, cuánto y desde cuándo, ordenado por lo que más pesa.',
@@ -192,8 +192,8 @@ export const AGENT_GROUPS: AgentGroup[] = [
         tools: ['sap'],
       },
       {
-        name: 'tablero de finanzas',
-        category: 'tableros',
+        name: 'dashboard de finanzas',
+        category: 'dashboards',
         clase: 'analista',
         nivel: 2,
         pitch: 'estado de resultados y principales cuentas al día, con el detalle a un clic.',
@@ -203,7 +203,7 @@ export const AGENT_GROUPS: AgentGroup[] = [
       },
       {
         name: 'producción en planta',
-        category: 'tableros',
+        category: 'dashboards',
         clase: 'jefe de planta',
         nivel: 3,
         pitch: 'qué se está produciendo y qué va atrasado, también en pantallas junto a cada máquina.',
@@ -213,7 +213,7 @@ export const AGENT_GROUPS: AgentGroup[] = [
       },
       {
         name: 'cumplimiento de entregas',
-        category: 'tableros',
+        category: 'dashboards',
         clase: 'auditor',
         nivel: 2,
         pitch: 'compara lo prometido con lo entregado, por línea de producto.',
@@ -223,7 +223,7 @@ export const AGENT_GROUPS: AgentGroup[] = [
       },
       {
         name: 'alertas',
-        category: 'tableros',
+        category: 'dashboards',
         clase: 'vigía',
         nivel: 2,
         pitch: 'avisa cuando una cifra se sale de lo normal para que alguien actúe a tiempo.',
