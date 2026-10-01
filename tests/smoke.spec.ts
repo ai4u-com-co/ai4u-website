@@ -136,6 +136,7 @@ test.describe('AI4U Smoke Test', () => {
     await card.getByRole('button', { name: /dar vuelta/i }).click();
     await expect(card.getByText('Ficha de negocio')).toBeVisible();
     await expect(card.getByText('Lo revisa')).toBeVisible();
+    await expect(card.getByText('Trabaja para')).toHaveCount(0);
     await card.getByRole('button', { name: /frente/i }).click();
     await expect(card.getByRole('button', { name: /dar vuelta/i })).toBeVisible();
   });

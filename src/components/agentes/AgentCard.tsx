@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { NIVELES, type Agent, type AgentStatus } from '@/data/agents';
-import { clientesDe } from '@/data/cases';
 import { generateAgentIdenticon, generateAgentFace, formatAgentCode } from '@/utils/pixelIdenticon';
 import FaceTile from './FaceTile';
 import ToolBadges from './ToolBadges';
@@ -33,7 +32,6 @@ const AgentCard: React.FC<AgentCardProps> = ({ agent, onRecruit, startFlipped = 
   const ref = useRef<HTMLElement>(null);
   const isPiloto = agent.status === 'piloto';
   const nivel = NIVELES[agent.nivel];
-  const clientes = clientesDe(agent.name);
 
   useEffect(() => {
     if (!startFlipped) return;
@@ -79,7 +77,6 @@ const AgentCard: React.FC<AgentCardProps> = ({ agent, onRecruit, startFlipped = 
             <div><dt className="a4-cap">Lo revisa</dt><dd>{agent.revisa}</dd></div>
             <div><dt className="a4-cap">Nivel {agent.nivel} · {nivel.nombre}</dt><dd>{nivel.descripcion}</dd></div>
             <div><dt className="a4-cap">Horario</dt><dd>{agent.horario}</dd></div>
-            <div><dt className="a4-cap">Trabaja para</dt><dd>{clientes.length > 0 ? clientes.join(', ') : 'Disponible para tu empresa'}</dd></div>
           </dl>
           <ToolBadges tools={agent.tools} label="Se conecta con" />
           <div className="a4-agentes-card-foot">

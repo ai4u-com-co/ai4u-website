@@ -121,15 +121,20 @@ export function formatAgentCode(seed: number): string {
 }
 
 // ---------------------------------------------------------------------------------------------
-// Rostro del agente (octubre 2026). Mismo hash que el código de la ficha (#0117), así que la cara,
-// el número y el color de un agente salen siempre del mismo nombre. Cuadrícula de 11×11 con cabeza,
-// orejas, adorno superior, cejas, ojos, nariz, boca y mejillas: ~60 mil combinaciones.
+// Avatar del agente (octubre 2026): un robot de rostro amable, vestido de saco y corbata, como un abogado
+// de alto nivel. Mismo hash que el código de la ficha (#0117): cara, número y color salen siempre del nombre.
+// Cuadrícula de 15×21: cabeza (placa, antena, orejas, pantalla o visor, ojos, sonrisa, mejillas, detalle)
+// y torso (saco, camisa en V, corbata o corbatín en el color del agente). Más de un millón de combinaciones.
 // ---------------------------------------------------------------------------------------------
+
+export const FACE_COLS = 15;
+export const FACE_ROWS = 21;
 
 /** Gama de la marca: la esfera de Refero (amarillo, rosa, cielo) más el naranja y el azul de Ai4U. */
 export const AGENT_COLORS = ['#FACB0E', '#F06BA8', '#78BAE6', '#FF6E00', '#3DAED1'] as const;
 
-export type FaceFill = 'paper' | 'ink' | 'color';
+/** Color de relleno: un hex, o 'color' para el color del agente. */
+export type FaceFill = string;
 export interface FaceRect { x: number; y: number; w: number; h: number; fill: FaceFill }
 export interface AgentFace {
   color: string;
@@ -137,12 +142,15 @@ export interface AgentFace {
   seed: number;
 }
 
-interface Head { l: number; r: number; t: number; b: number; cut: boolean; ears: boolean }
+const INK = '#1d1d1d';
+const PAPER = '#ffffff';
+
+interface Head { l: number; r: number; t: number; b: number; top: number[]; bot: number[]; ears: boolean }
 const HEADS: Head[] = [
-  { l: 1, r: 9, t: 2, b: 9, cut: false, ears: true },   // cuadrada
-  { l: 1, r: 9, t: 2, b: 9, cut: true, ears: true },    // redonda
-  { l: 0, r: 10, t: 3, b: 10, cut: true, ears: false }, // ancha
-  { l: 2, r: 8, t: 1, b: 10, cut: true, ears: true },   // alta
+  { l: 1, r: 13, t: 3, b: 13, top: [2, 1], bot: [1, 2], ears: true },   // redondeada
+  { l: 1, r: 13, t: 3, b: 13, top: [1], bot: [1], ears: true },         // biselada
+  { l: 1, r: 13, t: 3, b: 13, top: [], bot: [], ears: true },           // cuadrada
+  { l: 0, r: 14, t: 4, b: 13, top: [2, 1], bot: [1, 2], ears: false },  // ancha
 ];
 
 const pick = (rand: () => number, n: number) => Math.floor(rand() * n);
@@ -156,60 +164,98 @@ export function generateAgentFace(name: string): AgentFace {
 
   // El orden de los sorteos no se toca: cambiarlo cambia la cara de todos los agentes.
   const head = HEADS[pick(rand, HEADS.length)];
-  const ears = head.ears ? pick(rand, 3) : 0;
-  const top = pick(rand, 5);
-  const brows = pick(rand, 3);
+  const ears = head.ears ? pick(rand, 4) : 0;
+  const ant = pick(rand, 5);
+  const style = pick(rand, 3);     // 0 placa, 1 pantalla, 2 visor
   const eyes = pick(rand, 7);
-  const nose = pick(rand, 4);
   const mouth = pick(rand, 6);
   const cheeks = pick(rand, 2);
+  const detail = pick(rand, 4);
+  const suit = pick(rand, 2);
+  const neck = pick(rand, 4);      // corbata delgada, ancha, rayada o corbatín
+  const pocket = pick(rand, 3);
+  const pin = pick(rand, 2);
 
-  const my = head.b - 1;
-  const ny = my - 2;
-  const ey = ny - 2;
+  const { l, r, t, b } = head;
+  // cabeza: placa clara con esquinas redondeadas o rectas
+  for (let y = t; y <= b; y++) {
+    let k = 0;
+    if (y - t < head.top.length) k = head.top[y - t];
+    if (b - y < head.bot.length) k = Math.max(k, head.bot[b - y]);
+    add(l + k, y, PAPER, r - l + 1 - 2 * k, 1);
+  }
+  // orejas modulares, a la altura de la pantalla
+  if (ears) {
+    let ey0 = t + 2, eh = 4, fill = INK;
+    if (ears === 2) { ey0 = t + 3; eh = 2; }
+    if (ears === 3) fill = PAPER;
+    for (const x of [l - 1, r + 1]) add(x, ey0, fill, 1, eh);
+  }
+  // antena
+  const cx = 7;
+  if (ant === 1) { add(cx, t - 1, INK); add(cx - 1, t - 3, PAPER, 3, 2); }
+  else if (ant === 2) { add(4, t - 1, INK); add(10, t - 1, INK); add(4, t - 2, PAPER); add(10, t - 2, PAPER); }
+  else if (ant === 3) { add(cx, t - 1, INK); add(cx - 1, t - 2, PAPER, 3, 1); }
+  else if (ant === 4) { add(cx - 1, t - 1, INK, 3, 1); add(cx, t - 2, INK); }
+  // pantalla inset o visor de lado a lado: los ojos brillan con el color del agente
+  let eyeFill: FaceFill = INK;
+  const st = t + 1, sb = t + 5;
+  if (style === 1) {
+    for (let y = st; y <= sb; y++) {
+      const k = (y === st || y === sb) ? 1 : 0;
+      add(l + 1 + k, y, INK, (r - l - 1) + 1 - 2 * k, 1);
+    }
+    eyeFill = 'color';
+  } else if (style === 2) {
+    add(l, st + 1, INK, r - l + 1, sb - st - 1);
+    eyeFill = 'color';
+  }
+  const hi = style ? PAPER : null;
+  const ey = t + 2;
+  const block = (c: number) => { add(c - 1, ey, eyeFill, 3, 3); if (hi) add(c - 1, ey, hi); };
+  const plus = (c: number) => { add(c, ey, eyeFill, 1, 3); add(c - 1, ey + 1, eyeFill, 3, 1); };
+  const arch = (c: number) => { add(c, ey, eyeFill); add(c - 1, ey + 1, eyeFill, 1, 2); add(c + 1, ey + 1, eyeFill, 1, 2); };
+  if (eyes === 0) { block(5); block(9); }
+  else if (eyes === 1) { plus(5); plus(9); }
+  else if (eyes === 2) { arch(5); arch(9); }
+  else if (eyes === 3) { add(5, ey, eyeFill, 1, 3); add(9, ey, eyeFill, 1, 3); }
+  else if (eyes === 4) { add(4, ey + 1, eyeFill, 3, 1); add(8, ey + 1, eyeFill, 3, 1); }
+  else if (eyes === 5) { arch(5); block(9); }
+  else { add(4, ey, eyeFill, 7, 3); if (hi) { add(4, ey, hi); add(10, ey + 2, hi); } }
+  // boca: debajo de la pantalla, sobre la placa, siempre amable
+  const m0 = sb + 2;
+  if (mouth === 0) { add(5, m0, INK); add(9, m0, INK); add(6, m0 + 1, INK, 3, 1); }
+  else if (mouth === 1) { add(4, m0, INK); add(10, m0, INK); add(5, m0 + 1, INK, 5, 1); }
+  else if (mouth === 2) { add(5, m0, INK, 5, 1); add(6, m0 + 1, INK, 3, 1); }
+  else if (mouth === 3) { for (const x of [5, 7, 9]) add(x, m0, INK, 1, 2); }
+  else if (mouth === 4) { add(5, m0 + 1, INK, 4, 1); add(9, m0, INK); }
+  else add(6, m0, INK, 3, 2);
+  if (cheeks) { add(2, m0, 'color', 2, 1); add(11, m0, 'color', 2, 1); }
+  if (detail === 1) { add(l + 2, t, INK); add(r - 2, t, INK); }
+  else if (detail === 2) add(cx, t, 'color');
+  else if (detail === 3) add(6, b, INK, 3, 1);
 
-  // cabeza
-  for (let y = head.t; y <= head.b; y++) {
-    const edge = head.cut && (y === head.t || y === head.b);
-    add(edge ? head.l + 1 : head.l, y, 'paper', (edge ? head.r - 1 : head.r) - (edge ? head.l + 1 : head.l) + 1, 1);
+  // torso: saco, camisa en V, solapas sutiles y corbata o corbatín en el color del agente
+  const SUIT = suit === 0 ? INK : '#46463f';
+  const LAPEL = suit === 0 ? '#4a4a46' : INK;
+  add(6, 14, '#8c8b86', 3, 1);                      // cuello metálico
+  add(2, 15, SUIT, 11, 1); add(1, 16, SUIT, 13, 1);
+  for (let y = 17; y <= 20; y++) add(0, y, SUIT, 15, 1);
+  const bow = neck === 3;
+  const V: Record<number, [number, number]> = { 15: [5, 9], 16: [6, 8] };
+  for (let y = 17; y <= 20; y++) V[y] = bow ? [6, 8] : [7, 7];
+  for (const y of Object.keys(V).map(Number)) {
+    const [x0, x1] = V[y];
+    add(x0, y, PAPER, x1 - x0 + 1, 1);
+    if (y <= 19) { add(x0 - 1, y, LAPEL); add(x1 + 1, y, LAPEL); }
   }
-  // orejas: de papel, o tuercas de robot en tinta
-  if (ears > 0) {
-    const fill: FaceFill = ears === 1 ? 'paper' : 'ink';
-    add(head.l - 1, ey + 1, fill, 1, 2);
-    add(head.r + 1, ey + 1, fill, 1, 2);
-  }
-  // adorno superior, siempre en tinta
-  const ty = head.t - 1;
-  if (top === 1) { add(5, ty, 'ink'); if (ty >= 1) add(5, ty - 1, 'ink'); }          // antena
-  else if (top === 2) add(4, ty, 'ink', 3, 1);                                      // mechón
-  else if (top === 3) { add(3, ty, 'ink'); add(5, ty, 'ink'); add(7, ty, 'ink'); }  // cresta
-  else if (top === 4) add(head.l + 1, ty, 'ink', head.r - head.l - 1, 1);           // pelo
-  // cejas
-  if (brows === 1) { add(2, ey - 1, 'ink', 2, 1); add(7, ey - 1, 'ink', 2, 1); }    // rectas
-  else if (brows === 2) add(7, ey - 2, 'ink', 2, 1);                                // una ceja levantada
-  // ojos
-  if (eyes === 0) { add(3, ey, 'ink'); add(7, ey, 'ink'); }
-  else if (eyes === 1) { add(3, ey, 'ink', 1, 2); add(7, ey, 'ink', 1, 2); }
-  else if (eyes === 2) { add(2, ey, 'ink', 2, 1); add(7, ey, 'ink', 2, 1); }
-  else if (eyes === 3) { add(2, ey, 'ink', 2, 2); add(7, ey, 'ink', 2, 2); add(2, ey, 'paper'); add(7, ey, 'paper'); }
-  else if (eyes === 4) { add(2, ey, 'ink', 7, 1); add(3, ey, 'color'); add(7, ey, 'color'); } // visor con ojos de color
-  else if (eyes === 5) { add(3, ey, 'ink'); add(7, ey, 'ink'); add(5, ey - 1, 'ink'); }      // tres ojos
-  else { add(4, ey, 'ink', 3, 2); add(4, ey, 'paper'); }                                    // cíclope
-  // nariz
-  if (nose === 0) add(5, ny, 'ink');
-  else if (nose === 1) { add(4, ny, 'ink'); add(6, ny, 'ink'); }
-  else if (nose === 2) add(5, ny, 'ink', 2, 1);
-  else add(4, ny, 'ink', 3, 1);
-  // boca
-  if (mouth === 0) add(3, my, 'ink', 5, 1);
-  else if (mouth === 1) { add(3, my, 'ink'); add(7, my, 'ink'); add(4, my + 1, 'ink', 3, 1); } // sonrisa
-  else if (mouth === 2) { add(3, my, 'ink'); add(5, my, 'ink'); add(7, my, 'ink'); }          // rejilla
-  else if (mouth === 3) add(4, my, 'ink', 3, 2);                                             // abierta
-  else if (mouth === 4) add(4, my, 'ink', 3, 1);                                             // corta
-  else { add(3, my, 'ink', 3, 1); add(6, my - 1, 'ink'); }                                    // sonrisa chueca
-  // mejillas: el color del agente dentro de su propia cara
-  if (cheeks === 1) { add(2, ny, 'color'); add(8, ny, 'color'); }
+  if (neck === 0) add(7, 16, 'color', 1, 5);
+  else if (neck === 1) { add(6, 16, 'color', 3, 1); add(6, 17, 'color', 3, 4); }
+  else if (neck === 2) { add(6, 16, 'color', 3, 1); for (let y = 17; y <= 20; y++) add(6, y, y % 2 ? 'color' : INK, 3, 1); }
+  else { add(5, 15, 'color', 2, 2); add(8, 15, 'color', 2, 2); add(7, 15, INK, 1, 2); add(7, 18, INK); add(7, 20, INK); }
+  if (pocket === 1) add(10, 19, PAPER, 2, 1);      // pañuelo blanco
+  else if (pocket === 2) add(10, 19, 'color', 2, 1); // pañuelo de color
+  if (pin) add(3, 17, 'color');                    // pin en la solapa
 
   return { color, rects, seed };
 }

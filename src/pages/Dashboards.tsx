@@ -112,7 +112,7 @@ const Dashboards: React.FC = () => {
         <div className="a4-card" style={{ gap: 22 }}>
           <p className="a4-cap">Ya funciona</p>
           <h2 className="a4-h-sm">En empresas reales</h2>
-          <p className="a4-sm" style={{ maxWidth: 520 }}>Tamaprint, Flexoimpresos y La Magdalena ven su operación en dashboards de Ai4U.</p>
+          <p className="a4-sm" style={{ maxWidth: 520 }}>Empresas de manufactura y de contenido ya ven su operación en dashboards de Ai4U.</p>
           <div>
             <Link className="a4-pill" to={ROUTES.PORTFOLIO} onClick={top}>Ver los casos →</Link>
           </div>

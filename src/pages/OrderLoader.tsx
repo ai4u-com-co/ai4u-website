@@ -17,7 +17,7 @@ const STEPS = [
 ];
 
 const FACTS = [
-  { n: '2', label: 'Plantas en producción', detail: 'Tamaprint y Flexoimpresos, mismo motor, sin bifurcar código.' },
+  { n: '2', label: 'Plantas en producción', detail: 'Dos empresas de manufactura, mismo motor, sin bifurcar código.' },
   { n: '24/7', label: 'Sin turnos', detail: 'Corre solo, todos los días, no espera a que alguien lo revise.' },
   { n: '0', label: 'Digitación manual', detail: 'El pedido nace en tu ERP directo desde el correo del cliente.' },
 ];

@@ -4,11 +4,6 @@
 .a4-case > * { min-width: 0; }
 .a4-case-head { display: grid; gap: 14px; align-content: start; }
 .a4-case-head p { margin: 0; }
-.a4-case-agents { display: flex; flex-wrap: wrap; gap: 8px; }
-.a4-case-agents .a4-chip { text-decoration: none; }
-.a4-case-agents .a4-chip:hover { background: var(--a4-ink); color: var(--a4-canvas); }
-.a4-case-body { display: grid; gap: 24px; margin: 0; }
-.a4-case-body > div { display: grid; gap: 6px; }
-.a4-case-body dt { color: #55554f; }
-.a4-case-body dd { margin: 0; max-width: 62ch; }
+.a4-case-body { display: grid; gap: 14px; align-content: start; }
+.a4-case-body p { margin: 0; max-width: 56ch; font-size: clamp(17px, 1.6vw, 22px); line-height: 1.35; }
 @media (max-width: 900px) { .a4-case { grid-template-columns: minmax(0, 1fr); } }
