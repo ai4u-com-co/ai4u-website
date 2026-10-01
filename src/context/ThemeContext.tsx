@@ -311,8 +311,8 @@ export const useColorMode = () => useContext(ColorModeContext);
 // Proveedor del tema con toggle
 export const ThemeProvider: React.FC<{children?: ReactNode}> = ({ children }) => {
 	const [mode, setMode] = useState<PaletteMode>(() => {
-		const saved = localStorage.getItem('ai4u-theme-mode');
-		return (saved === 'dark' || saved === 'light') ? saved : 'light';
+		// Sitio v2: solo claro. Se ignora un 'dark' guardado por la versión anterior.
+		return 'light';
 	});
 
 	const toggleColorMode = useCallback(() => {
