@@ -1,6 +1,6 @@
 # ai4u-website
 
-Sitio web corporativo público de Ai4U (www.ai4u.com.co): landing, servicios, agentes, portafolio, orderLoader, sitios web, páginas legales y algunas páginas de pitch/propuesta. Es un SPA de marketing, sin backend propio. **Repo público: nada de secretos, infraestructura interna ni datos de clientes en código, docs o commits.**
+Sitio web corporativo público de Ai4U (www.ai4u.com.co): landing, servicios, agentes, portafolio, orderLoader, sitios web y páginas legales. Es un SPA de marketing, sin backend propio. **Repo público: nada de secretos, infraestructura interna ni datos de clientes en código, docs o commits.**
 
 ## Stack
 - React 18 + TypeScript (`strict: false`) + Vite 5 (puerto dev 3002) + Material UI 6 + React Router 6 + `react-helmet-async`.
@@ -25,7 +25,7 @@ Sitio web corporativo público de Ai4U (www.ai4u.com.co): landing, servicios, ag
 - Toda variable `VITE_*` queda embebida en el bundle público: nunca poner ahí secretos. Hoy `src/utils/api.ts` lee un webhook y un token opcional de Make.com del chat; que ese token sea realmente privado es por confirmar.
 - El HTML de las rutas públicas se prerenderiza tras el build con Playwright (`scripts/prerender.mjs`; rutas fijas: `/`, `/servicios`, `/portafolio`, `/por-que-ai4u`, `/agentes`, `/sitios-web`, `/orderloader`). Una ruta pública nueva que deba indexarse hay que agregarla ahí y en `public/sitemap.xml`.
 - Mobile first: sin scroll horizontal a 375px; imágenes con `max-width: 100%`. Hay guía de optimización de imágenes en `docs/IMAGE_OPTIMIZATION_GUIDE.md`.
-- No es multitenant ni toca SAP ni Supabase. Páginas de propuestas/pitch (`PitchBancolombia`, `PropuestaElBarril`, etc.) son contenido público: no añadir cifras, nombres ni datos confidenciales de clientes.
+- No es multitenant ni toca SAP ni Supabase. No hay páginas de propuestas ni pitches (se eliminaron el 1-oct-2026 por ser contenido público con datos de clientes): no añadir cifras, precios, nombres ni datos confidenciales de clientes.
 
 ## Variables de entorno (solo nombres, ver `env.example`)
 `VITE_MAKE_WEBHOOK_URL` (webhook del chat), `VITE_MAKE_API_TOKEN` (opcional).

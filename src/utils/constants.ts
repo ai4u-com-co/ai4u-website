@@ -10,10 +10,6 @@ export const ROUTES = {
   AGENTES: '/agentes',
   /** @deprecated nombre viejo de /agentes — solo para el redirect en App.tsx, no usar para nada nuevo */
   TIENDA_AI_LEGACY: '/tienda-ai',
-  DESIGN_SYSTEM: '/design-system',
-  PITCH: '/pitch',
-  PITCH_BANCOLOMBIA: '/pitch-bancolombia',
-  PROPUESTA_MANUFACTURA: '/propuesta-manufactura',
   PRIVACY_POLICY: '/politica-de-privacidad',
   TERMS_OF_SERVICE: '/condiciones-de-servicio',
   DATA_DELETION: '/eliminacion-de-datos'

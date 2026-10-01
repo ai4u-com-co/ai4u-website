@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { HelmetProvider } from 'react-helmet-async';
 import { Layout, ScrollToTop, BasicLoadingWrapper } from './components/shared/ui/layouts';
 import { ErrorBoundary } from './components/shared/ui/molecules';
-import { SEOHead } from './components/shared/ui/atoms';
 import { ThemeProvider, ServicesProvider } from '@/context';
 import { ROUTES } from './utils/constants';
 import './utils/errorTracking';
@@ -16,21 +15,9 @@ const WhyAI4U = lazy(() => import('./pages/WhyAI4U'));
 const Portfolio = lazy(() => import('./pages/Portfolio'));
 const SitiosWeb = lazy(() => import('./pages/SitiosWeb'));
 const OrderLoader = lazy(() => import('./pages/OrderLoader'));
-const DesignSystem = lazy(() => import('./pages/DesignSystem'));
-const Pitch = lazy(() => import('./pages/Pitch'));
-const PitchBancolombia = lazy(() => import('./pages/PitchBancolombia'));
-const PropuestaManufactura = lazy(() => import('./pages/PropuestaManufactura'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 const DataDeletion = lazy(() => import('./pages/DataDeletion'));
-
-// Pitches y propuestas: se abren por enlace directo, no se indexan.
-const NoIndex: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <>
-    <SEOHead title="AI4U" noIndex noFollow />
-    {children}
-  </>
-);
 
 function App() {
   return (
@@ -48,11 +35,6 @@ function App() {
                 <ScrollToTop />
                 <Suspense fallback={null}>
                 <Routes>
-                  {/* Standalone Routes */}
-                  <Route
-                    path={ROUTES.DESIGN_SYSTEM}
-                    element={<DesignSystem />}
-                  />
 
                   {/* Main Application Layout Routes */}
                   <Route
@@ -118,23 +100,6 @@ function App() {
                           <Route
                             path={ROUTES.SUPER_AI}
                             element={<Navigate to={ROUTES.HOME} replace />}
-                          />
-
-                          <Route
-                            path={ROUTES.PITCH}
-                            element={<NoIndex><Pitch /></NoIndex>}
-                          />
-
-                          {/* Pitch Bancolombia Route */}
-                          <Route
-                            path={ROUTES.PITCH_BANCOLOMBIA}
-                            element={<NoIndex><PitchBancolombia /></NoIndex>}
-                          />
-
-                          {/* Propuesta Manufactura Route */}
-                          <Route
-                            path={ROUTES.PROPUESTA_MANUFACTURA}
-                            element={<NoIndex><PropuestaManufactura /></NoIndex>}
                           />
 
                           <Route

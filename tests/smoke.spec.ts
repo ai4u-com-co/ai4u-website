@@ -88,16 +88,6 @@ test.describe('AI4U Smoke Test', () => {
     await expect(page.locator('h1').first()).toBeVisible();
   });
 
-  test('pitches and proposals are not indexed', async ({ page }) => {
-    for (const path of ['/pitch', '/pitch-bancolombia', '/propuesta-manufactura']) {
-      await page.goto(path);
-      // Helmet suma su meta robots al estático de index.html: basta con que alguno diga noindex.
-      await expect.poll(async () =>
-        (await page.locator('meta[name="robots"]').evaluateAll(els => els.map(e => e.getAttribute('content')).join(' | ')))
-      ).toContain('noindex');
-    }
-  });
-
   test('menu shows the new entries and the unified contact', async ({ page }) => {
     await page.goto('/');
     const nav = page.locator('nav').first();
