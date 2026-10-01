@@ -2,10 +2,10 @@ import React, { useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { SEOHead } from '@/components/shared/ui/atoms';
 import { getPageMetaTags, getCanonicalUrl } from '@/utils/seo';
-import { AGENT_GROUPS, ALL_AGENTS, type Agent, type AgentStatus } from '@/data/agents';
+import { AGENT_GROUPS, ALL_AGENTS, NIVELES, type Agent, type AgentStatus, type Nivel } from '@/data/agents';
 import type { ToolId } from '@/data/tools';
-import AgentCard from '@/components/agentes/AgentCard';
-import AgentDrawer from '@/components/agentes/AgentDrawer';
+import AgentCard, { Pips } from '@/components/agentes/AgentCard';
+import Alineaciones from '@/components/agentes/Alineaciones';
 import AgentConfirm from '@/components/agentes/AgentConfirm';
 import AgentFilters, { type FilterCounts } from '@/components/agentes/AgentFilters';
 import { APP_CONFIG } from '@/utils/constants';
@@ -46,7 +46,7 @@ const Agentes: React.FC = () => {
   const filtrados = useMemo(() => {
     const q = search.trim().toLowerCase();
     return ALL_AGENTS.filter((a) => {
-      if (q && !`${a.name} ${a.pitch} ${a.clase}`.toLowerCase().includes(q)) return false;
+      if (q && !`${a.name} ${a.pitch} ${a.clase} ${a.recibe} ${a.entrega}`.toLowerCase().includes(q)) return false;
       if (estadoActivos.length > 0 && !estadoActivos.includes(a.status)) return false;
       if (areaActivas.length > 0 && !areaActivas.includes(a.category)) return false;
       if (toolActivas.length > 0 && !a.tools.some((t) => toolActivas.includes(t))) return false;
@@ -66,18 +66,14 @@ const Agentes: React.FC = () => {
     return AGENT_GROUPS.map((g) => ({ ...g, agents: g.agents.filter((a) => visibleNames.has(a.name)) })).filter((g) => g.agents.length > 0);
   }, [ordenados]);
 
-  const agenteActivo = ordenados.find((a) => a.name === seleccionado) ?? null;
+  const agenteActivo = ALL_AGENTS.find((a) => a.name === seleccionado) ?? null;
 
-  const abrir = (agent: Agent) => setSearchParams((p) => { p.set('agente', agent.name); p.delete('reclutado'); return p; });
   const cerrar = () => setSearchParams((p) => { p.delete('agente'); p.delete('reclutado'); return p; });
   const reclutar = (agent: Agent) => setSearchParams((p) => { p.set('agente', agent.name); p.set('reclutado', '1'); return p; });
-
-  const moverDrawer = (delta: 1 | -1) => {
-    if (!agenteActivo) return;
-    const idx = ordenados.findIndex((a) => a.name === agenteActivo.name);
-    if (idx === -1) return;
-    const next = ordenados[(idx + delta + ordenados.length) % ordenados.length];
-    abrir(next);
+  // Desde una alineación: se limpian los filtros para que la tarjeta esté a la vista y se da vuelta.
+  const verTarjeta = (name: string) => {
+    setSearch(''); setEstadoActivos([]); setAreaActivas([]); setToolActivas([]);
+    setSearchParams((p) => { p.set('agente', name); p.delete('reclutado'); return p; });
   };
 
   const toggle = <T,>(list: T[], value: T, setList: (v: T[]) => void) => {
@@ -99,9 +95,22 @@ const Agentes: React.FC = () => {
               <p className="a4-cap">Agentes · {ALL_AGENTS.length} en el equipo</p>
               <h1 className="a4-display">Elige quién<br />entra a tu equipo</h1>
               <p className="a4-lead a4-sm">
-                Cada uno resuelve trabajo real hoy, en empresas reales. La cara de cada uno se genera sola a partir de su nombre.
+                Cada uno resuelve trabajo real hoy, en empresas reales. Cada uno tiene su propia cara y su color, que salen de su nombre. Dale vuelta a su tarjeta para ver qué recibe, qué entrega y quién lo revisa.
               </p>
             </header>
+
+            <section className="a4-section" aria-labelledby="niveles">
+              <div className="a4-sec-label"><span className="a4-cap">Nivel</span></div>
+              <h2 className="a4-sub" id="niveles" style={{ maxWidth: '28ch' }}>Cuánto trabajo te quita y cuánto control conservas</h2>
+              <div className="a4-niveles">
+                {([1, 2, 3] as Nivel[]).map((n) => (
+                  <div key={n} className="a4-nivel">
+                    <p className="a4-agentes-level"><Pips nivel={n} /><span className="a4-cap">Nivel {n} · {NIVELES[n].nombre}</span></p>
+                    <p className="a4-sm">{NIVELES[n].descripcion.charAt(0).toUpperCase() + NIVELES[n].descripcion.slice(1)}.</p>
+                  </div>
+                ))}
+              </div>
+            </section>
 
             <section className="a4-section">
               <div className="a4-agentes-layout">
@@ -144,7 +153,7 @@ const Agentes: React.FC = () => {
                       </div>
                       <div className="a4-agentes-grid">
                         {group.agents.map((agent) => (
-                          <AgentCard key={agent.name} agent={agent} onOpen={abrir} />
+                          <AgentCard key={agent.name} agent={agent} onRecruit={reclutar} startFlipped={seleccionado === agent.name} />
                         ))}
                       </div>
                     </div>
@@ -155,6 +164,8 @@ const Agentes: React.FC = () => {
                 </div>
               </div>
             </section>
+
+            <Alineaciones onSelect={verTarjeta} />
 
             <section className="a4-section">
               <p className="a4-cap" style={{ marginBottom: 24 }}>Siguiente</p>
@@ -168,15 +179,6 @@ const Agentes: React.FC = () => {
         )}
       </div>
 
-      {agenteActivo && !reclutado && (
-        <AgentDrawer
-          agent={agenteActivo}
-          onClose={cerrar}
-          onPrev={() => moverDrawer(-1)}
-          onNext={() => moverDrawer(1)}
-          onRecruit={reclutar}
-        />
-      )}
     </div>
   );
 };

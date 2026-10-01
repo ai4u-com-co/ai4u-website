@@ -2,25 +2,31 @@ import type { ToolId } from './tools';
 
 export type AgentStatus = 'produccion' | 'piloto' | 'interno';
 
-export interface AgentAttributes {
-  /** 0-100 — qué tan solo trabaja sin intervención humana. */
-  autonomia: number;
-  /** 0-100 — qué tan rápido entrega el resultado. */
-  velocidad: number;
-  /** 0-100 — cuánto terreno del proceso cubre, no solo un paso suelto. */
-  alcance: number;
-}
+export type Nivel = 1 | 2 | 3;
+
+// El nivel dice cuánto trabajo le quita al equipo y cuánto control conserva. Es la promesa de la marca
+// ("trabajan 24 horas y una persona revisa lo que importa") hecha visible en cada tarjeta.
+export const NIVELES: Record<Nivel, { nombre: string; descripcion: string }> = {
+  1: { nombre: 'Propone', descripcion: 'prepara el trabajo y una persona decide y ejecuta' },
+  2: { nombre: 'Ejecuta', descripcion: 'hace el trabajo y una persona revisa lo dudoso' },
+  3: { nombre: 'Autónomo', descripcion: 'trabaja solo y avisa cuando hay una excepción' },
+};
 
 export interface Agent {
   name: string;
   category: string;
   /** Rol dentro del equipo — la "clase" del agente, un vistazo rápido a qué tipo de trabajo hace. */
   clase: string;
-  /** 1-3 — madurez del agente, no un ranking de "mejor/peor". */
-  nivel: 1 | 2 | 3;
+  /** 1-3 — cuánto supervisa una persona (ver NIVELES). No es un ranking de "mejor/peor". */
+  nivel: Nivel;
+  /** Qué hace, en una línea. */
   pitch: string;
   status: AgentStatus;
-  atributos: AgentAttributes;
+  /** Reverso de la tarjeta (ficha de negocio): qué recibe, qué entrega, quién lo revisa y cuándo trabaja. */
+  recibe: string;
+  entrega: string;
+  revisa: string;
+  horario: string;
   /** Herramientas/APIs reales a las que se conecta — vacío si es puramente interno. */
   tools: ToolId[];
 }
@@ -36,10 +42,9 @@ export interface AgentGroup {
 // en Mission Control, con copy pensado para cliente, no para operación
 // interna. Actualizar cuando cambie el estado real de un agente.
 //
-// nivel/clase/atributos son marco de lectura tipo ficha de personaje — una
-// forma memorable de comunicar madurez y personalidad, no una métrica
-// medida. Los números de "trabajo real" (tickets/mes, etc.) NO se inventan
-// acá — si algún día hay data real de uso, va aparte y con fuente.
+// El reverso de cada tarjeta (recibe, entrega, revisa, horario) es la ficha de negocio del agente. Los números de
+// "trabajo real" (tickets/mes, pedidos procesados, etc.) NO se inventan acá: si algún día hay data real de uso,
+// va aparte, con fuente y con permiso del cliente.
 // Estado: por decisión de Mariano (oct-2026) todo el catálogo se muestra como listo ("produccion").
 // Excepción deliberada: las 4 ideas que todavía no existen (cierre mensual, reposición de inventario,
 // seguimiento de cotizaciones y resumen semanal) quedan como "piloto" hasta que estén construidas,
@@ -53,20 +58,26 @@ export const AGENT_GROUPS: AgentGroup[] = [
         name: 'lector de pedidos',
         category: 'pedidos',
         clase: 'back office',
-        nivel: 3,
+        nivel: 2,
         pitch: 'lee los pedidos que llegan por correo en PDF y los carga directo a tu ERP, sin digitación manual.',
         status: 'produccion',
-        atributos: { autonomia: 85, velocidad: 65, alcance: 50 },
+        recibe: 'Pedido en PDF que llega por correo',
+        entrega: 'Pedido cargado en tu sistema',
+        revisa: 'Una persona del equipo comercial revisa lo dudoso',
+        horario: '24 horas',
         tools: ['gmail', 'sap'],
       },
       {
         name: 'cotizador',
         category: 'pedidos',
         clase: 'vendedor',
-        nivel: 3,
+        nivel: 2,
         pitch: 'cotiza al instante y deja la cotización lista en tu sistema, sin ir y volver por correo.',
         status: 'produccion',
-        atributos: { autonomia: 75, velocidad: 92, alcance: 50 },
+        recibe: 'Solicitud de cotización',
+        entrega: 'Cotización lista en tu sistema',
+        revisa: 'Un comercial aprueba antes de enviar',
+        horario: 'Cuando lo pides',
         tools: ['sap'],
       },
       {
@@ -76,7 +87,10 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 2,
         pitch: 'lee las facturas que te envían tus proveedores y las deja listas para contabilizar.',
         status: 'produccion',
-        atributos: { autonomia: 80, velocidad: 70, alcance: 45 },
+        recibe: 'Factura que envía el proveedor',
+        entrega: 'Factura lista para contabilizar',
+        revisa: 'Contabilidad revisa lo dudoso',
+        horario: '24 horas',
         tools: ['gmail', 'sap'],
       },
       {
@@ -86,7 +100,10 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 2,
         pitch: 'arma la orden de compra para tu proveedor a partir de lo que necesitas reponer.',
         status: 'produccion',
-        atributos: { autonomia: 70, velocidad: 75, alcance: 45 },
+        recibe: 'Lo que necesitas reponer',
+        entrega: 'Orden de compra para el proveedor',
+        revisa: 'Compras aprueba antes de enviar',
+        horario: 'Cuando lo pides',
         tools: ['sap'],
       },
       {
@@ -96,7 +113,10 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 2,
         pitch: 'crea al cliente nuevo en tu sistema con sus datos tributarios, sin digitar.',
         status: 'produccion',
-        atributos: { autonomia: 80, velocidad: 85, alcance: 35 },
+        recibe: 'Datos del cliente nuevo',
+        entrega: 'Cliente creado en tu sistema',
+        revisa: 'Una persona valida los datos tributarios',
+        horario: 'Cuando lo pides',
         tools: ['sap'],
       },
       {
@@ -106,7 +126,10 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 2,
         pitch: 'crea el artículo nuevo y su lista de materiales según la tecnología, sin armarlo a mano.',
         status: 'produccion',
-        atributos: { autonomia: 60, velocidad: 80, alcance: 55 },
+        recibe: 'Especificación del artículo',
+        entrega: 'Artículo y lista de materiales creados',
+        revisa: 'Desarrollo revisa antes de usarlos',
+        horario: 'Cuando lo pides',
         tools: ['sap'],
       },
     ],
@@ -122,7 +145,10 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 3,
         pitch: 'manda los recordatorios de cartera vencida solo, con la cadencia que definas.',
         status: 'produccion',
-        atributos: { autonomia: 90, velocidad: 55, alcance: 45 },
+        recibe: 'Facturas vencidas',
+        entrega: 'Recordatorios enviados a tus clientes',
+        revisa: 'Defines la cadencia y recibes aviso por excepción',
+        horario: 'Todos los días',
         tools: ['gmail', 'sap'],
       },
       {
@@ -132,7 +158,10 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 2,
         pitch: 'cruza los movimientos del banco con tus registros y marca solo lo que no cuadra.',
         status: 'produccion',
-        atributos: { autonomia: 70, velocidad: 75, alcance: 50 },
+        recibe: 'Extracto del banco',
+        entrega: 'Movimientos cruzados y diferencias marcadas',
+        revisa: 'Una persona confirma las diferencias',
+        horario: 'Cuando lo pides',
         tools: ['sap'],
       },
       {
@@ -142,7 +171,10 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 1,
         pitch: 'prepara el cierre del mes y señala las diferencias que una persona debe revisar.',
         status: 'piloto',
-        atributos: { autonomia: 55, velocidad: 60, alcance: 60 },
+        recibe: 'Movimientos del mes',
+        entrega: 'Borrador de cierre con las diferencias',
+        revisa: 'Contabilidad decide y ejecuta',
+        horario: 'Cada mes',
         tools: ['sap'],
       },
     ],
@@ -155,10 +187,13 @@ export const AGENT_GROUPS: AgentGroup[] = [
         name: 'chat con tu empresa',
         category: 'dashboards',
         clase: 'oráculo',
-        nivel: 3,
+        nivel: 2,
         pitch: 'un chat conectado a tus bases de datos y a tu sistema de gestión: le hablas como a una persona y consulta y actúa sobre tus datos en tiempo real.',
         status: 'produccion',
-        atributos: { autonomia: 65, velocidad: 80, alcance: 70 },
+        recibe: 'Tu pregunta, en lenguaje natural',
+        entrega: 'Respuesta con tus datos en tiempo real',
+        revisa: 'Tu equipo define qué puede consultar y hacer',
+        horario: '24 horas',
         tools: ['sap'],
       },
       {
@@ -168,7 +203,10 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 2,
         pitch: 'el copiloto que vive dentro de tu propio dashboard, siempre con el estado real de tu operación.',
         status: 'produccion',
-        atributos: { autonomia: 55, velocidad: 85, alcance: 50 },
+        recibe: 'Tu pregunta dentro del dashboard',
+        entrega: 'Respuesta con el estado real de tu operación',
+        revisa: 'Tú decides qué hacer con la respuesta',
+        horario: '24 horas',
         tools: ['sap'],
       },
       {
@@ -178,7 +216,10 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 3,
         pitch: 'ventas por cliente, vendedor y mes, y comparativos con el año anterior, sin pedir reportes.',
         status: 'produccion',
-        atributos: { autonomia: 75, velocidad: 85, alcance: 60 },
+        recibe: 'Tus ventas',
+        entrega: 'Vista por cliente, vendedor y mes',
+        revisa: 'Solo muestra: tú decides',
+        horario: '24 horas',
         tools: ['sap'],
       },
       {
@@ -188,17 +229,23 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 3,
         pitch: 'quién debe, cuánto y desde cuándo, ordenado por lo que más pesa.',
         status: 'produccion',
-        atributos: { autonomia: 75, velocidad: 85, alcance: 55 },
+        recibe: 'Tu cartera',
+        entrega: 'Quién debe, cuánto y desde cuándo',
+        revisa: 'Solo muestra: tú decides',
+        horario: '24 horas',
         tools: ['sap'],
       },
       {
         name: 'dashboard de finanzas',
         category: 'dashboards',
         clase: 'analista',
-        nivel: 2,
+        nivel: 3,
         pitch: 'estado de resultados y principales cuentas al día, con el detalle a un clic.',
         status: 'produccion',
-        atributos: { autonomia: 70, velocidad: 80, alcance: 60 },
+        recibe: 'Tus cuentas',
+        entrega: 'Estado de resultados al día',
+        revisa: 'Solo muestra: tú decides',
+        horario: '24 horas',
         tools: ['sap'],
       },
       {
@@ -208,27 +255,36 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 3,
         pitch: 'qué se está produciendo y qué va atrasado, también en pantallas junto a cada máquina.',
         status: 'produccion',
-        atributos: { autonomia: 75, velocidad: 85, alcance: 65 },
+        recibe: 'Órdenes y avance de cada máquina',
+        entrega: 'Qué se produce y qué va atrasado',
+        revisa: 'El jefe de planta ve y decide',
+        horario: '24 horas',
         tools: ['sap'],
       },
       {
         name: 'cumplimiento de entregas',
         category: 'dashboards',
         clase: 'auditor',
-        nivel: 2,
+        nivel: 3,
         pitch: 'compara lo prometido con lo entregado, por línea de producto.',
         status: 'produccion',
-        atributos: { autonomia: 80, velocidad: 70, alcance: 50 },
+        recibe: 'Fecha prometida y fecha de entrega',
+        entrega: 'Cumplimiento por línea de producto',
+        revisa: 'Gerencia lo revisa',
+        horario: '24 horas',
         tools: ['sap'],
       },
       {
         name: 'alertas',
         category: 'dashboards',
         clase: 'vigía',
-        nivel: 2,
+        nivel: 3,
         pitch: 'avisa cuando una cifra se sale de lo normal para que alguien actúe a tiempo.',
         status: 'produccion',
-        atributos: { autonomia: 85, velocidad: 75, alcance: 45 },
+        recibe: 'Las cifras de tu operación',
+        entrega: 'Aviso cuando algo se sale de lo normal',
+        revisa: 'Una persona recibe el aviso y actúa',
+        horario: '24 horas',
         tools: ['sap', 'whatsapp'],
       },
     ],
@@ -244,7 +300,10 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 2,
         pitch: 'ordena las órdenes de producción por máquina, sincronizado con lo que ya está en tu ERP.',
         status: 'produccion',
-        atributos: { autonomia: 50, velocidad: 60, alcance: 65 },
+        recibe: 'Órdenes de producción',
+        entrega: 'Programación por máquina',
+        revisa: 'El jefe de planta ajusta',
+        horario: 'Cuando lo pides',
         tools: ['sap'],
       },
       {
@@ -254,7 +313,10 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 2,
         pitch: 'revisa el arte antes de producir y avisa si hay algo que corregir.',
         status: 'produccion',
-        atributos: { autonomia: 65, velocidad: 80, alcance: 45 },
+        recibe: 'Archivo de arte',
+        entrega: 'Lista de correcciones',
+        revisa: 'Preprensa decide',
+        horario: 'Cuando lo pides',
         tools: [],
       },
       {
@@ -264,7 +326,10 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 1,
         pitch: 'sugiere cuánto y cuándo comprar según lo que tienes y lo que se vende.',
         status: 'piloto',
-        atributos: { autonomia: 55, velocidad: 65, alcance: 55 },
+        recibe: 'Inventario y ventas',
+        entrega: 'Sugerencia de cuánto y cuándo comprar',
+        revisa: 'Compras decide',
+        horario: 'Cada semana',
         tools: ['sap'],
       },
     ],
@@ -280,7 +345,10 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 2,
         pitch: 'atiende conversaciones en varios canales a la vez, sin perder contexto entre uno y otro.',
         status: 'produccion',
-        atributos: { autonomia: 60, velocidad: 70, alcance: 45 },
+        recibe: 'Mensajes de clientes por varios canales',
+        entrega: 'Respuesta, o paso a una persona',
+        revisa: 'Una persona toma lo que no sabe',
+        horario: '24 horas',
         tools: ['whatsapp'],
       },
       {
@@ -290,7 +358,10 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 2,
         pitch: 'responde los mensajes de tus huéspedes, coordina el aseo y mantiene los calendarios al día.',
         status: 'produccion',
-        atributos: { autonomia: 80, velocidad: 80, alcance: 50 },
+        recibe: 'Mensajes de los huéspedes',
+        entrega: 'Respuesta, calendarios al día y aviso de aseo',
+        revisa: 'El anfitrión interviene cuando hace falta',
+        horario: '24 horas',
         tools: [],
       },
       {
@@ -300,7 +371,10 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 2,
         pitch: 'un chat dentro de tu sitio web que responde con la voz y el conocimiento de tu marca.',
         status: 'produccion',
-        atributos: { autonomia: 75, velocidad: 85, alcance: 40 },
+        recibe: 'Preguntas de quien visita tu sitio',
+        entrega: 'Respuesta con la voz de tu marca',
+        revisa: 'Tu equipo define lo que sabe',
+        horario: '24 horas',
         tools: [],
       },
       {
@@ -310,17 +384,23 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 2,
         pitch: 'recibe reportes por whatsapp y los convierte en tickets priorizados, sin que nadie tenga que copiar y pegar nada.',
         status: 'produccion',
-        atributos: { autonomia: 82, velocidad: 74, alcance: 40 },
+        recibe: 'Reportes por WhatsApp',
+        entrega: 'Tickets priorizados',
+        revisa: 'Una persona confirma la prioridad',
+        horario: '24 horas',
         tools: ['whatsapp'],
       },
       {
         name: 'resolver con IA',
         category: 'servicio',
         clase: 'diagnosticador',
-        nivel: 3,
+        nivel: 1,
         pitch: 'convierte un reporte de un cliente en diagnóstico, plan, código y una respuesta en español — con una persona revisando cada paso.',
         status: 'produccion',
-        atributos: { autonomia: 70, velocidad: 88, alcance: 55 },
+        recibe: 'Reporte de un cliente',
+        entrega: 'Diagnóstico, plan, código y respuesta',
+        revisa: 'Una persona revisa cada paso',
+        horario: 'Cuando lo pides',
         tools: ['github'],
       },
     ],
@@ -333,10 +413,13 @@ export const AGENT_GROUPS: AgentGroup[] = [
         name: 'fábrica de contenido',
         category: 'contenido',
         clase: 'creativo',
-        nivel: 2,
+        nivel: 1,
         pitch: 'genera piezas de contenido con la voz de tu marca, no una genérica.',
         status: 'produccion',
-        atributos: { autonomia: 55, velocidad: 70, alcance: 60 },
+        recibe: 'Tema y voz de tu marca',
+        entrega: 'Piezas de contenido',
+        revisa: 'Tú apruebas cada pieza',
+        horario: 'Cuando lo pides',
         tools: ['instagram'],
       },
       {
@@ -346,7 +429,10 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 3,
         pitch: 'monitorea qué se dice de tu marca y arma el informe solo.',
         status: 'produccion',
-        atributos: { autonomia: 80, velocidad: 65, alcance: 55 },
+        recibe: 'Lo que se dice de tu marca',
+        entrega: 'Informe armado',
+        revisa: 'Una persona lee el informe',
+        horario: 'Todos los días',
         tools: ['instagram'],
       },
       {
@@ -356,17 +442,23 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 1,
         pitch: 'inicia y da seguimiento a conversaciones de prospección, sin que nadie tenga que escribir el primer mensaje.',
         status: 'produccion',
-        atributos: { autonomia: 65, velocidad: 58, alcance: 40 },
+        recibe: 'Lista de prospectos',
+        entrega: 'Mensajes y seguimiento de conversaciones',
+        revisa: 'Una persona aprueba los mensajes',
+        horario: 'Cuando lo pides',
         tools: ['linkedin'],
       },
       {
         name: 'transcriptor',
         category: 'contenido',
         clase: 'escriba',
-        nivel: 2,
+        nivel: 3,
         pitch: 'convierte audios y reuniones largas en texto, con quién dijo qué y a qué hora.',
         status: 'produccion',
-        atributos: { autonomia: 85, velocidad: 75, alcance: 35 },
+        recibe: 'Audio de una reunión o entrevista',
+        entrega: 'Texto con quién dijo qué y a qué hora',
+        revisa: 'Quien lo pidió lo revisa',
+        horario: 'Cuando lo pides',
         tools: [],
       },
       {
@@ -376,17 +468,23 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 1,
         pitch: 'busca a quien no respondió una cotización y le da seguimiento a tiempo.',
         status: 'piloto',
-        atributos: { autonomia: 65, velocidad: 60, alcance: 40 },
+        recibe: 'Cotizaciones sin respuesta',
+        entrega: 'Mensajes de seguimiento',
+        revisa: 'Un comercial aprueba',
+        horario: 'Todos los días',
         tools: ['gmail', 'sap'],
       },
       {
         name: 'resumen semanal',
         category: 'contenido',
         clase: 'analista',
-        nivel: 1,
+        nivel: 2,
         pitch: 'cada lunes envía a gerencia un resumen de las cifras que importan, por correo.',
         status: 'piloto',
-        atributos: { autonomia: 80, velocidad: 70, alcance: 45 },
+        recibe: 'Las cifras de tu operación',
+        entrega: 'Correo a gerencia con lo que importa',
+        revisa: 'Gerencia lo recibe y decide',
+        horario: 'Cada lunes',
         tools: ['gmail', 'sap'],
       },
     ],
@@ -399,10 +497,13 @@ export const AGENT_GROUPS: AgentGroup[] = [
         name: 'cadena de desarrollo',
         category: 'fabrica-dev',
         clase: 'arquitecto',
-        nivel: 3,
+        nivel: 2,
         pitch: 'el equipo de agentes que diseña, construye, revisa y prueba cada uno de los que ves acá arriba.',
         status: 'interno',
-        atributos: { autonomia: 70, velocidad: 60, alcance: 90 },
+        recibe: 'Una necesidad',
+        entrega: 'Agente construido y probado',
+        revisa: 'Una persona revisa cada cambio',
+        horario: 'Cuando lo pides',
         tools: ['github'],
       },
       {
@@ -412,7 +513,10 @@ export const AGENT_GROUPS: AgentGroup[] = [
         nivel: 1,
         pitch: 'revisa los errores de producción cada noche y deja el arreglo listo para revisar en la mañana.',
         status: 'produccion',
-        atributos: { autonomia: 60, velocidad: 52, alcance: 34 },
+        recibe: 'Errores de producción',
+        entrega: 'Arreglo propuesto',
+        revisa: 'Una persona revisa y aprueba en la mañana',
+        horario: 'Cada noche',
         tools: ['github'],
       },
     ],

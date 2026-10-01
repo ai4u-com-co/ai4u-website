@@ -21,7 +21,7 @@ export const CASES: CaseStudy[] = [
     problema: 'Los pedidos de sus clientes llegaban por correo en PDF y alguien tenía que digitarlos uno por uno. La cartera vencida se cobraba a mano.',
     hicimos: 'Un agente lee cada pedido y lo carga en el sistema. Otro envía los recordatorios de cartera con la cadencia que ellos definen. Un cotizador deja la cotización lista al instante.',
     hoy: 'Los pedidos entran solos, una persona revisa lo dudoso y el equipo comercial cotiza sin ir y volver por correo.',
-    agentes: ['lector de pedidos', 'cobro de cartera', 'cotizador'],
+    agentes: ['lector de pedidos', 'cobro de cartera', 'cotizador', 'creación de artículos', 'revisor de artes', 'dashboard de ventas', 'dashboard de cartera'],
     website: 'https://www.tamaprint.com',
   },
   {
@@ -31,7 +31,7 @@ export const CASES: CaseStudy[] = [
     problema: 'Programar la planta y saber si se estaban cumpliendo las entregas exigía armar reportes y coordinar a mano.',
     hicimos: 'Un planeador ordena las órdenes de producción por máquina, con una pantalla junto a cada una. Dashboards de ventas, cartera y cumplimiento de entregas. Además, el agente de pedidos y el de cobro de cartera.',
     hoy: 'Cada máquina muestra lo que sigue y la gerencia ve cómo va la empresa sin pedir reportes.',
-    agentes: ['lector de pedidos', 'planeador de producción', 'cobro de cartera'],
+    agentes: ['lector de pedidos', 'planeador de producción', 'cobro de cartera', 'producción en planta', 'cumplimiento de entregas', 'dashboard de ventas', 'dashboard de cartera'],
     website: 'https://www.flexoimpresos.com.co',
   },
   {
@@ -41,7 +41,7 @@ export const CASES: CaseStudy[] = [
     problema: 'Producir contenido constante, escuchar lo que se dice de la marca y transcribir horas de audio le quitaba tiempo al trabajo creativo.',
     hicimos: 'Una fábrica de contenido con la voz de la marca, escucha social, un transcriptor que identifica quién dijo qué, y un sitio web con un chat que conoce la obra.',
     hoy: 'El equipo dedica su tiempo a crear y el resto corre solo.',
-    agentes: ['fábrica de contenido', 'escucha social', 'transcriptor'],
+    agentes: ['fábrica de contenido', 'escucha social', 'transcriptor', 'sabio de tu marca'],
     website: 'https://www.lamagdalena.com.co',
   },
   {
@@ -63,3 +63,6 @@ export const CASES: CaseStudy[] = [
     agentes: ['multicanal'],
   },
 ];
+
+/** Clientes donde ya trabaja un agente, según los casos. Vacío si todavía no está en ningún caso publicado. */
+export const clientesDe = (agente: string): string[] => CASES.filter((c) => c.agentes.includes(agente)).map((c) => c.name);

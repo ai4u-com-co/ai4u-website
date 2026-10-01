@@ -62,6 +62,11 @@
       "source": "/design-system",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/tableros",
+      "destination": "/dashboards",
+      "permanent": true
     }
   ],
   "rewrites": [

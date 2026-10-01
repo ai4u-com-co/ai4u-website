@@ -130,6 +130,16 @@ test.describe('AI4U Smoke Test', () => {
     }
   });
 
+  test('an agent card flips to its business sheet', async ({ page }) => {
+    await page.goto('/agentes');
+    const card = page.locator('article.a4-flip').first();
+    await card.getByRole('button', { name: /dar vuelta/i }).click();
+    await expect(card.getByText('Ficha de negocio')).toBeVisible();
+    await expect(card.getByText('Lo revisa')).toBeVisible();
+    await card.getByRole('button', { name: /frente/i }).click();
+    await expect(card.getByRole('button', { name: /dar vuelta/i })).toBeVisible();
+  });
+
   test('primary CTA should point to WhatsApp', async ({ page }) => {
     await page.goto('/');
     const cta = page.getByRole('link', { name: /cuéntanos tu problema/i }).first();
