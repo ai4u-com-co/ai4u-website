@@ -1,8 +1,78 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "installCommand": "npm ci",
+  "buildCommand": "npm run build && node scripts/prerender.mjs",
+  "outputDirectory": "dist",
   "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "ai4u.com.co"
+        }
+      ],
+      "destination": "https://www.ai4u.com.co/$1",
+      "permanent": true
+    },
+    {
+      "source": "/tienda-ai",
+      "destination": "/agentes",
+      "permanent": true
+    },
+    {
+      "source": "/casos-de-uso",
+      "destination": "/por-que-ai4u",
+      "permanent": true
+    },
+    {
+      "source": "/super-ai",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/pitch",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/pitch-bancolombia",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/pitch-fondo-emprender",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/propuesta-el-barril",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/propuesta-manufactura",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/design-system",
+      "destination": "/",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
   "headers": [
     {
-      "source": "/assets/(.*)",
+      "source": "/assets/(.*)\\.(js|css)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -11,19 +81,47 @@
       ]
     },
     {
-      "source": "/(.*)",
+      "source": "/assets/(images|videos)/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "no-cache, no-store, must-revalidate"
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
         }
       ]
-    }
-  ],
-  "rewrites": [
+    },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/fonts/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    },
+    {
+      "source": "/((?!assets/|fonts/).*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "upgrade-insecure-requests; default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://translate.googleapis.com https://www.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.google.com https://www.googletagmanager.com https://translate.googleapis.com https://translate.google.com https://translate-pa.googleapis.com; frame-src 'self' https://translate.google.com https://translate.googleapis.com;"
+        }
+      ]
     }
   ]
 }

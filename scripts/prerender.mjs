@@ -40,6 +40,14 @@ async function serveDist() {
   return server;
 }
 
+// En Vercel no hay librerías del sistema para el Chromium de Playwright: se usa @sparticuz/chromium
+// (build preparado para ese entorno). En CI de GitHub o en local se usa el de Playwright.
+async function launchOptions() {
+  if (!process.env.VERCEL) return {};
+  const { default: sparticuz } = await import('@sparticuz/chromium');
+  return { executablePath: await sparticuz.executablePath(), args: sparticuz.args, headless: true };
+}
+
 async function main() {
   let chromium;
   try {
@@ -51,7 +59,7 @@ async function main() {
 
   let browser;
   try {
-    browser = await chromium.launch();
+    browser = await chromium.launch(await launchOptions());
   } catch (err) {
     console.warn('[prerender] no se pudo lanzar chromium (¿falta `npx playwright install chromium`?) — se omite el prerender');
     console.warn(`[prerender] ${err.message.split('\n')[0]}`);
