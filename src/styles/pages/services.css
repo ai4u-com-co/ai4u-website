@@ -1,0 +1,17 @@
+/* /servicios — lenguaje v2. Prefijo a4-services- */
+.a4-services-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 19px; margin-top: clamp(24px, 3vw, 40px); }
+.a4-services-steps > * { min-width: 0; }
+.a4-services-lab { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--a4-ash); border: 1px solid var(--a4-ash); margin-top: clamp(24px, 3vw, 40px); }
+.a4-services-lab > div { background: var(--a4-paper); padding: 24px; display: grid; gap: 16px; align-content: start; min-width: 0; }
+.a4-services-lab ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.a4-services-lab button { all: unset; box-sizing: border-box; cursor: pointer; min-height: 44px; display: flex; align-items: center; font-size: 15px; line-height: 1.45; text-decoration: underline; text-underline-offset: 4px; }
+.a4-services-lab button:focus-visible { outline: 2px solid var(--a4-ink); outline-offset: 3px; }
+.a4-services-related { display: flex; flex-wrap: wrap; gap: 4px 28px; margin-top: 8px; }
+@media (max-width: 900px) {
+  .a4-services-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .a4-services-lab { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .a4-services-steps { grid-template-columns: minmax(0, 1fr); }
+}
+.a4-services-steps > .a4-card { grid-column: auto; }

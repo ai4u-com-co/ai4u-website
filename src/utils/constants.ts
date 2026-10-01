@@ -13,8 +13,6 @@ export const ROUTES = {
   DESIGN_SYSTEM: '/design-system',
   PITCH: '/pitch',
   PITCH_BANCOLOMBIA: '/pitch-bancolombia',
-  PITCH_FONDO_EMPRENDER: '/pitch-fondo-emprender',
-  PROPUESTA_EL_BARRIL: '/propuesta-el-barril',
   PROPUESTA_MANUFACTURA: '/propuesta-manufactura',
   PRIVACY_POLICY: '/politica-de-privacidad',
   TERMS_OF_SERVICE: '/condiciones-de-servicio',

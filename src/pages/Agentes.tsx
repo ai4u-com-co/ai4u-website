@@ -1,8 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Box, Container, Grid } from '@mui/material';
-import { Giant, H2, BodyText, CodeText, SEOHead, BinaryOverlay } from '@/components/shared/ui/atoms';
-import { useColors } from '@/hooks';
+import { SEOHead } from '@/components/shared/ui/atoms';
 import { getPageMetaTags, getCanonicalUrl } from '@/utils/seo';
 import { AGENT_GROUPS, ALL_AGENTS, type Agent, type AgentStatus } from '@/data/agents';
 import type { ToolId } from '@/data/tools';
@@ -10,7 +8,9 @@ import AgentCard from '@/components/agentes/AgentCard';
 import AgentDrawer from '@/components/agentes/AgentDrawer';
 import AgentConfirm from '@/components/agentes/AgentConfirm';
 import AgentFilters, { type FilterCounts } from '@/components/agentes/AgentFilters';
-import { AGENTES_BRAND } from '@/components/agentes/theme';
+import { APP_CONFIG } from '@/utils/constants';
+import '@/styles/site-v2.css';
+import '@/styles/pages/agentes.css';
 
 type SortMode = 'nivel' | 'nombre';
 
@@ -26,8 +26,9 @@ function computeCounts(agents: Agent[]): FilterCounts {
   return { estado, area, tool: tool as Record<ToolId, number> };
 }
 
+const whatsappUrl = `https://wa.me/${APP_CONFIG.CONTACT.WHATSAPP}?text=${encodeURIComponent(APP_CONFIG.CONTACT.WHATSAPP_MESSAGE)}`;
+
 const Agentes: React.FC = () => {
-  const colors = useColors();
   const metaTags = getPageMetaTags('agentes');
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -84,31 +85,27 @@ const Agentes: React.FC = () => {
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: colors.contrast.background, position: 'relative' }}>
+    <div className="a4 a4-page">
       <SEOHead title={metaTags.title} description={metaTags.description} canonical={getCanonicalUrl('/agentes')} />
-      <BinaryOverlay lines={60} opacity={0.02} zIndex={0} />
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, pt: { xs: 10, md: 14 }, pb: { xs: 10, md: 16 } }}>
+      <div className="a4-wrap" style={{ paddingBottom: 'clamp(56px, 8vw, 119px)' }}>
         {reclutado && agenteActivo ? (
-          <AgentConfirm agent={agenteActivo} onBack={cerrar} />
+          <div className="a4-page-head">
+            <AgentConfirm agent={agenteActivo} onBack={cerrar} />
+          </div>
         ) : (
           <>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: { xs: 6, md: 8 }, maxWidth: '760px' }}>
-              <CodeText sx={{ color: colors.contrast.text.secondary, letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '12px' }}>
-                agentes · {ALL_AGENTS.length} en el equipo
-              </CodeText>
-              <Giant sx={{ fontSize: { xs: '36px', md: '56px' }, lineHeight: 1.05 }}>
-                elegí quién<br />entra a tu equipo
-              </Giant>
-              <BodyText sx={{ color: colors.contrast.text.secondary, fontSize: '17px', maxWidth: '58ch' }}>
-                cada uno resuelve trabajo real hoy, en empresas reales. la cara de cada uno se genera
-                sola, a partir de su nombre — su propia numeración interna hecha visible.
-              </BodyText>
-            </Box>
+            <header className="a4-page-head">
+              <p className="a4-cap">Agentes · {ALL_AGENTS.length} en el equipo</p>
+              <h1 className="a4-display">Elige quién<br />entra a tu equipo</h1>
+              <p className="a4-lead a4-sm">
+                Cada uno resuelve trabajo real hoy, en empresas reales. La cara de cada uno se genera sola a partir de su nombre.
+              </p>
+            </header>
 
-            <Grid container spacing={{ xs: 3, md: 4 }}>
-              <Grid item xs={12} md={3}>
-                <Box sx={{ position: { md: 'sticky' }, top: { md: 100 } }}>
+            <section className="a4-section">
+              <div className="a4-agentes-layout">
+                <aside className="a4-agentes-aside" aria-label="Filtros">
                   <AgentFilters
                     areas={AGENT_GROUPS.map((g) => ({ id: g.id, label: g.label }))}
                     counts={counts}
@@ -120,88 +117,56 @@ const Agentes: React.FC = () => {
                     onToggleTool={(v) => toggle(toolActivas, v, setToolActivas)}
                     onClear={() => { setEstadoActivos([]); setAreaActivas([]); setToolActivas([]); }}
                   />
-                </Box>
-              </Grid>
+                </aside>
 
-              <Grid item xs={12} md={9}>
-                <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center', mb: 2, flexWrap: 'wrap' }}>
-                  <Box
-                    component="input"
-                    value={search}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
-                    placeholder="buscar por tarea, sistema o nombre…"
-                    sx={{
-                      flex: 1,
-                      minWidth: 200,
-                      border: `1.5px solid ${AGENTES_BRAND.erieBlack}`,
-                      borderRadius: '999px',
-                      padding: '8px 14px',
-                      fontSize: '13px',
-                      fontFamily: 'inherit',
-                      bgcolor: AGENTES_BRAND.white,
-                      outline: 'none',
-                    }}
-                  />
-                  <Box
-                    component="button"
-                    onClick={() => setSort(sort === 'nivel' ? 'nombre' : 'nivel')}
-                    sx={{
-                      border: `1.5px solid ${AGENTES_BRAND.erieBlack}`,
-                      borderRadius: '999px',
-                      padding: '8px 14px',
-                      fontSize: '11px',
-                      fontFamily: 'inherit',
-                      bgcolor: 'transparent',
-                      cursor: 'pointer',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    orden: {sort} ▾
-                  </Box>
-                </Box>
+                <div>
+                  <div className="a4-agentes-bar">
+                    <input
+                      className="a4-input"
+                      type="search"
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      placeholder="Buscar por tarea, sistema o nombre…"
+                      aria-label="Buscar agentes"
+                    />
+                    <button type="button" className="a4-pill" onClick={() => setSort(sort === 'nivel' ? 'nombre' : 'nivel')}>
+                      Orden: {sort} ▾
+                    </button>
+                  </div>
+                  <p className="a4-cap a4-num" aria-live="polite">
+                    {ordenados.length} {ordenados.length === 1 ? 'resultado' : 'resultados'}
+                  </p>
 
-                <CodeText sx={{ fontSize: '10px', color: colors.contrast.text.secondary, mb: 3, display: 'block' }}>
-                  {ordenados.length} {ordenados.length === 1 ? 'resultado' : 'resultados'}
-                </CodeText>
-
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 5, md: 6 } }}>
                   {grupos.map((group) => (
-                    <Box key={group.id}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2.5 }}>
-                        <Box sx={{ width: 4, height: 15, bgcolor: AGENTES_BRAND.hotOrange }} />
-                        <CodeText sx={{ fontSize: '10px', letterSpacing: '0.08em', textTransform: 'uppercase', color: colors.contrast.text.primary }}>
-                          {group.label}
-                        </CodeText>
-                        <Box sx={{ flex: 1, height: '1px', bgcolor: colors.contrast.border }} />
-                      </Box>
-                      <Grid container spacing={2}>
+                    <div key={group.id} className="a4-agentes-group">
+                      <div className="a4-sec-label" style={{ marginBottom: 0 }}>
+                        <p className="a4-cap">{group.label}</p>
+                      </div>
+                      <div className="a4-agentes-grid">
                         {group.agents.map((agent) => (
-                          <Grid item xs={12} sm={6} lg={4} key={agent.name}>
-                            <AgentCard agent={agent} onOpen={abrir} />
-                          </Grid>
+                          <AgentCard key={agent.name} agent={agent} onOpen={abrir} />
                         ))}
-                      </Grid>
-                    </Box>
+                      </div>
+                    </div>
                   ))}
                   {grupos.length === 0 && (
-                    <Box sx={{ py: 6, textAlign: 'center', color: colors.contrast.text.secondary, fontSize: 13 }}>
-                      ningún agente coincide con esos filtros — probá limpiarlos.
-                    </Box>
+                    <p className="a4-agentes-empty a4-sm">Ningún agente coincide con esos filtros. Prueba limpiarlos.</p>
                   )}
-                </Box>
-              </Grid>
-            </Grid>
+                </div>
+              </div>
+            </section>
 
-            <Box sx={{ mt: { xs: 8, md: 10 }, textAlign: 'center' }}>
-              <H2 sx={{ fontSize: { xs: '22px', md: '28px' }, mb: 2 }}>el próximo agente puede ser el tuyo</H2>
-              <BodyText sx={{ color: colors.contrast.text.secondary, mb: 0, maxWidth: '52ch', mx: 'auto' }}>
-                contanos qué tarea te está costando tiempo todas las semanas — vemos si ya existe un
-                agente para eso, o si construimos uno nuevo.
-              </BodyText>
-            </Box>
+            <section className="a4-section">
+              <p className="a4-cap" style={{ marginBottom: 24 }}>Siguiente</p>
+              <h2 className="a4-h-lg" style={{ maxWidth: '14ch' }}>El próximo agente puede ser el tuyo</h2>
+              <p className="a4-sm" style={{ margin: '24px 0 8px', maxWidth: '52ch' }}>
+                Cuéntanos qué tarea te está costando tiempo todas las semanas: vemos si ya existe un agente para eso o si construimos uno nuevo.
+              </p>
+              <a className="a4-ghost" href={whatsappUrl} target="_blank" rel="noopener noreferrer">Escríbenos por WhatsApp →</a>
+            </section>
           </>
         )}
-      </Container>
+      </div>
 
       {agenteActivo && !reclutado && (
         <AgentDrawer
@@ -212,7 +177,7 @@ const Agentes: React.FC = () => {
           onRecruit={reclutar}
         />
       )}
-    </Box>
+    </div>
   );
 };
 

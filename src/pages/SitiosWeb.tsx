@@ -1,25 +1,28 @@
 import React from 'react';
-import { Box, Container, Grid, Stack, Link as MuiLink } from '@mui/material';
-import { Giant, H2, BodyText, CodeText, SEOHead, GeometricIcon, RegistrationMarks, MoireText } from '../components/shared/ui/atoms';
-import { DiagnosticCTA, RelatedPages } from '../components/shared/ui/molecules';
-import { SurfaceProvider } from '../context';
-import { useColors, usePerformanceMonitoring } from '../hooks';
-import { getRelatedLinks } from '../data/internalLinkingStrategy';
-import { BRAND_ORANGE } from '../components/shared/ui/tokens/brandAccent';
+import { Link } from 'react-router-dom';
+import { SEOHead } from '../components/shared/ui/atoms';
+import { usePerformanceMonitoring } from '../hooks';
+import { APP_CONFIG, ROUTES } from '../utils/constants';
+import { scrollToTop } from '../utils/helpers';
+import '../styles/site-v2.css';
+import '../styles/pages/sitios-web.css';
+
+const waUrl = (message: string) =>
+  `https://wa.me/${APP_CONFIG.CONTACT.WHATSAPP}?text=${encodeURIComponent(message)}`;
 
 const PLANS = [
   {
     n: '01',
-    name: 'landing',
-    desc: 'una página, sin backend. lista para publicar y empezar a recibir tráfico.',
-    ctaText: 'cotizar landing',
+    name: 'Landing',
+    desc: 'Una página, sin backend. Lista para publicar y empezar a recibir tráfico.',
+    ctaText: 'Cotizar landing',
     message: 'Hola, quiero cotizar un sitio tipo landing (sin backend).',
   },
   {
     n: '02',
-    name: 'con backend',
-    desc: 'formulario, base de datos, lógica propia — la misma landing, con capacidad real detrás.',
-    ctaText: 'cotizar con backend',
+    name: 'Con backend',
+    desc: 'Formulario, base de datos, lógica propia: la misma landing, con capacidad real detrás.',
+    ctaText: 'Cotizar con backend',
     message: 'Hola, quiero cotizar un sitio con backend (formulario, base de datos, lógica propia).',
   },
 ];
@@ -27,213 +30,109 @@ const PLANS = [
 const SITES = [
   {
     name: 'La Magdalena',
-    desc: 'estudio de storytelling de impacto social y ambiental.',
+    desc: 'Estudio de storytelling de impacto social y ambiental.',
     url: 'https://www.lamagdalena.com.co',
     label: 'lamagdalena.com.co',
     image: '/assets/images/cases/screenshots/lamagdalena-site.jpg',
   },
   {
     name: 'Catalina Romero',
-    desc: 'portafolio de dirección de arte, estilismo y narrativa visual.',
+    desc: 'Portafolio de dirección de arte, estilismo y narrativa visual.',
     url: 'https://cromero.vercel.app/',
     label: 'cromero.vercel.app',
     image: '/assets/images/cases/screenshots/cromero-site.jpg',
   },
   {
     name: 'Nakoa',
-    desc: 'perfumería de autor — lo invisible del territorio, en frasco.',
+    desc: 'Perfumería de autor: lo invisible del territorio, en frasco.',
     url: 'https://nakoa-web.vercel.app/',
     label: 'nakoa-web.vercel.app',
     image: '/assets/images/cases/screenshots/nakoa-site.jpg',
   },
 ];
 
-// Cuerpo real — vive dentro del SurfaceProvider "cream" del wrapper de más abajo
-// (mismo patrón que Home.tsx/HomeBody, Services.tsx). Página aparte a propósito:
-// no forma parte del pitch de agentes/SAP — es la capa 3, oferta independiente.
-const SitiosWebBody: React.FC = () => {
-  const colors = useColors();
+const SitiosWeb: React.FC = () => {
   usePerformanceMonitoring('sitios-web', { lcp: 2500, fcp: 1800 });
-  const relatedLinks = getRelatedLinks('/sitios-web');
+  const top = () => scrollToTop('auto');
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: colors.contrast.background, color: colors.contrast.text.primary }}>
+    <div className="a4 a4-page">
       <SEOHead
         title="Sitios Web | AI4U"
-        description="Landing pages y sitios con backend, arquitectura de alto rendimiento, entregados en días. Pago único."
+        description="Landing pages y sitios con backend, arquitectura de alto rendimiento, entregados en días. Cotización por WhatsApp."
         canonical="https://www.ai4u.com.co/sitios-web"
       />
 
-      {/* Hero */}
-      <Box sx={{ py: { xs: 10, md: 16 }, position: 'relative', borderBottom: `1px solid ${colors.contrast.border}` }}>
-        <RegistrationMarks corners={['tl', 'tr']} circles />
-        <Container maxWidth="lg">
-          <CodeText sx={{ fontSize: '0.72rem', letterSpacing: '0.25em', color: BRAND_ORANGE, mb: 4, display: 'block' }}>
-            // ai4u.sitios-web
-          </CodeText>
-          <Giant sx={{ fontWeight: 400, lineHeight: 0.85, fontSize: { xs: '3.5rem', md: '7rem' }, mb: 4 }}>
-            <MoireText sx={{ fontSize: 'inherit', lineHeight: 'inherit', letterSpacing: 'inherit' }}>
-              sitios web
-            </MoireText>
-          </Giant>
-          <BodyText sx={{ fontSize: { xs: '1.2rem', md: '1.5rem' }, maxWidth: '620px', opacity: 0.85, fontWeight: 300 }}>
-            plataformas web de alto rendimiento. arquitectura optimizada, sin vueltas —
-            entregado, pagado una vez, tuyo.
-          </BodyText>
-        </Container>
-      </Box>
+      <header className="a4-page-head a4-wrap">
+        <p className="a4-cap">Ai4U · Sitios web</p>
+        <h1 className="a4-display">Sitios<br />web</h1>
+        <p className="a4-lead">Plataformas web de alto rendimiento. Arquitectura optimizada, sin vueltas: entregado y tuyo.</p>
+      </header>
 
-      {/* Planes */}
-      <Box sx={{ py: { xs: 8, md: 12 } }}>
-        <Container maxWidth="lg">
-          <Grid container spacing={4}>
-            {PLANS.map((plan) => (
-              <Grid item xs={12} md={6} key={plan.n}>
-                <Box sx={{
-                  p: { xs: 4, md: 5 },
-                  height: '100%',
-                  border: `1px solid ${colors.contrast.border}`,
-                  display: 'flex',
-                  flexDirection: 'column',
-                }}>
-                  <CodeText sx={{ fontSize: '0.75rem', opacity: 0.5, mb: 3 }}>{plan.n}</CodeText>
-                  <H2 sx={{ fontWeight: 400, fontSize: { xs: '1.8rem', md: '2.4rem' }, mb: 2, textTransform: 'none' }}>
-                    {plan.name}
-                  </H2>
-                  <BodyText sx={{ opacity: 0.75, mb: 5, flex: 1, fontSize: '1rem' }}>{plan.desc}</BodyText>
-                  <DiagnosticCTA
-                    variant="outline"
-                    text={plan.ctaText}
-                    message={plan.message}
-                    sx={{
-                      alignSelf: 'flex-start',
-                      borderColor: BRAND_ORANGE,
-                      color: BRAND_ORANGE,
-                      '&:hover': { bgcolor: BRAND_ORANGE, color: '#fff' },
-                    }}
-                  />
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
+      <section className="a4-section a4-wrap" aria-label="Opciones">
+        <div className="a4-sec-label"><span className="a4-cap">Qué construimos</span></div>
+        <div className="a4-grid two-col">
+          {PLANS.map((plan) => (
+            <article className="a4-card" key={plan.n}>
+              <p className="a4-cap a4-num">{plan.n}</p>
+              <h2 className="a4-h-sm">{plan.name}</h2>
+              <p className="a4-sm">{plan.desc}</p>
+              <a className="a4-ghost" href={waUrl(plan.message)} target="_blank" rel="noopener noreferrer" style={{ justifySelf: 'start' }}>
+                {plan.ctaText} →
+              </a>
+            </article>
+          ))}
+        </div>
+        <ul className="a4-points" style={{ marginTop: 30 }}>
+          <li>Optimización SEO y LCP</li>
+          <li>Entrega en ~14 días</li>
+        </ul>
+      </section>
 
-          <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mt: 6 }}>
-            <GeometricIcon type="check" size="small" variant="minimal" color={BRAND_ORANGE} />
-            <BodyText sx={{ fontSize: '0.9rem', opacity: 0.7 }}>optimización SEO/LCP</BodyText>
-          </Stack>
-          <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mt: 2 }}>
-            <GeometricIcon type="check" size="small" variant="minimal" color={BRAND_ORANGE} />
-            <BodyText sx={{ fontSize: '0.9rem', opacity: 0.7 }}>entrega en ~14 días</BodyText>
-          </Stack>
-        </Container>
-      </Box>
+      <section className="a4-section a4-wrap" aria-label="Sitios que hemos construido">
+        <div className="a4-sec-label"><span className="a4-cap">Sitios que hemos construido</span></div>
+        <div className="a4-sw-wins">
+          {SITES.map((site) => (
+            <a key={site.name} className="a4-sw-win" href={site.url} target="_blank" rel="noopener noreferrer">
+              <div className="a4-sw-bar">
+                <span className="a4-sw-dots" aria-hidden="true"><i /><i /><i /></span>
+                <span className="a4-cap a4-num">{site.label}</span>
+              </div>
+              <div
+                className="a4-sw-shot"
+                role="img"
+                aria-label={`Recorrido del landing de ${site.name}`}
+                style={{ backgroundImage: `url(${site.image})` }}
+              />
+              <div className="a4-sw-meta">
+                <h3 className="a4-sub">{site.name}</h3>
+                <div style={{ display: 'grid', gap: 10 }}>
+                  <p className="a4-sm">{site.desc}</p>
+                  <span className="a4-cap">Visitar {site.label} →</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
 
-      {/* Sitios que hemos construido */}
-      <Box sx={{ py: { xs: 8, md: 12 }, borderTop: `1px solid ${colors.contrast.border}` }}>
-        <Container maxWidth="lg">
-          <CodeText sx={{ fontSize: '0.72rem', letterSpacing: '0.2em', color: colors.contrast.text.secondary, mb: 5, display: 'block' }}>
-            // sitios que hemos construido
-          </CodeText>
-          <Stack spacing={6}>
-            {SITES.map((site) => (
-              <MuiLink
-                key={site.name}
-                href={site.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                underline="none"
-                sx={{
-                  display: 'block',
-                  color: 'inherit',
-                  border: `1px solid ${colors.contrast.border}`,
-                  transition: 'border-color 0.2s ease',
-                  '&:hover': {
-                    borderColor: BRAND_ORANGE,
-                    '& .site-preview-image': { filter: 'grayscale(0%)' },
-                  },
-                }}
-              >
-                <Box
-                  className="site-preview-image"
-                  role="img"
-                  aria-label={`Recorrido del landing de ${site.name}`}
-                  sx={{
-                    width: '100%',
-                    height: { xs: 380, sm: 480, md: 600 },
-                    bgcolor: colors.contrast.border,
-                    borderBottom: `1px solid ${colors.contrast.border}`,
-                    backgroundImage: `url(${site.image})`,
-                    backgroundSize: '100% auto',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'center 0%',
-                    filter: 'grayscale(100%)',
-                    transition: 'filter 0.6s ease',
-                    animation: 'sitePreviewPan 26s linear infinite',
-                    '@keyframes sitePreviewPan': {
-                      '0%': { backgroundPosition: 'center 0%', opacity: 1 },
-                      '6%': { backgroundPosition: 'center 0%', opacity: 1 },
-                      '80%': { backgroundPosition: 'center 100%', opacity: 1 },
-                      '88%': { backgroundPosition: 'center 100%', opacity: 1 },
-                      '90%': { opacity: 0 },
-                      '92%': { backgroundPosition: 'center 0%', opacity: 0 },
-                      '96%': { opacity: 1 },
-                      '100%': { backgroundPosition: 'center 0%', opacity: 1 },
-                    },
-                    '@media (prefers-reduced-motion: reduce)': {
-                      animation: 'none',
-                      backgroundPosition: 'center 0%',
-                    },
-                  }}
-                />
-                <Box sx={{ p: { xs: 4, md: 5 } }}>
-                  <H2 sx={{ fontWeight: 400, fontSize: { xs: '1.8rem', md: '2.4rem' }, mb: 1.5, textTransform: 'none' }}>
-                    {site.name}
-                  </H2>
-                  <BodyText sx={{ opacity: 0.75, mb: 3, fontSize: '1rem' }}>{site.desc}</BodyText>
-                  <CodeText sx={{ fontSize: '0.8rem', color: BRAND_ORANGE }}>
-                    {site.label} →
-                  </CodeText>
-                </Box>
-              </MuiLink>
-            ))}
-          </Stack>
-        </Container>
-      </Box>
-
-      {/* CTA */}
-      <Box sx={{ py: { xs: 10, md: 16 }, borderTop: `1px solid ${colors.contrast.border}`, display: 'flex', justifyContent: 'center' }}>
-        <Container maxWidth="md" sx={{ textAlign: 'center' }}>
-          <Giant sx={{ fontWeight: 400, fontSize: { xs: '2.5rem', md: '4.5rem' }, lineHeight: 0.9, mb: 6 }}>
-            ¿lo construimos?
-          </Giant>
-          <DiagnosticCTA
-            variant="primary"
-            text="escríbenos por WhatsApp"
-            size="large"
-            showIcon={false}
-            sx={{
-              height: '52px', px: 5, fontSize: '0.85rem', fontWeight: 400,
-              fontFamily: 'monospace', letterSpacing: '0.05em', borderRadius: 0,
-              bgcolor: BRAND_ORANGE, color: '#fff', border: 'none',
-              '&:hover': { bgcolor: BRAND_ORANGE, opacity: 0.85 },
-            }}
-          />
-        </Container>
-      </Box>
-
-      {relatedLinks.length > 0 && (
-        <Container maxWidth="lg" sx={{ py: 8 }}>
-          <RelatedPages pages={relatedLinks} title="Sigue explorando:" variant="horizontal" />
-        </Container>
-      )}
-    </Box>
+      <section className="a4-cta a4-wrap">
+        <p className="a4-cap" style={{ marginBottom: 24 }}>Empecemos</p>
+        <h2 className="a4-h-lg" style={{ maxWidth: '12ch' }}>¿Lo construimos?</h2>
+        <div style={{ marginTop: 32 }}>
+          <a className="a4-ghost" href={waUrl(APP_CONFIG.CONTACT.WHATSAPP_MESSAGE)} target="_blank" rel="noopener noreferrer">
+            Escríbenos por WhatsApp →
+          </a>
+        </div>
+        <p className="a4-cap" style={{ marginTop: 40 }}>Sigue explorando</p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 28px' }}>
+          <Link className="a4-ghost" to={ROUTES.ORDER_LOADER} onClick={top}>orderLoader →</Link>
+          <Link className="a4-ghost" to={ROUTES.AGENTES} onClick={top}>Agentes →</Link>
+          <Link className="a4-ghost" to={ROUTES.PORTFOLIO} onClick={top}>Portafolio →</Link>
+        </div>
+      </section>
+    </div>
   );
 };
-
-const SitiosWeb: React.FC = () => (
-  <SurfaceProvider surface="cream">
-    <SitiosWebBody />
-  </SurfaceProvider>
-);
 
 export default SitiosWeb;

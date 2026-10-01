@@ -82,21 +82,18 @@ test.describe('AI4U Smoke Test', () => {
     await expect(nav).not.toContainText(/superAI/i);
   });
 
-  test('legacy /super-ai route should redirect home', async ({ page }) => {
+  test('/super-ai should render its own page', async ({ page }) => {
+    // App.tsx renderiza SuperAI en /super-ai (el redirect al home ya no existe)
     await page.goto('/super-ai');
-    await expect(page).toHaveURL(/\/$/);
+    await expect(page).toHaveURL(/\/super-ai/);
+    await expect(page.locator('h1').first()).toBeVisible();
   });
 
-  test('primary CTA should point to WhatsApp', async ({ page, context }) => {
+  test('primary CTA should point to WhatsApp', async ({ page }) => {
     await page.goto('/');
     const cta = page.getByRole('link', { name: /hablar con el equipo/i }).first();
     await expect(cta).toBeVisible();
-    const [popup] = await Promise.all([
-      context.waitForEvent('page'),
-      cta.click(),
-    ]);
-    // wa.me redirige a api.whatsapp.com — validamos el número en cualquiera de las dos formas
-    expect(popup.url()).toContain('573024906414');
-    await popup.close();
+    // Se valida el href: abrir wa.me depende de la red y deja popup.url() vacío
+    await expect(cta).toHaveAttribute('href', /wa\.me\/573024906414/);
   });
 });

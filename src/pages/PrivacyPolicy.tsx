@@ -1,63 +1,51 @@
 import React from 'react';
-import { Box, Container, Typography, Link as MuiLink } from '@mui/material';
-import { SEOHead, BodyText, H2, RegistrationMarks } from '../components/shared/ui/atoms';
-import { useColors } from '../hooks';
-import { SurfaceProvider } from '../context';
-
-const PrivacyPolicyBody = () => {
-  const colors = useColors();
-
-  return (
-    <Box sx={{ bgcolor: colors.contrast.background, color: colors.contrast.text.primary, minHeight: '100vh', py: 10, position: 'relative' }}>
-      <RegistrationMarks corners={['tl', 'br']} />
-      <SEOHead
-        title="Política de Privacidad | Ads Manager"
-        description="Información sobre cómo manejamos tus datos en nuestra aplicación de Facebook Ads."
-      />
-      <Container maxWidth="md">
-        <H2 sx={{ mb: 4, textAlign: 'left', fontWeight: 300 }}>Política de Privacidad</H2>
-        
-        <Box sx={{ mb: 6 }}>
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: 400 }}>1. Información que Recolectamos</Typography>
-          <BodyText sx={{ mb: 3 }}>
-            Nuestra aplicación de búsqueda y gestión de anuncios (Ads Manager) accede a información pública y autorizada a través de las APIs de Facebook. Esto incluye datos básicos del perfil, estadísticas de anuncios y métricas de rendimiento que el usuario decide compartir explícitamente al autenticarse.
-          </BodyText>
-
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: 400 }}>2. Uso de la Información</Typography>
-          <BodyText sx={{ mb: 3 }}>
-            La información recolectada se utiliza únicamente para proveer las funcionalidades de la aplicación, como la visualización de métricas, optimización de campañas y generación de reportes personalizados para el usuario. No vendemos ni compartimos estos datos con terceros externos.
-          </BodyText>
-
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: 400 }}>3. Almacenamiento y Seguridad</Typography>
-          <BodyText sx={{ mb: 3 }}>
-            Implementamos medidas de seguridad técnicas y organizativas para proteger los datos contra accesos no autorizados, pérdida o alteración. Los tokens de acceso de Facebook se almacenan de forma cifrada y segura.
-          </BodyText>
-
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: 400 }}>4. Tus Derechos</Typography>
-          <BodyText sx={{ mb: 3 }}>
-            Puedes revocar el acceso de nuestra aplicación a tus datos en cualquier momento a través de la configuración de aplicaciones en tu perfil de Facebook o contactándonos directamente.
-          </BodyText>
-
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: 400 }}>5. Contacto</Typography>
-          <BodyText sx={{ mb: 3 }}>
-            Si tienes preguntas sobre esta política de privacidad, puedes contactarnos a través de los canales oficiales habilitados en la plataforma.
-          </BodyText>
-        </Box>
-        
-        <Box sx={{ mt: 8, pt: 4, borderTop: `1px solid ${colors.contrast.divider}` }}>
-          <BodyText sx={{ fontSize: '0.8rem', opacity: 0.6 }}>
-            Última actualización: 26 de marzo, 2026
-          </BodyText>
-        </Box>
-      </Container>
-    </Box>
-  );
-};
+import { SEOHead } from '../components/shared/ui/atoms';
+import '../styles/site-v2.css';
+import '../styles/pages/legal.css';
 
 const PrivacyPolicy = () => (
-  <SurfaceProvider surface="cream">
-    <PrivacyPolicyBody />
-  </SurfaceProvider>
+  <div className="a4 a4-page a4-legal">
+    <SEOHead
+      title="Política de Privacidad | Ads Manager"
+      description="Información sobre cómo manejamos tus datos en nuestra aplicación de Facebook Ads."
+    />
+    <div className="a4-wrap">
+      <header className="a4-page-head">
+        <p className="a4-cap">Legal</p>
+        <h1 className="a4-h-lg">Política de Privacidad</h1>
+      </header>
+      <section className="a4-section a4-legal-end">
+        <div className="a4-prose">
+        <h2>1. Información que Recolectamos</h2>
+        <p>
+        Nuestra aplicación de búsqueda y gestión de anuncios (Ads Manager) accede a información pública y autorizada a través de las APIs de Facebook. Esto incluye datos básicos del perfil, estadísticas de anuncios y métricas de rendimiento que el usuario decide compartir explícitamente al autenticarse.
+        </p>
+
+        <h2>2. Uso de la Información</h2>
+        <p>
+        La información recolectada se utiliza únicamente para proveer las funcionalidades de la aplicación, como la visualización de métricas, optimización de campañas y generación de reportes personalizados para el usuario. No vendemos ni compartimos estos datos con terceros externos.
+        </p>
+
+        <h2>3. Almacenamiento y Seguridad</h2>
+        <p>
+        Implementamos medidas de seguridad técnicas y organizativas para proteger los datos contra accesos no autorizados, pérdida o alteración. Los tokens de acceso de Facebook se almacenan de forma cifrada y segura.
+        </p>
+
+        <h2>4. Tus Derechos</h2>
+        <p>
+        Puedes revocar el acceso de nuestra aplicación a tus datos en cualquier momento a través de la configuración de aplicaciones en tu perfil de Facebook o contactándonos directamente.
+        </p>
+
+        <h2>5. Contacto</h2>
+        <p>
+        Si tienes preguntas sobre esta política de privacidad, puedes contactarnos a través de los canales oficiales habilitados en la plataforma.
+        </p>
+
+        </div>
+        <p className="a4-cap a4-num a4-legal-meta">Última actualización: 26 de marzo, 2026</p>
+      </section>
+    </div>
+  </div>
 );
 
 export default PrivacyPolicy;
