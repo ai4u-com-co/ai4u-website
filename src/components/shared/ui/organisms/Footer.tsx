@@ -6,6 +6,7 @@ import '../../../../styles/site-v2.css';
 
 const SITE_LINKS = [
   { name: 'Agentes', path: ROUTES.AGENTES },
+  { name: 'Tableros', path: ROUTES.TABLEROS },
   { name: 'A tu medida', path: ROUTES.SERVICES },
   { name: 'Sitios web', path: ROUTES.SITIOS_WEB },
   { name: 'Casos', path: ROUTES.PORTFOLIO },

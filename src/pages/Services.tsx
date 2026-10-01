@@ -1,78 +1,49 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { SEOHead } from '@/components/shared/ui/atoms';
-import { useServicesContext } from '@/context';
 import { usePerformanceMonitoring } from '@/hooks';
 import { getServicesStructuredData, getPageMetaTags } from '@/utils/seo';
 import { getRelatedLinks } from '@/data/internalLinkingStrategy';
-import { APP_CONFIG } from '@/utils/constants';
+import { ROUTES, APP_CONFIG } from '@/utils/constants';
 import { scrollToTop } from '@/utils/helpers';
 import '@/styles/site-v2.css';
 import '@/styles/pages/services.css';
 
 const whatsappUrl = `https://wa.me/${APP_CONFIG.CONTACT.WHATSAPP}?text=${encodeURIComponent(APP_CONFIG.CONTACT.WHATSAPP_MESSAGE)}`;
 
-// Camino 1 — cualquier empresa que ya tenga un ERP. Nos conectamos directo — es tu primera línea de IA.
-const ERP_ITEMS = [
-  { n: '01', name: 'dashboards en vivo', desc: 'ventas, cartera, inventario y producción conectados en tiempo real a tu ERP.' },
-  { n: '02', name: 'automatización de procesos', desc: 'pedidos, cartera, facturación — el proceso que más tiempo te cuesta, resuelto.' },
-  { n: '03', name: 'agentes conectados a tu ERP', desc: 'chat, alertas y cobranza que hablan con la data real de tu sistema.' },
+// Qué construimos a la medida de cada operación.
+const QUE_CONSTRUIMOS = [
+  { n: '01', name: 'Software y automatizaciones', desc: 'El proceso que más tiempo te cuesta, resuelto: pedidos, cotizaciones, facturación, planeación de producción.', to: undefined as string | undefined },
+  { n: '02', name: 'Conexión con tus sistemas', desc: 'Tu sistema de gestión, tu correo y WhatsApp trabajando juntos para que la información fluya sin digitar.', to: undefined },
+  { n: '03', name: 'Tableros a tu medida', desc: 'Las cifras que necesitas, siempre al día y con alertas.', to: ROUTES.TABLEROS },
+  { n: '04', name: 'Sitios web', desc: 'Sitios y tiendas con diseño propio, hechos para trabajar por ti.', to: ROUTES.SITIOS_WEB },
 ];
 
-// Camino 2 — cualquier pyme, sin ERP, que quiere lo mismo: un equipo digital
-// trabajando todos los días.
-const PYME_ITEMS = [
-  { n: '01', name: 'empleado de automatización', desc: 'mensualidad fija, entrega continua — el proceso que elijas, automatizado y mantenido.' },
-  { n: '02', name: 'agentes especializados', desc: 'servicio al cliente, prospección o cobranza — un rol completo, no una herramienta.' },
-];
-
-// Grupos del laboratorio — por lo que hacen, no por su nombre interno.
-const LAB_GROUPS: { label: string; category: string }[] = [
-  { label: 'automatización', category: 'automation' },
-  { label: 'analítica', category: 'analytics' },
-  { label: 'asistentes ia', category: 'ai_assistant' },
-  { label: 'e-commerce', category: 'ecommerce' },
-  { label: 'consultoría', category: 'consulting' },
-  { label: 'formación', category: 'training' },
-];
-
+// Cómo trabajamos: de entender la operación a dejarla funcionando.
 const STEPS = [
-  { n: '01', t: 'Diagnóstico', d: 'Oportunidades reales.' },
-  { n: '02', t: 'Priorización', d: 'Foco en resultados.' },
-  { n: '03', t: 'Desarrollo', d: 'IA a tu medida.' },
-  { n: '04', t: 'Despliegue', d: 'Integración y soporte.' },
+  { n: '01', t: 'Diagnóstico', d: 'Entendemos tu operación y escogemos lo que más tiempo te cuesta.' },
+  { n: '02', t: 'Construcción', d: 'Lo armamos contigo, reutilizando lo que ya funciona.' },
+  { n: '03', t: 'Puesta en marcha', d: 'Entra a trabajar con una persona revisando lo que importa.' },
+  { n: '04', t: 'Mantenimiento', d: 'Lo mantenemos funcionando y lo mejoramos con tu operación.' },
 ];
 
-const Rows: React.FC<{ items: { n: string; name: string; desc: string }[] }> = ({ items }) => (
-  <div className="a4-rows">
-    {items.map((item) => (
-      <div className="a4-row" key={item.n}>
-        <div>
-          <span className="a4-cap a4-num">{item.n}</span>
-          <h3 className="a4-sub" style={{ marginTop: 8 }}>{item.name}</h3>
-        </div>
-        <p className="a4-sm">{item.desc}</p>
-      </div>
-    ))}
-  </div>
-);
+// Cosas que ya construimos a la medida de un cliente.
+const EJEMPLOS = [
+  { cliente: 'Tamaprint', name: 'Cotizador', desc: 'Cotiza al instante y deja la cotización lista en el sistema.' },
+  { cliente: 'Flexoimpresos', name: 'Planeador de producción', desc: 'Ordena las órdenes por máquina y las muestra en una pantalla junto a cada una.' },
+  { cliente: 'Tamaprint', name: 'Creación de artículos', desc: 'Crea el artículo nuevo y su lista de materiales según la tecnología, sin armarlo a mano.' },
+  { cliente: 'Tamaprint', name: 'Revisión de artes', desc: 'Revisa el arte antes de producir y avisa si algo debe corregirse.' },
+  { cliente: 'La Magdalena', name: 'Transcriptor de audios', desc: 'Convierte grabaciones largas en texto, con quién dijo qué y a qué hora.' },
+  { cliente: 'Estudio Índigo', name: 'Atención a huéspedes', desc: 'Responde mensajes, mantiene calendarios al día y avisa al equipo de aseo.' },
+];
 
 const Services: React.FC = () => {
-  const { getFilteredServices } = useServicesContext();
-
   usePerformanceMonitoring('services', { lcp: 2500, fcp: 1800 });
 
   const metaTags = getPageMetaTags('services');
   const structuredData = getServicesStructuredData();
-  const relatedLinks = getRelatedLinks('/servicios').slice(0, 3);
+  const relatedLinks = getRelatedLinks(ROUTES.SERVICES).slice(0, 3);
   const top = () => scrollToTop('auto');
-
-  // Todo lo que también hemos construido — evidencia de rango, no la oferta
-  // principal. Sitios web vive en su propia página. Agrupado por categoría real.
-  const labServices = getFilteredServices().filter(s => s.id !== 'desarrollo-web');
-  const labGroups = LAB_GROUPS
-    .map(g => ({ ...g, items: labServices.filter(s => s.category === g.category) }))
-    .filter(g => g.items.length > 0);
 
   return (
     <div className="a4 a4-page">
@@ -87,65 +58,38 @@ const Services: React.FC = () => {
       <header className="a4-page-head a4-wrap">
         <p className="a4-cap">A tu medida · Ai4U</p>
         <h1 className="a4-display">A tu<br />medida</h1>
-        <p className="a4-lead a4-sm">Software, automatizaciones y sitios web pensados para tu operación. Después los mantenemos funcionando.</p>
+        <p className="a4-lead a4-sm">Lo que no existe, lo construimos. Software, automatizaciones y sitios web pensados para tu operación, y después los mantenemos funcionando.</p>
       </header>
 
-      <section className="a4-section a4-wrap" aria-labelledby="camino-1">
-        <div className="a4-sec-label"><span className="a4-cap a4-num">Camino 01</span></div>
+      <section className="a4-section a4-wrap" aria-labelledby="que-construimos">
+        <div className="a4-sec-label"><span className="a4-cap a4-num">Qué construimos</span></div>
         <div className="a4-two">
           <div className="a4-stack">
-            <h2 className="a4-h-sm" id="camino-1">Si tu empresa ya tiene un ERP</h2>
-            <p className="a4-sm">Nos conectamos directo a tu ERP y se vuelve tu primera línea de inteligencia artificial. Ya lo hicimos en producción en empresas de manufactura.</p>
+            <h2 className="a4-h-sm" id="que-construimos">Empezamos por el proceso que más tiempo te cuesta</h2>
+            <p className="a4-sm">Si ya existe un agente o un tablero que lo resuelve, lo usamos. Si no existe, lo construimos.</p>
           </div>
-          <Rows items={ERP_ITEMS} />
-        </div>
-      </section>
-
-      <section className="a4-section a4-wrap" aria-labelledby="camino-2">
-        <div className="a4-sec-label"><span className="a4-cap a4-num">Camino 02</span></div>
-        <div className="a4-two">
-          <div className="a4-stack">
-            <h2 className="a4-h-sm" id="camino-2">Si no tienes un ERP, pero quieres lo mismo</h2>
-            <p className="a4-sm">Un equipo digital trabajando todos los días, sin importar qué sistema uses hoy.</p>
-          </div>
-          <Rows items={PYME_ITEMS} />
-        </div>
-      </section>
-
-      <section className="a4-section a4-wrap" aria-label="Cuéntanos tu problema">
-        <div className="a4-card" style={{ gap: 22 }}>
-          <p className="a4-cap">Empecemos</p>
-          <h2 className="a4-h-sm">Cuéntanos qué te quita tiempo</h2>
-          <p className="a4-sm" style={{ maxWidth: 520 }}>Lo escuchamos y te decimos cómo lo resolveríamos.</p>
-          <div>
-            <a className="a4-pill" href={whatsappUrl} target="_blank" rel="noopener noreferrer">Escribir por WhatsApp →</a>
+          <div className="a4-rows">
+            {QUE_CONSTRUIMOS.map((item) => (
+              <div className="a4-row" key={item.n}>
+                <div>
+                  <span className="a4-cap a4-num">{item.n}</span>
+                  <h3 className="a4-sub" style={{ marginTop: 8 }}>{item.name}</h3>
+                </div>
+                <div className="a4-stack">
+                  <p className="a4-sm">{item.desc}</p>
+                  {item.to && (
+                    <Link className="a4-ghost" to={item.to} onClick={top} style={{ justifySelf: 'start' }}>Ver más →</Link>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="a4-section a4-wrap" aria-labelledby="laboratorio">
-        <div className="a4-sec-label"><span className="a4-cap a4-num">Laboratorio</span></div>
-        <h2 className="a4-h-lg" id="laboratorio" style={{ maxWidth: '14ch' }}>Lo que también hemos construido</h2>
-        <p className="a4-sm" style={{ marginTop: 20, maxWidth: 560 }}>No es el catálogo principal: es la prueba de que, cuando hace falta, también lo resolvemos.</p>
-        <div className="a4-services-lab">
-          {labGroups.map((group) => (
-            <div key={group.category}>
-              <p className="a4-cap">{group.label}</p>
-              <ul>
-                {group.items.map((service) => (
-                  <li key={service.id}>
-                    <span className="a4-sm">{service.description}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="a4-section a4-wrap" aria-labelledby="metodo">
-        <div className="a4-sec-label"><span className="a4-cap a4-num">Método</span></div>
-        <h2 className="a4-h-lg" id="metodo">Método directo</h2>
+      <section className="a4-section a4-wrap" aria-labelledby="como-trabajamos">
+        <div className="a4-sec-label"><span className="a4-cap a4-num">Cómo trabajamos</span></div>
+        <h2 className="a4-h-lg" id="como-trabajamos" style={{ maxWidth: '16ch' }}>De entender a dejarlo funcionando</h2>
         <div className="a4-services-steps">
           {STEPS.map((step) => (
             <div className="a4-card" key={step.n}>
@@ -157,10 +101,28 @@ const Services: React.FC = () => {
         </div>
       </section>
 
+      <section className="a4-section a4-wrap" aria-labelledby="ya-hicimos">
+        <div className="a4-sec-label"><span className="a4-cap a4-num">Lo que ya hicimos</span></div>
+        <h2 className="a4-h-lg" id="ya-hicimos" style={{ maxWidth: '14ch' }}>A la medida de cada cliente</h2>
+        <div className="a4-rows" style={{ marginTop: 'clamp(24px, 3vw, 40px)' }}>
+          {EJEMPLOS.map((e) => (
+            <div className="a4-row three" key={e.name}>
+              <span className="a4-cap">{e.cliente}</span>
+              <h3 className="a4-sub">{e.name}</h3>
+              <p className="a4-sm">{e.desc}</p>
+            </div>
+          ))}
+        </div>
+        <p style={{ margin: '30px 0 0' }}>
+          <Link className="a4-pill" to={ROUTES.PORTFOLIO} onClick={top}>Ver los casos →</Link>
+        </p>
+      </section>
+
       <section className="a4-cta a4-wrap">
         <p className="a4-cap" style={{ marginBottom: 24 }}>Empecemos</p>
-        <h2 className="a4-h-lg" style={{ maxWidth: '12ch' }}>¿Empezamos?</h2>
-        <div style={{ marginTop: 24 }}>
+        <h2 className="a4-h-lg" style={{ maxWidth: '14ch' }}>¿Qué te quita más tiempo?</h2>
+        <p className="a4-sm" style={{ marginTop: 24 }}>Lo escuchamos y te decimos cómo lo resolveríamos.</p>
+        <div style={{ marginTop: 8 }}>
           <a className="a4-ghost" href={whatsappUrl} target="_blank" rel="noopener noreferrer">Hablemos por WhatsApp →</a>
         </div>
         {relatedLinks.length > 0 && (
@@ -174,7 +136,6 @@ const Services: React.FC = () => {
           </>
         )}
       </section>
-
     </div>
   );
 };

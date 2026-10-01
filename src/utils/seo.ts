@@ -154,8 +154,13 @@ export const getPageMetaTags = (page: string) => {
     },
     portfolio: {
       title: "Casos | Empresas que trabajan con agentes de IA | AI4U",
-      description: "Cómo trabajan hoy las empresas que ya usan agentes de IA de Ai4U.",
+      description: "Tamaprint, Flexoimpresos, La Magdalena, Estudio Índigo y Multihealth: el problema, lo que construimos y cómo trabajan hoy con agentes de IA.",
       keywords: "casos de éxito IA, agentes de IA, automatización, IA aplicada, Colombia"
+    },
+    tableros: {
+      title: "Tableros: cómo va tu empresa, siempre al día | AI4U",
+      description: "Ventas, cartera, producción y cumplimiento en un solo lugar, y un chat para preguntarle a tu empresa. Responde con tus datos en tiempo real.",
+      keywords: "tableros, dashboards, chat con tu empresa, indicadores, cartera, ventas, producción, alertas, AI4U, Colombia"
     },
     agentes: {
       title: "Agentes de IA en Producción | AI4U",
