@@ -1,0 +1,4 @@
+/* Páginas legales (v2): complementos a .a4-prose */
+.a4-legal .a4-prose ol { margin: 0; padding-left: 1.4em; display: grid; gap: 4px; }
+.a4-legal-meta { margin-top: clamp(40px, 6vw, 76px); padding-top: 19px; border-top: 1px solid var(--a4-ash); }
+.a4-legal-end { padding-bottom: clamp(56px, 8vw, 119px); }

@@ -1,44 +1,35 @@
 import React from 'react';
-import { 
-  Container, 
-  Grid, 
-  Box, 
-  useTheme, 
-  useMediaQuery, 
-  Stack
-} from '@mui/material';
-import { Giant, H2, BodyText, SmallText, CodeText, SEOHead, GeometricIcon, RegistrationMarks, MoireText } from '../components/shared/ui/atoms';
-import { RelatedPages } from '../components/shared/ui/molecules';
-import { useColors } from '../hooks';
-import { SurfaceProvider } from '../context';
+import { Link } from 'react-router-dom';
+import { SEOHead } from '../components/shared/ui/atoms';
 import { getPageMetaTags } from '../utils/seo';
 import { getRelatedLinks } from '../data/internalLinkingStrategy';
 import { featuredProjects } from '../data/featuredProjects';
-import { COMPONENT_SPACING } from '../components/shared/ui/tokens/spacing';
-import { TEXT_VARIANTS } from '../components/shared/ui/tokens/typography';
-import { BRAND_ORANGE } from '../components/shared/ui/tokens/brandAccent';
+import { APP_CONFIG } from '../utils/constants';
+import { scrollToTop } from '../utils/helpers';
+import '../styles/site-v2.css';
+import '../styles/pages/portfolio.css';
 
-// Cuerpo real — vive dentro del SurfaceProvider "white" que exporta el wrapper
-// Portfolio de más abajo (mismo patrón que Home.tsx/HomeBody y Services.tsx).
-const PortfolioBody = () => {
-  const colors = useColors();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+const whatsappUrl = `https://wa.me/${APP_CONFIG.CONTACT.WHATSAPP}?text=${encodeURIComponent(APP_CONFIG.CONTACT.WHATSAPP_MESSAGE)}`;
 
-  // Obtener meta tags optimizados para la página de portafolio
+// Las categorías vienen en camelCase desde los datos; se muestran legibles.
+const CATEGORY_LABELS: Record<string, string> = {
+  manufactura: 'Manufactura',
+  impactStorytelling: 'Storytelling de impacto',
+  eMobility: 'Movilidad eléctrica',
+  bienestarYEducacion: 'Bienestar y educación',
+  arquitecturaYDiseno: 'Arquitectura y diseño',
+  fashionTech: 'Fashion tech',
+  eventosYBranding: 'Eventos y branding',
+  gastronomia: 'Gastronomía',
+};
+
+const Portfolio = () => {
   const metaTags = getPageMetaTags('portfolio');
-  
-  // Obtener enlaces contextuales para la página de portafolio
   const relatedLinks = getRelatedLinks('/portafolio');
+  const top = () => scrollToTop('auto');
 
   return (
-    <Box sx={{ 
-      bgcolor: colors.contrast.background,
-      color: colors.contrast.text.primary,
-      minHeight: '100vh',
-      transition: 'all 0.3s ease'
-    }}>
-      {/* SEO Head con meta tags optimizados */}
+    <div className="a4 a4-page">
       <SEOHead
         title={metaTags.title}
         description={metaTags.description}
@@ -46,213 +37,57 @@ const PortfolioBody = () => {
         canonical="https://ai4u.com.co/portafolio"
       />
 
-      {/* Header Section / Technical Label */}
-      <Box sx={{
-        pt: { xs: 12, md: 20 },
-        pb: 4,
-        position: 'relative',
-        borderBottom: `1px solid ${colors.contrast.border}`
-      }}>
-        <RegistrationMarks corners={['tl', 'tr']} circles />
-        <Container maxWidth="lg">
-          <Stack direction="row" justifyContent="space-between" alignItems="flex-end">
-            <Box>
-              <SmallText sx={{
-                color: colors.contrast.text.secondary,
-                ...TEXT_VARIANTS.ui.code,
-                mb: 1,
-                textTransform: 'lowercase'
-              }}>
-                // portafolio.v3.2026
-              </SmallText>
-              <Giant sx={{
-                fontWeight: 400,
-                color: colors.contrast.text.primary,
-                lineHeight: 0.9,
-                mb: 0
-              }}>
-                <MoireText sx={{ fontSize: 'inherit', lineHeight: 'inherit', letterSpacing: 'inherit' }}>
-                  portafolio
-                </MoireText>
-              </Giant>
-            </Box>
-            {!isMobile && (
-              <CodeText sx={{ mb: 1, color: colors.contrast.text.secondary, textTransform: 'lowercase' }}>
-                [ index_08_cases ]
-              </CodeText>
-            )}
-          </Stack>
-        </Container>
-      </Box>
+      <header className="a4-page-head a4-wrap">
+        <p className="a4-cap">Portafolio · {featuredProjects.length} proyectos</p>
+        <h1 className="a4-display">Portafolio</h1>
+        <p className="a4-lead">Exploración de sistemas inteligentes y arquitecturas digitales aplicadas a problemas industriales de alta complejidad.</p>
+      </header>
 
-      {/* Introduction Section */}
-      <Box sx={{ py: 8, bgcolor: theme.palette.mode === 'light' ? colors.palette.gray[50] : colors.palette.gray[900] }}>
-        <Container maxWidth="lg">
-          <Grid container>
-            <Grid item xs={12} md={7}>
-              <BodyText sx={{ 
-                fontSize: { xs: '1.25rem', md: '1.75rem' }, 
-                lineHeight: 1.3,
-                color: colors.contrast.text.primary,
-                fontWeight: 300
-              }}>
-                Exploración de sistemas inteligentes y arquitecturas digitales aplicadas a problemas industriales de alta complejidad.
-              </BodyText>
-            </Grid>
-            <Grid item xs={12} md={5} sx={{ mt: { xs: 4, md: 0 }, display: 'flex', justifyContent: { md: 'flex-end' }, alignItems: 'center' }}>
-              <Stack direction="row" spacing={2} alignItems="center">
-                <GeometricIcon type="circle" variant="outline" size="small" />
-                <SmallText sx={{ color: colors.contrast.text.secondary, ...TEXT_VARIANTS.ui.code, textTransform: 'lowercase' }}>
-                  ai4u_system_log
-                </SmallText>
-              </Stack>
-            </Grid>
-          </Grid>
-        </Container>
-      </Box>
+      <section className="a4-section a4-wrap" aria-label="Proyectos">
+        <div className="a4-portfolio-grid">
+          {featuredProjects.map((project, index) => (
+            <a
+              key={project.id}
+              className="a4-portfolio-card"
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="a4-portfolio-top">
+                <span className="a4-cap a4-num">{String(index + 1).padStart(2, '0')}</span>
+                <span className="a4-cap">{CATEGORY_LABELS[project.category] ?? project.category}</span>
+              </div>
+              <h2 className="a4-h-sm">{project.title}</h2>
+              <img loading="lazy" width={1600} height={900} src={project.image} alt={`Captura de ${project.title}`} />
+              <p className="a4-sm">{project.description}</p>
+              <span className="a4-ghost">Ver proyecto →</span>
+            </a>
+          ))}
+        </div>
+      </section>
 
-      {/* Projects Grid Section */}
-      <Box sx={{ 
-        py: COMPONENT_SPACING.layout.section,
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
-        {/* Grilla técnica de fondo */}
-        <Box sx={{ 
-          position: 'absolute', 
-          top: 0, 
-          left: 0, 
-          right: 0, 
-          bottom: 0, 
-          zIndex: 0,
-          backgroundImage: `linear-gradient(${theme.palette.mode === 'light' ? colors.palette.gray[100] : colors.palette.gray[800]} 1px, transparent 1px), linear-gradient(90deg, ${theme.palette.mode === 'light' ? colors.palette.gray[100] : colors.palette.gray[800]} 1px, transparent 1px)`,
-          backgroundSize: '100px 100px',
-          opacity: 0.3
-        }} />
+      <section className="a4-section a4-wrap" aria-label="Sigue explorando">
+        <p className="a4-cap">Sigue explorando</p>
+        <div className="a4-idx">
+          {relatedLinks.map(l => (
+            <Link key={l.to} to={l.to} onClick={top}>
+              <h3 className="a4-sub">{l.label}</h3>
+              <p className="a4-sm">{l.context ?? ''}</p>
+              <span className="a4-arr" aria-hidden="true">→</span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
-        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
-          <Grid container spacing={0} sx={{ 
-            borderTop: `1px solid ${colors.contrast.border}`, 
-            borderLeft: `1px solid ${colors.contrast.border}` 
-          }}>
-            {featuredProjects.map((project, index) => (
-              <Grid item xs={12} md={6} key={project.id} sx={{ 
-                borderRight: `1px solid ${colors.contrast.border}`, 
-                borderBottom: `1px solid ${colors.contrast.border}`,
-                position: 'relative'
-              }}>
-                <Box 
-                  component="a"
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  sx={{ 
-                    display: 'block',
-                    textDecoration: 'none',
-                    p: 4,
-                    height: '100%',
-                    transition: 'all 0.4s ease',
-                    bgcolor: 'transparent',
-                    '&:hover': {
-                      bgcolor: theme.palette.mode === 'light' ? colors.palette.gray[50] : colors.palette.gray[900],
-                      '& .project-image-container': {
-                        filter: 'grayscale(0%)'
-                      },
-                      '& .project-title': {
-                        color: BRAND_ORANGE
-                      }
-                    }
-                  }}
-                >
-                  <Stack spacing={3}>
-                    {/* Technical Header */}
-                    <Stack direction="row" justifyContent="space-between" alignItems="center">
-                      <SmallText sx={{ ...TEXT_VARIANTS.ui.code, color: colors.contrast.text.primary }}>
-                        0{index + 1} //
-                      </SmallText>
-                      <CodeText sx={{ fontSize: '0.7rem', textTransform: 'lowercase' }}>
-                        [{project.category.replace(/ /g, '_').toLowerCase()}]
-                      </CodeText>
-                    </Stack>
-
-                    {/* Title */}
-                    <H2 className="project-title" sx={{ 
-                      fontWeight: 400, 
-                      fontSize: { xs: '2rem', md: '3rem' },
-                      transition: 'color 0.3s ease'
-                    }}>
-                      {project.title}
-                    </H2>
-
-                    {/* Image Container */}
-                    <Box className="project-image-container" sx={{ 
-                      width: '100%',
-                      aspectRatio: '16/9',
-                      bgcolor: theme.palette.mode === 'light' ? colors.palette.gray[100] : colors.palette.gray[800],
-                      overflow: 'hidden',
-                      filter: 'grayscale(100%)',
-                      transition: 'filter 0.6s ease',
-                      border: `1px solid ${colors.contrast.border}`
-                    }}>
-                      <Box
-                        component="img"
-                        src={project.image}
-                        alt={project.title}
-                        sx={{ 
-                          width: '100%', 
-                          height: '100%', 
-                          objectFit: 'cover'
-                        }}
-                      />
-                    </Box>
-
-                    {/* Description */}
-                    <BodyText sx={{ 
-                      color: colors.contrast.text.secondary,
-                      fontSize: '1rem',
-                      minHeight: '3.5em'
-                    }}>
-                      {project.description}
-                    </BodyText>
-
-                    {/* Footer Link */}
-                    <Stack direction="row" spacing={1} alignItems="center">
-                      <SmallText sx={{ 
-                        ...TEXT_VARIANTS.ui.code, 
-                        color: colors.contrast.text.primary, 
-                        borderBottom: `1px solid ${colors.contrast.border}`,
-                        textTransform: 'lowercase'
-                      }}>
-                        explore_case_study
-                      </SmallText>
-                      <GeometricIcon type="plus" size="small" variant="minimal" />
-                    </Stack>
-                  </Stack>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      </Box>
-
-      {/* Enlaces Relacionados - SEO Internal Linking */}
-      <Box sx={{ py: 10, bgcolor: colors.contrast.background, borderTop: `1px solid ${colors.contrast.border}` }}>
-        <Container maxWidth="lg">
-          <RelatedPages 
-            pages={relatedLinks}
-            title="Sigue explorando:"
-            variant="vertical"
-          />
-        </Container>
-      </Box>
-    </Box>
+      <section className="a4-cta a4-wrap">
+        <p className="a4-cap" style={{ marginBottom: 24 }}>Empecemos</p>
+        <h2 className="a4-h-lg" style={{ maxWidth: '12ch' }}>¿Lo construimos?</h2>
+        <div style={{ marginTop: 24 }}>
+          <a className="a4-ghost" href={whatsappUrl} target="_blank" rel="noopener noreferrer">Escríbenos por WhatsApp →</a>
+        </div>
+      </section>
+    </div>
   );
 };
-
-const Portfolio = () => (
-  <SurfaceProvider surface="white">
-    <PortfolioBody />
-  </SurfaceProvider>
-);
 
 export default Portfolio;

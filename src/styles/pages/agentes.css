@@ -1,0 +1,72 @@
+/* Página /agentes — lenguaje v2. Prefijo a4-agentes-. */
+.a4-agentes-layout { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 30px clamp(19px, 3vw, 46px); align-items: start; }
+.a4-agentes-layout > * { min-width: 0; }
+.a4-agentes-aside { position: sticky; top: 24px; }
+.a4-agentes-bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 14px; }
+.a4-agentes-bar .a4-input { flex: 1 1 220px; width: auto; }
+.a4-agentes-group { margin-top: clamp(32px, 4vw, 56px); }
+.a4-agentes-group:first-of-type { margin-top: 24px; }
+.a4-agentes-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 19px; margin-top: 18px; }
+.a4-agentes-grid > * { min-width: 0; }
+.a4-agentes-empty { padding: 40px 0; border-top: 1px solid var(--a4-ash); }
+
+/* tarjeta */
+.a4-agentes-card { display: grid; gap: 16px; align-content: start; padding: 22px; border: 1px solid var(--a4-ink); background-color: var(--a4-paper); background-image: linear-gradient(var(--a4-canvas) 1px, transparent 1px), linear-gradient(90deg, var(--a4-canvas) 1px, transparent 1px); background-size: 24px 24px; }
+.a4-agentes-card.is-piloto { border-style: dashed; }
+.a4-agentes-card-top { display: flex; justify-content: space-between; gap: 10px; }
+.a4-agentes-card-id { display: flex; gap: 14px; align-items: center; min-width: 0; }
+.a4-agentes-card-id > div { min-width: 0; }
+.a4-agentes-ident { width: 72px; flex: 0 0 72px; background: var(--a4-paper); border: 1px solid var(--a4-ash); }
+.a4-agentes-ident svg { display: block; width: 100%; height: auto; aspect-ratio: 1; }
+.a4-agentes-name { margin: 0; overflow-wrap: anywhere; }
+.a4-agentes-card p { margin: 0; }
+.a4-agentes-card-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.a4-agentes-status { display: inline-block; font-family: var(--a4-mono); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; border: 1px solid var(--a4-ink); padding: 2px 8px; background: var(--a4-paper); }
+.a4-agentes-status.interno { background: var(--a4-ink); color: var(--a4-canvas); }
+.a4-agentes-status.piloto { border-style: dashed; }
+
+/* filtros */
+.a4-agentes-filters { display: grid; gap: 22px; }
+.a4-agentes-filters details > summary { cursor: pointer; list-style: none; min-height: 32px; display: flex; align-items: center; }
+.a4-agentes-filters details > summary::-webkit-details-marker { display: none; }
+.a4-agentes-opts { display: grid; gap: 0; border-top: 1px solid var(--a4-ash); margin-top: 6px; }
+.a4-agentes-opt { display: flex; gap: 10px; align-items: center; min-height: 44px; padding: 4px 0; background: none; border: 0; border-bottom: 1px solid var(--a4-ash); cursor: pointer; text-align: left; font: 400 15px/1.3 var(--a4-font); color: var(--a4-ink); width: 100%; }
+.a4-agentes-opt .box { width: 14px; height: 14px; flex: 0 0 14px; border: 1px solid var(--a4-ink); background: var(--a4-paper); }
+.a4-agentes-opt[aria-pressed="true"] .box { background: var(--a4-ink); }
+.a4-agentes-opt .l { flex: 1; min-width: 0; }
+.a4-agentes-toolgrid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.a4-agentes-toolbtn { width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--a4-ink); background: var(--a4-paper); color: var(--a4-ink); cursor: pointer; padding: 0; }
+.a4-agentes-toolbtn[aria-pressed="true"] { background: var(--a4-ink); color: var(--a4-canvas); }
+.a4-agentes-opt:focus-visible, .a4-agentes-toolbtn:focus-visible, .a4-agentes-filters summary:focus-visible { outline: 2px solid var(--a4-ink); outline-offset: 3px; }
+
+/* atributos y herramientas */
+.a4-agentes-bars { display: grid; gap: 6px; width: 100%; }
+.a4-agentes-bar-row { display: grid; grid-template-columns: 76px minmax(0, 1fr) 20px; gap: 10px; align-items: center; }
+.a4-agentes-bar-row .track { height: 6px; background: var(--a4-paper); border: 1px solid var(--a4-ash); }
+.a4-agentes-bar-row .fill { height: 100%; background: var(--a4-ink); }
+.a4-agentes-tools { display: grid; gap: 6px; }
+.a4-agentes-tools-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.a4-agentes-tool { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--a4-ink); background: var(--a4-paper); color: var(--a4-ink); }
+
+/* drawer */
+.a4-agentes-scrim { position: fixed; inset: 0; background: rgba(23, 23, 23, .35); z-index: 1300; }
+.a4-agentes-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(100%, 440px); background: var(--a4-canvas); border-left: 1px solid var(--a4-ink); z-index: 1301; padding: 22px; display: flex; flex-direction: column; gap: 22px; overflow-y: auto; color: var(--a4-ink); font-family: var(--a4-font); letter-spacing: .013em; }
+.a4-agentes-drawer p { margin: 0; }
+.a4-agentes-drawer-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.a4-agentes-drawer-nav { display: flex; justify-content: space-between; gap: 10px; margin-top: auto; }
+.a4-agentes-close { width: 44px; height: 44px; border: 1px solid var(--a4-ink); border-radius: 10px; background: none; cursor: pointer; font: 400 18px/1 var(--a4-mono); color: var(--a4-ink); }
+.a4-agentes-close:focus-visible { outline: 2px solid var(--a4-ink); outline-offset: 3px; }
+
+/* confirmación */
+.a4-agentes-confirm { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 30px clamp(19px, 4vw, 76px); align-items: start; }
+.a4-agentes-confirm > * { min-width: 0; }
+.a4-agentes-ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+
+@media (max-width: 900px) {
+  .a4-agentes-layout, .a4-agentes-confirm { grid-template-columns: minmax(0, 1fr); }
+  .a4-agentes-aside { position: static; }
+  .a4-agentes-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .a4-agentes-grid { grid-template-columns: minmax(0, 1fr); }
+}

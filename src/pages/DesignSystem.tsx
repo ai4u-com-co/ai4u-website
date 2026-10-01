@@ -1,547 +1,189 @@
-import React, { useState } from 'react';
-import { 
-  Container, 
-  Box, 
-  Grid, 
-  Stack, 
-  Typography, 
-  TextField, 
-} from '@mui/material';
-import { 
-  ContentCopy as CopyIcon,
-  Check as CheckIcon,
-  FormatSize as FontSizeIcon,
-  Palette as PaletteIcon,
-  Extension as ExtensionIcon,
-  Info as InfoIcon,
-  Menu as MenuIcon
-} from '@mui/icons-material';
-import { 
-  Giant, H1, H2, H3, H4, H5, H6, 
-  BodyText, SmallText, CodeText, 
-  Button, GeometricIcon, SEOHead,
-  Logo,
-  NavigationDot,
-  ServiceThumbnail,
-  GiantNumber,
-  BinaryOverlay,
-  RegistrationMarks,
-  MoireText,
-  HalftoneSwatch
-} from '../components/shared/ui/atoms';
-import { Card, MetricCard, BudgetCard, Breadcrumb } from '../components/shared/ui/molecules';
-import { HeroSection } from '../components/shared/ui/organisms';
-import { useColors } from '../hooks';
-import { AI4U_PALETTE, SURFACE_PRESETS } from '../components/shared/ui/tokens/palette';
-import { BRAND_ORANGE } from '../components/shared/ui/tokens/brandAccent';
-import { SPACING_TOKENS } from '../components/shared/ui/tokens/spacing';
-import { TEXT_VARIANTS } from '../components/shared/ui/tokens/typography';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { SEOHead } from '../components/shared/ui/atoms';
+import { ROUTES } from '../utils/constants';
+import { scrollToTop } from '../utils/helpers';
+import '../styles/site-v2.css';
+import '../styles/pages/design-system.css';
 
-const DesignSystem = () => {
-  const colors = useColors();
-  const isLight = colors.effectiveMode === 'light';
-  const [copiedColor, setCopiedColor] = useState<string | null>(null);
-  const [previewText, setPreviewText] = useState('Construimos tu infraestructura de IA.');
+const COLORS = [
+  { name: 'Mint Cream', hex: '#EAF4EB', token: '--a4-canvas', role: 'Lienzo de todas las páginas', bg: '#EAF4EB' },
+  { name: 'Erie Black', hex: '#171717', token: '--a4-ink', role: 'Tinta: texto, líneas y botones', bg: '#171717' },
+  { name: 'Cadet Gray', hex: '#C3CAC7', token: '--a4-ash', role: 'Líneas finas y divisores', bg: '#C3CAC7' },
+  { name: 'Hot Orange', hex: '#FF6E00', token: '--a4-orange', role: 'Solo dentro de la esfera', bg: '#FF6E00' },
+  { name: 'Moderate Blue', hex: '#3DAED1', token: '--a4-blue', role: 'Solo dentro de la esfera', bg: '#3DAED1' },
+];
 
-  const handleCopy = (color: string) => {
-    navigator.clipboard.writeText(color);
-    setCopiedColor(color);
-    setTimeout(() => setCopiedColor(null), 2000);
-  };
+const SCALE = [
+  { cls: 'a4-display', name: 'Display', spec: '500 · mayúsculas vía CSS · interlínea .8 · 46–103px' },
+  { cls: 'a4-h-lg', name: 'Titular grande', spec: '500 · mayúsculas · interlínea .84 · 38–76px' },
+  { cls: 'a4-h-sm', name: 'Titular pequeño', spec: '500 · mayúsculas · interlínea 1 · 30–46px' },
+  { cls: 'a4-sub', name: 'Subtítulo', spec: '500 · mayúsculas · interlínea 1 · 22–34px' },
+];
 
-  const sections = [
-    { id: 'manifiesto', label: 'Manifiesto', icon: <CodeText># </CodeText> },
-    { id: 'principios', label: 'Principios', icon: <InfoIcon fontSize="small" /> },
-    { id: 'identidad', label: 'Identidad', icon: <PaletteIcon fontSize="small" /> },
-    { id: 'tipografia', label: 'Tipografía', icon: <FontSizeIcon fontSize="small" /> },
-    { id: 'atomos', label: 'Átomos', icon: <ExtensionIcon fontSize="small" /> },
-    { id: 'referentes', label: 'Referentes', icon: <CodeText>+ </CodeText> },
-    { id: 'moleculas', label: 'Moléculas', icon: <MenuIcon fontSize="small" /> },
-    { id: 'organismos', label: 'Organismos', icon: <MenuIcon fontSize="small" /> },
-    { id: 'numeros', label: 'Números Gigantes', icon: <ExtensionIcon fontSize="small" /> },
-    { id: 'tokens', label: 'Tokens', icon: <CodeText># </CodeText> },
-  ];
+const RULES = [
+  'Lienzo Mint Cream, tinta Erie Black, superficies blancas y líneas Cadet Gray. Solo modo claro.',
+  'Hot Orange y Moderate Blue viven únicamente dentro de la esfera. Nunca como relleno de botones ni como color de texto.',
+  'Sin sombras. La jerarquía sale de líneas finas, rejillas y espacio.',
+  'Los titulares se escriben en caja normal; el CSS los pone en mayúsculas.',
+  'Radio 0 en tarjetas y rejillas. Radio 10px solo en pills, enlaces, chips e inputs.',
+  'Mobile first: cero scroll horizontal a 375px, áreas táctiles de 44px o más, texto de 12px o más.',
+  'Breakpoints 760 (menú) y 900 (columnas). Las tablas van dentro de su propio contenedor con scroll.',
+];
 
-  const colorGroups = [
-    {
-      title: 'Industrial Core',
-      colors: [
-        { name: 'Pure Black', value: AI4U_PALETTE.black, description: '#000000 - Absolute contrast.' },
-        { name: 'Pure White', value: AI4U_PALETTE.white, description: '#FFFFFF - Gallery background.' },
-        { name: 'Volt Green', value: AI4U_PALETTE.accentColors.mint, description: 'Safety Green / Neon.' },
-        { name: 'Safety Orange', value: BRAND_ORANGE, description: 'Caution / Action.' },
-        { name: 'Cream', value: AI4U_PALETTE.cream, description: 'Warm alternative to white — referentes tone.' },
-      ]
-    },
-    {
-      title: 'System Status',
-      colors: [
-        { name: 'Neon Success', value: AI4U_PALETTE.success, description: 'Functional Success.' },
-        { name: 'Pure Error', value: AI4U_PALETTE.error, description: 'Critical Alert.' },
-        { name: 'Warning Yellow', value: AI4U_PALETTE.warning, description: 'System Warning.' },
-        { name: 'Electric Blue', value: AI4U_PALETTE.accentColors.blue, description: 'Data / Info.' },
-      ]
-    }
-  ];
+const Label: React.FC<{ n: string; children: React.ReactNode }> = ({ n, children }) => (
+  <div className="a4-sec-label">
+    <span className="a4-cap a4-num">{n}</span>
+    <h2 className="a4-sub">{children}</h2>
+  </div>
+);
 
-  return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: colors.helpers.background.primary, color: colors.helpers.text.primary }}>
-      <SEOHead
-        title="DESIGN_SYSTEM | AI4U"
-        description="Industrial Design Manual for AI4U Infrastructure. Inspired by Virgil Abloh."
-      />
+const DesignSystem = () => (
+  <div className="a4 a4-page">
+    <SEOHead
+      title="Sistema de diseño | Ai4U"
+      description="Lenguaje visual de Ai4U: paleta, tipografía, componentes y reglas."
+    />
+    <div className="a4-wrap">
+      <div className="a4-ds-bar">
+        <Link to={ROUTES.HOME} aria-label="Ai4U, inicio" onClick={() => scrollToTop('auto')}>
+          <img src="/assets/images/logo-v2-negro.png" alt="Ai4U" width={90} height={30} />
+        </Link>
+        <Link to={ROUTES.HOME} className="a4-ghost" onClick={() => scrollToTop('auto')}>Ir al inicio →</Link>
+      </div>
 
-      {/* ─── Sidebar: Industrial Catalog Index ─── */}
-      <Box
-        component="nav"
-        sx={{
-          width: { xs: 0, lg: 280 },
-          flexShrink: 0,
-          borderRight: `2px solid ${colors.helpers.text.primary}`,
-          display: { xs: 'none', lg: 'block' },
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
-          bgcolor: colors.helpers.background.primary,
-          zIndex: 10,
-        }}
-      >
-        <Stack spacing={0} sx={{ height: '100%' }}>
-          <Box sx={{ p: 4, borderBottom: `2px solid ${colors.helpers.text.primary}` }}>
-            <Logo variant="desktop" />
-            <Typography sx={{ ...TEXT_VARIANTS.label.secondary, mt: 1 }}>
-              Manual Rev 2.1
-            </Typography>
-          </Box>
-          <Box sx={{ flexGrow: 1, py: 2 }}>
-            {sections.map((section, idx) => (
-              <Box
-                key={section.id}
-                component="a"
-                href={`#${section.id}`}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  px: 4,
-                  py: 2,
-                  textDecoration: 'none',
-                  color: 'inherit',
-                  borderBottom: `1px solid ${colors.helpers.border.secondary}`,
-                  transition: 'all 0.1s steps(2)',
-                  '&:hover': {
-                    bgcolor: colors.helpers.text.primary,
-                    color: colors.helpers.background.primary,
-                  },
-                }}
-              >
-                <Typography sx={{ ...TEXT_VARIANTS.label.main }}>
-                  {String(idx + 1).padStart(2, '0')} {section.label}
-                </Typography>
-                <Typography sx={{ ...TEXT_VARIANTS.label.secondary, opacity: 0.5 }}>
-                  [No All Caps]
-                </Typography>
-              </Box>
-            ))}
-          </Box>
-          <Box sx={{ p: 4, borderTop: `2px solid ${colors.helpers.text.primary}` }}>
-            <Typography sx={{ ...TEXT_VARIANTS.label.secondary }}>
-              © 2026 Ai4u Corp
-            </Typography>
-          </Box>
-        </Stack>
-      </Box>
+      <header className="a4-page-head">
+        <p className="a4-cap">Sistema de diseño · v2</p>
+        <h1 className="a4-display">Editorial sobre papel</h1>
+        <p className="a4-lead">
+          Cinco colores, dos familias tipográficas y un puñado de piezas. Todo lo que ves en esta página está renderizado con las clases reales del sitio.
+        </p>
+      </header>
 
-      {/* ─── Main: Industrial Manual ─── */}
-      <Box component="main" sx={{ flexGrow: 1, overflowX: 'hidden' }}>
-        
-        {/* Hero: "COVERM_PAGE" */}
-        <Box sx={{ 
-          py: 15, 
-          bgcolor: AI4U_PALETTE.black, 
-          color: AI4U_PALETTE.white,
-          borderBottom: `8px solid ${AI4U_PALETTE.accentColors.mint}`,
-          position: 'relative'
-        }}>
-          <Container maxWidth="lg">
-            <Stack spacing={4}>
-              <Typography sx={{ ...TEXT_VARIANTS.label.main, color: AI4U_PALETTE.accentColors.mint }}>
-                "Design system foundations"
-              </Typography>
-              <Giant sx={{ color: AI4U_PALETTE.white }}>Manual de identidad.</Giant>
-              <Box sx={{ maxWidth: 600, borderLeft: `4px solid ${AI4U_PALETTE.white}`, pl: 4 }}>
-                <BodyText sx={{ color: colors.palette.gray[400], letterSpacing: '0.05em' }}>
-                  Estética industrial. Minimalismo radical. Deconstrucción.
-                  Inspirado en el trabajo de Virgil Abloh.
-                </BodyText>
-              </Box>
-            </Stack>
-          </Container>
-          {/* Binary Overlay Pattern */}
-          <BinaryOverlay lines={50} opacity={0.05} />
-          {/* Industrial Metadata */}
-          <Box sx={{ position: 'absolute', bottom: 20, right: 40, textAlign: 'right', opacity: 0.3 }}>
-            <CodeText sx={{ fontSize: '0.7rem' }}>COORD: 40.7128° N, 74.0060° W</CodeText>
-            <CodeText sx={{ fontSize: '0.7rem' }}>TS: {new Date().getTime()}</CodeText>
-          </Box>
-        </Box>
+      <section className="a4-section" id="paleta">
+        <Label n="01">Paleta</Label>
+        <div className="a4-ds-swatches">
+          {COLORS.map((c) => (
+            <div className="a4-ds-sw" key={c.hex}>
+              <div className="a4-ds-chip" style={{ background: c.bg }} role="img" aria-label={`${c.name} ${c.hex}`} />
+              <p className="a4-sm"><b>{c.name}</b></p>
+              <p className="a4-cap a4-num a4-ds-spec">{c.hex}<br />{c.token}</p>
+              <p className="a4-note">{c.role}</p>
+            </div>
+          ))}
+        </div>
+        <div className="a4-two" style={{ marginTop: 'clamp(24px, 3vw, 46px)' }}>
+          <div className="a4-ds-chip sphere" style={{ maxWidth: 220 }} role="img" aria-label="Esfera de color" />
+          <div className="a4-stack">
+            <p className="a4-sub">La esfera</p>
+            <p>Un degradado de Hot Orange a Moderate Blue que se disuelve en Mint Cream. Es el único lugar donde aparecen los dos colores cálidos y fríos de la marca, máximo una vez por página.</p>
+            <p className="a4-cap a4-num a4-ds-spec">--a4-sphere</p>
+          </div>
+        </div>
+      </section>
 
-        <Box id="manifiesto" sx={{ py: 15, borderBottom: `2px solid ${colors.helpers.text.primary}` }}>
-          <Container maxWidth="lg">
-            <Typography sx={{ ...TEXT_VARIANTS.label.main, mb: 10 }}>"Phase 00: Manifesto"</Typography>
-            <Grid container spacing={6}>
-              <Grid item xs={12} md={6}>
-                <Stack spacing={4}>
-                  <Typography sx={{ ...TEXT_VARIANTS.display.medium, fontSize: '2.5rem' }}>camelCase por excelencia.</Typography>
-                  <BodyText>
-                    En AI4U, la coherencia técnica se traduce en armonía visual. 
-                    Todas nuestras etiquetas de UI y metadatos deben seguir la convención 
-                    <CodeText>camelCase</CodeText>, eliminando el uso de mayúsculas sostenidas 
-                    para una legibilidad humana y de sistema óptima.
-                  </BodyText>
-                  <Box sx={{ p: 4, border: `1px dashed ${colors.helpers.text.primary}` }}>
-                    <Typography sx={{ ...TEXT_VARIANTS.label.secondary, mb: 2 }}>[Correct Usage]</Typography>
-                    <Stack direction="row" spacing={2}>
-                      <Typography sx={{ ...TEXT_VARIANTS.label.main }}>primaryAction</Typography>
-                      <Typography sx={{ ...TEXT_VARIANTS.label.main }}>userProfile</Typography>
-                      <Typography sx={{ ...TEXT_VARIANTS.label.main }}>systemStatus</Typography>
-                    </Stack>
-                  </Box>
-                </Stack>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Stack spacing={4}>
-                  <Typography sx={{ ...TEXT_VARIANTS.display.medium, fontSize: '2.5rem' }}>Software as a resource.</Typography>
-                  <BodyText>
-                    No ocultamos nuestra naturaleza. Los recursos de software como el código binario, 
-                    los metadatos expuestos y las fuentes monoespaciadas son pilares de nuestra estética.
-                  </BodyText>
-                  <Box sx={{ height: 120, bgcolor: colors.palette.gray[900], p: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                    <CodeText sx={{ color: AI4U_PALETTE.accentColors.mint, fontSize: '0.8rem', opacity: 0.5 }}>
-                      1010101010101010101010101010101010101010101010101010101010101010
-                      1010101010101010101010101010101010101010101010101010101010101010
-                    </CodeText>
-                  </Box>
-                </Stack>
-              </Grid>
-            </Grid>
-          </Container>
-        </Box>
+      <section className="a4-section" id="tipografia">
+        <Label n="02">Tipografía</Label>
+        <div className="a4-rows">
+          <div className="a4-row three">
+            <p className="a4-cap">Red Hat Display</p>
+            <p className="k">Titulares y texto corrido</p>
+            <p className="a4-note">Peso 500 en titulares, 400 en texto. Mayúsculas aplicadas por CSS, nunca escritas.</p>
+          </div>
+          <div className="a4-row three">
+            <p className="a4-cap">Necto Mono</p>
+            <p className="k a4-num">Etiquetas, cifras y datos</p>
+            <p className="a4-note">12px, mayúsculas, interletrado .05em. Cifras tabulares con a4-num.</p>
+          </div>
+        </div>
+        <div className="a4-ds-scale" style={{ marginTop: 'clamp(24px, 3vw, 46px)' }}>
+          {SCALE.map((s) => (
+            <div key={s.cls}>
+              <div>
+                <p className="a4-cap a4-num">.{s.cls}</p>
+                <p className="a4-note">{s.spec}</p>
+              </div>
+              <p className={s.cls}>Orden y flujo</p>
+            </div>
+          ))}
+          <div>
+            <div>
+              <p className="a4-cap a4-num">.a4-cap</p>
+              <p className="a4-note">Etiqueta mono 12px</p>
+            </div>
+            <p className="a4-cap">Etiqueta · 12px mono</p>
+          </div>
+          <div>
+            <div>
+              <p className="a4-cap a4-num">.a4-sm / base</p>
+              <p className="a4-note">15px y 18px</p>
+            </div>
+            <div className="a4-stack">
+              <p>Texto base de 18px para lectura continua, con interlínea 1.4.</p>
+              <p className="a4-sm">Texto pequeño de 15px para apoyos y descripciones.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <Box id="principios" sx={{ py: 15, borderBottom: `2px solid ${colors.helpers.text.primary}` }}>
-          <Container maxWidth="lg">
-            <Typography sx={{ ...TEXT_VARIANTS.label.main, mb: 10 }}>"Phase 01: Principles"</Typography>
-            <Grid container spacing={0} sx={{ borderTop: `1px solid ${colors.helpers.text.primary}`, borderLeft: `1px solid ${colors.helpers.text.primary}` }}>
-              {[
-                { title: 'Énfasis', desc: 'Prioridad visual absoluta.' },
-                { title: 'Contraste', desc: 'Radicalismo monocromático.' },
-                { title: 'Industrial', desc: 'Funcionalismo expuesto.' },
-                { title: 'Aire', desc: 'Espacio como herramienta.' },
-                { title: 'No All Caps', desc: 'Prohibido el uso de mayúsculas sostenidas.' },
-                { title: 'Deconstruido', desc: 'Etiquetado sistémico.' },
-              ].map((p, i) => (
-                <Grid item xs={12} sm={6} md={4} key={p.title} sx={{ borderRight: `1px solid ${colors.helpers.text.primary}`, borderBottom: `1px solid ${colors.helpers.text.primary}`, p: 4 }}>
-                  <Stack spacing={2}>
-                    <Typography sx={{ ...TEXT_VARIANTS.label.secondary }}>[REF_0{i + 1}]</Typography>
-                    <Typography sx={{ ...TEXT_VARIANTS.display.medium, fontSize: '2rem' }}>{p.title}</Typography>
-                    <Typography sx={{ ...TEXT_VARIANTS.label.secondary, opacity: 0.7 }}>{p.desc}</Typography>
-                  </Stack>
-                </Grid>
-              ))}
-            </Grid>
-          </Container>
-        </Box>
+      <section className="a4-section" id="componentes">
+        <Label n="03">Componentes</Label>
 
-        <Box id="identidad" sx={{ py: 15, bgcolor: colors.helpers.background.secondary }}>
-          <Container maxWidth="lg">
-            <Typography sx={{ ...TEXT_VARIANTS.label.main, mb: 10 }}>"Phase 02: Identity"</Typography>
-            
-            <Grid container spacing={4}>
-              {colorGroups.map((group) => (
-                <Grid item xs={12} key={group.title}>
-                  <Typography sx={{ ...TEXT_VARIANTS.label.main, mb: 4, opacity: 0.5 }}>{group.title}</Typography>
-                  <Grid container spacing={2}>
-                    {group.colors.map((c) => (
-                      <Grid item xs={12} sm={6} md={3} key={c.name}>
-                        <Box 
-                          onClick={() => handleCopy(c.value)}
-                          sx={{ 
-                            p: 2, 
-                            border: `2px solid ${colors.helpers.text.primary}`,
-                            bgcolor: colors.helpers.background.primary,
-                            cursor: 'pointer',
-                            '&:hover': {
-                              transform: 'translate(-4px, -4px)',
-                              boxShadow: `8px 8px 0px ${colors.helpers.text.primary}`
-                            }
-                          }}
-                        >
-                          <Box sx={{ height: 120, bgcolor: c.value, mb: 2, border: `1px solid ${colors.helpers.text.primary}` }} />
-                          <Typography sx={{ ...TEXT_VARIANTS.label.main, fontSize: '0.75rem' }}>{c.name}</Typography>
-                          <Typography sx={{ ...TEXT_VARIANTS.label.secondary, fontSize: '0.65rem' }}>{c.value}</Typography>
-                        </Box>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </Grid>
-              ))}
-            </Grid>
-          </Container>
-        </Box>
+        <p className="a4-cap" style={{ marginBottom: 14 }}>Ghost y pill</p>
+        <div className="a4-ds-demo">
+          <a className="a4-ghost" href="#componentes" onClick={(e) => e.preventDefault()}>Enlace fantasma →</a>
+          <a className="a4-pill" href="#componentes" onClick={(e) => e.preventDefault()}>Pill de acción</a>
+        </div>
 
-        <Box id="tipografia" sx={{ py: 15 }}>
-          <Container maxWidth="lg">
-            <Typography sx={{ ...TEXT_VARIANTS.label.main, mb: 10 }}>"Phase 03: Typography"</Typography>
-            <Stack direction="row" spacing={4} alignItems="center" sx={{ mb: 10, p: 4, border: `2px dashed ${colors.helpers.text.primary}` }}>
-              <Typography sx={{ ...TEXT_VARIANTS.label.main }}>Input:</Typography>
-              <TextField 
-                fullWidth
-                variant="standard" 
-                value={previewText}
-                onChange={(e) => setPreviewText(e.target.value)}
-                sx={{ input: { ...TEXT_VARIANTS.display.medium, fontSize: '1.5rem' } }}
-              />
-            </Stack>
+        <p className="a4-cap" style={{ margin: '36px 0 14px' }}>Chip</p>
+        <div className="a4-ds-demo">
+          <span className="a4-chip">Etiqueta</span>
+          <span className="a4-chip on">Activa</span>
+        </div>
 
-            <Stack spacing={12}>
-              <Box sx={{ position: 'relative' }}>
-                <Typography sx={{ ...TEXT_VARIANTS.label.secondary, position: 'absolute', top: -30 }}>// GIANT_DISPLAY</Typography>
-                <Giant>{previewText}</Giant>
-              </Box>
-              <Box sx={{ position: 'relative' }}>
-                <Typography sx={{ ...TEXT_VARIANTS.label.secondary, position: 'absolute', top: -30 }}>// LARGE_HEADING</Typography>
-                <H1>{previewText}</H1>
-              </Box>
-              <Box sx={{ position: 'relative', maxWidth: 800 }}>
-                <Typography sx={{ ...TEXT_VARIANTS.label.secondary, position: 'absolute', top: -30 }}>// BODY_SYSTEM</Typography>
-                <BodyText>
-                  {previewText} THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG. 1234567890. 
-                  SISTEMA DE DISEÑO INDUSTRIAL PARA AI4U. ALTO IMPACTO, BAJA FRICCIÓN.
-                </BodyText>
-              </Box>
-              <Box sx={{ position: 'relative' }}>
-                <Typography sx={{ ...TEXT_VARIANTS.label.secondary, position: 'absolute', top: -30 }}>// NECTO_MONO_CORE</Typography>
-                <Typography sx={{ ...TEXT_VARIANTS.label.main, fontSize: '2rem' }}>{previewText}</Typography>
-              </Box>
-            </Stack>
-          </Container>
-        </Box>
+        <p className="a4-cap" style={{ margin: '36px 0 14px' }}>Input</p>
+        <input className="a4-input" style={{ maxWidth: 420 }} placeholder="Campo de texto" aria-label="Ejemplo de campo de texto" />
 
-        <Box id="atomos" sx={{ py: 15, bgcolor: colors.helpers.background.secondary }}>
-          <Container maxWidth="lg">
-            <Typography sx={{ ...TEXT_VARIANTS.label.main, mb: 10 }}>"Phase 04: Atomic Units"</Typography>
-            
-            <Grid container spacing={8}>
-              <Grid item xs={12} md={6}>
-                <Typography sx={{ ...TEXT_VARIANTS.label.main, mb: 4 }}>"Button variants"</Typography>
-                <Stack spacing={3}>
-                  <Button variant="primary" label="Press" fullWidth>Primary action</Button>
-                  <Button variant="industrial" label="Safety" fullWidth>Industrial action</Button>
-                  <Button variant="outline" label="Border" fullWidth>Outline action</Button>
-                  <Button variant="minimal" label="Light" fullWidth>Minimal action</Button>
-                </Stack>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Typography sx={{ ...TEXT_VARIANTS.label.main, mb: 4 }}>"Geometric assets"</Typography>
-                <Grid container spacing={4} sx={{ p: 4, border: `2px solid ${colors.helpers.text.primary}`, bgcolor: colors.helpers.background.primary }}>
-                  {['circle', 'square', 'triangle', 'cross', 'dot', 'plus'].map((shape) => (
-                    <Grid item xs={4} key={shape} sx={{ textAlign: 'center' }}>
-                      <GeometricIcon type={shape as any} size="large" color={colors.helpers.text.primary} />
-                      <Typography sx={{ ...TEXT_VARIANTS.label.secondary, mt: 1 }}>{shape.charAt(0).toUpperCase() + shape.slice(1)}</Typography>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Grid>
-            </Grid>
-          </Container>
-        </Box>
+        <p className="a4-cap" style={{ margin: '36px 0 14px' }}>Card sobre papel cuadriculado</p>
+        <div className="a4-cards" style={{ marginTop: 0 }}>
+          <div className="a4-card">
+            <p className="a4-cap a4-num">01</p>
+            <p className="a4-sub">Tarjeta</p>
+            <p>Radio 0, fondo blanco con cuadrícula Mint Cream de 24px.</p>
+          </div>
+          <div className="a4-card">
+            <p className="a4-cap a4-num">02</p>
+            <p className="a4-sub">Otra tarjeta</p>
+            <p>Se apilan en una columna por debajo de 900px.</p>
+          </div>
+        </div>
 
-        {/* ─── Section: Referentes (Swiss/Brutalist print registration) ─── */}
-        <Box id="referentes" sx={{ py: 15, bgcolor: colors.helpers.background.secondary }}>
-          <Container maxWidth="lg">
-            <Typography sx={{ ...TEXT_VARIANTS.label.main, mb: 10 }}>"Phase 04.5: Referentes — Print Registration System"</Typography>
+        <p className="a4-cap" style={{ margin: '36px 0 14px' }}>Row (fila con línea fina)</p>
+        <div className="a4-rows">
+          <div className="a4-row"><p className="k">Clave</p><p>Valor de la fila, dos columnas desde 900px.</p></div>
+          <div className="a4-row"><p className="k">Otra clave</p><p>Otra fila separada por una línea Cadet Gray.</p></div>
+        </div>
 
-            <Grid container spacing={8}>
-              <Grid item xs={12} md={4}>
-                <Typography sx={{ ...TEXT_VARIANTS.label.main, mb: 4 }}>"RegistrationMarks"</Typography>
-                <Box sx={{
-                  position: 'relative', height: 180,
-                  border: `2px solid ${colors.helpers.text.primary}`,
-                  bgcolor: colors.helpers.background.primary,
-                }}>
-                  <RegistrationMarks circles />
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Typography sx={{ ...TEXT_VARIANTS.label.main, mb: 4 }}>"MoireText"</Typography>
-                <Box sx={{
-                  height: 180, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  border: `2px solid ${colors.helpers.text.primary}`,
-                  bgcolor: AI4U_PALETTE.black,
-                }}>
-                  <MoireText color={AI4U_PALETTE.white} sx={{ fontSize: '3rem' }}>ai4u</MoireText>
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Typography sx={{ ...TEXT_VARIANTS.label.main, mb: 4 }}>"HalftoneSwatch"</Typography>
-                <Box sx={{
-                  height: 180, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  border: `2px solid ${colors.helpers.text.primary}`,
-                  bgcolor: colors.helpers.background.primary,
-                }}>
-                  <HalftoneSwatch size={96} dot={10} />
-                </Box>
-              </Grid>
-            </Grid>
+        <p className="a4-cap" style={{ margin: '36px 0 14px' }}>Rejilla con hairlines</p>
+        <div className="a4-ds-hair">
+          <div><p className="a4-cap">A</p></div>
+          <div><p className="a4-cap">B</p></div>
+          <div><p className="a4-cap">C</p></div>
+        </div>
+      </section>
 
-            <Typography sx={{ ...TEXT_VARIANTS.label.main, mt: 10, mb: 4 }}>"Surface presets — dominant color per page"</Typography>
-            <Grid container spacing={2}>
-              {(['black', 'white', 'volt', 'orange', 'blue', 'cream'] as const).map((preset) => {
-                const p = SURFACE_PRESETS[preset];
-                return (
-                  <Grid item xs={6} md={2} key={preset}>
-                    <Box sx={{
-                      height: 90, display: 'flex', alignItems: 'flex-end', p: 1.5,
-                      bgcolor: p.background, border: `1px solid ${colors.helpers.border.secondary}`,
-                    }}>
-                      <CodeText sx={{ fontSize: '0.7rem', color: p.text.primary }}>{preset}</CodeText>
-                    </Box>
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </Container>
-        </Box>
-
-        <Box id="moleculas" sx={{ py: 15 }}>
-          <Container maxWidth="lg">
-            <Typography sx={{ ...TEXT_VARIANTS.label.main, mb: 10 }}>"Phase 05: Molecular Modules"</Typography>
-            
-            <Grid container spacing={6}>
-              <Grid item xs={12} md={6}>
-                <Typography sx={{ ...TEXT_VARIANTS.label.secondary, mb: 2 }}>[Data Visualization V1]</Typography>
-                <MetricCard 
-                  title="Conversión IA" 
-                  value="88.2%" 
-                  trend="up" 
-                  label="Metric Data"
-                  subtitle="Optimización de flujo de trabajo."
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Typography sx={{ ...TEXT_VARIANTS.label.secondary, mb: 2 }}>[Financial System V1]</Typography>
-                <BudgetCard 
-                  title="Presupuesto Neto" 
-                  totalAmount={25500} 
-                  variant="industrial"
-                  categories={[
-                    { name: 'Auto Agents', amount: 15000 },
-                    { name: 'Cloud Core', amount: 10500 }
-                  ]}
-                />
-              </Grid>
-            </Grid>
-          </Container>
-        </Box>
-
-        {/* ─── Section: Números Gigantes (Industrial Scale) ─── */}
-        <Box id="numeros" sx={{ py: 15, bgcolor: AI4U_PALETTE.black, color: AI4U_PALETTE.white }}>
-          <Container maxWidth="lg">
-            <Typography sx={{ ...TEXT_VARIANTS.label.main, color: AI4U_PALETTE.accentColors.mint, mb: 10 }}>
-              "Phase 06: Giant Numbers"
-            </Typography>
-            
-            <Stack spacing={8}>
-              <Box>
-                <Typography sx={{ ...TEXT_VARIANTS.label.secondary, color: colors.palette.gray[500], mb: 2 }}>
-                  // Primary Numeric Variant
-                </Typography>
-                <GiantNumber>88.2%</GiantNumber>
-              </Box>
-              
-              <Box>
-                <Typography sx={{ ...TEXT_VARIANTS.label.secondary, color: colors.palette.gray[500], mb: 2 }}>
-                  // Outline Numeric Variant
-                </Typography>
-                <GiantNumber numberVariant="outline">2,500+</GiantNumber>
-              </Box>
-
-              <Grid container spacing={4}>
-                <Grid item xs={12} md={6}>
-                  <Box sx={{ p: 4, border: `1px solid ${colors.palette.gray[800]}` }}>
-                    <Typography sx={{ ...TEXT_VARIANTS.label.secondary, mb: 2 }}>[Composition Sample]</Typography>
-                    <GiantNumber sx={{ fontSize: '8rem' }}>12</GiantNumber>
-                    <Typography sx={{ ...TEXT_VARIANTS.label.main }}>Agentes operativos</Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                   <Box sx={{ p: 4, border: `1px solid ${colors.palette.gray[800]}` }}>
-                    <Typography sx={{ ...TEXT_VARIANTS.label.secondary, mb: 2 }}>[Composition Sample]</Typography>
-                    <GiantNumber numberVariant="outline" sx={{ fontSize: '8rem' }}>99%</GiantNumber>
-                    <Typography sx={{ ...TEXT_VARIANTS.label.main }}>Precisión de datos</Typography>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Stack>
-          </Container>
-        </Box>
-
-        <Box id="tokens" sx={{ py: 15, borderTop: `4px solid ${colors.helpers.text.primary}` }}>
-          <Container maxWidth="lg">
-            <Typography sx={{ ...TEXT_VARIANTS.label.main, mb: 10 }}>"Phase 07: System Tokens"</Typography>
-            
-            <Grid container spacing={10}>
-              <Grid item xs={12} md={6}>
-                <Typography sx={{ ...TEXT_VARIANTS.label.main, mb: 4 }}>"Spacing grid"</Typography>
-                <Stack spacing={2} sx={{ p: 4, border: `1px solid ${colors.helpers.border.secondary}` }}>
-                  {[4, 8, 16, 24, 32, 48, 64].map((s) => (
-                    <Stack key={s} direction="row" alignItems="center" spacing={4}>
-                      <Typography sx={{ ...TEXT_VARIANTS.label.secondary, minWidth: 60 }}>T-{s}</Typography>
-                      <Box sx={{ width: s * 2, height: 20, bgcolor: BRAND_ORANGE }} />
-                      <Typography sx={{ ...TEXT_VARIANTS.label.secondary }}>{s}PX</Typography>
-                    </Stack>
-                  ))}
-                </Stack>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Typography sx={{ ...TEXT_VARIANTS.label.main, mb: 4 }}>"Responsive breaks"</Typography>
-                <Stack spacing={0}>
-                  {[
-                    { label: 'XS', val: '0000px', desc: 'Mobile Portrait' },
-                    { label: 'SM', val: '0600px', desc: 'Mobile Landscape' },
-                    { label: 'MD', val: '0960px', desc: 'Tablet Core' },
-                    { label: 'LG', val: '1280px', desc: 'Desktop UI' },
-                    { label: 'XL', val: '1920px', desc: 'Wide Screen' },
-                  ].map((bp) => (
-                    <Box key={bp.label} sx={{ display: 'flex', justifyContent: 'space-between', p: 2, borderBottom: `1px solid ${colors.helpers.text.primary}`, '&:hover': { bgcolor: colors.helpers.text.primary, color: colors.helpers.background.primary } }}>
-                      <Typography sx={{ ...TEXT_VARIANTS.label.main }}>{bp.label}</Typography>
-                      <Typography sx={{ ...TEXT_VARIANTS.label.secondary }}>{bp.val}</Typography>
-                      <Typography sx={{ ...TEXT_VARIANTS.label.secondary, opacity: 0.5 }}>{bp.desc}</Typography>
-                    </Box>
-                  ))}
-                </Stack>
-              </Grid>
-            </Grid>
-          </Container>
-        </Box>
-
-        {/* Industrial Footer */}
-        <Box sx={{ py: 10, borderTop: `2px solid ${colors.helpers.text.primary}`, textAlign: 'center', bgcolor: colors.helpers.background.secondary }}>
-          <Stack spacing={4} alignItems="center">
-             <Logo variant="mobile" />
-             <Typography sx={{ ...TEXT_VARIANTS.label.secondary }}>
-               Ai4u Design System - Internal Use Only
-             </Typography>
-             <Box sx={{ display: 'flex', gap: 4 }}>
-               <Typography sx={{ ...TEXT_VARIANTS.label.secondary }}>Rev: 2.1.0</Typography>
-               <Typography sx={{ ...TEXT_VARIANTS.label.secondary }}>Build: 2026_Q1</Typography>
-               <Typography sx={{ ...TEXT_VARIANTS.label.secondary }}>Status: Active</Typography>
-             </Box>
-          </Stack>
-        </Box>
-      </Box>
-    </Box>
-  );
-};
+      <section className="a4-section a4-cta" id="reglas">
+        <Label n="04">Reglas</Label>
+        <div className="a4-rows a4-ds-rules">
+          {RULES.map((r) => (
+            <div className="a4-row" key={r}>
+              <p>{r}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  </div>
+);
 
 export default DesignSystem;

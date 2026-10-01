@@ -1,52 +1,30 @@
 import React from 'react';
-import { Box } from '@mui/material';
 import type { AgentAttributes } from '@/data/agents';
-import { AGENTES_BRAND } from './theme';
 
 interface AttributeBarsProps {
   atributos: AgentAttributes;
-  /** Etiquetas cortas (para cartas chicas) o largas (para el drawer/detalle). */
+  /** Etiquetas cortas (tarjetas) o largas (drawer). */
   compact?: boolean;
-  /** Muestra el número (sobre 10) al lado de la barra — solo en vistas con más espacio. */
+  /** Muestra el número (sobre 10) al lado de la barra. */
   showValue?: boolean;
-  color?: string;
 }
 
 const ROWS: { key: keyof AgentAttributes; short: string; long: string }[] = [
-  { key: 'autonomia', short: 'AUTON.', long: 'AUTONOMÍA' },
-  { key: 'velocidad', short: 'VELOC.', long: 'VELOCIDAD' },
-  { key: 'alcance', short: 'ALCAN.', long: 'ALCANCE' },
+  { key: 'autonomia', short: 'Auton.', long: 'Autonomía' },
+  { key: 'velocidad', short: 'Veloc.', long: 'Velocidad' },
+  { key: 'alcance', short: 'Alcan.', long: 'Alcance' },
 ];
 
-const AttributeBars: React.FC<AttributeBarsProps> = ({ atributos, compact = false, showValue = false, color = AGENTES_BRAND.erieBlack }) => {
-  return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: compact ? '5px' : '7px', width: '100%' }}>
-      {ROWS.map((row) => (
-        <Box key={row.key} sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Box
-            sx={{
-              width: compact ? 46 : 64,
-              flexShrink: 0,
-              fontSize: 9,
-              letterSpacing: '0.04em',
-              fontWeight: 800,
-              color: AGENTES_BRAND.cadetGray,
-            }}
-          >
-            {compact ? row.short : row.long}
-          </Box>
-          <Box sx={{ flex: 1, height: 6, borderRadius: '3px', bgcolor: 'rgba(23,23,23,0.12)', overflow: 'hidden' }}>
-            <Box sx={{ height: '100%', width: `${atributos[row.key]}%`, bgcolor: color }} />
-          </Box>
-          {showValue && (
-            <Box sx={{ fontFamily: 'monospace', fontSize: 9, color: AGENTES_BRAND.cadetGray, width: 14, textAlign: 'right' }}>
-              {Math.round(atributos[row.key] / 10)}
-            </Box>
-          )}
-        </Box>
-      ))}
-    </Box>
-  );
-};
+const AttributeBars: React.FC<AttributeBarsProps> = ({ atributos, compact = false, showValue = false }) => (
+  <div className="a4-agentes-bars">
+    {ROWS.map((row) => (
+      <div key={row.key} className="a4-agentes-bar-row">
+        <span className="a4-cap">{compact ? row.short : row.long}</span>
+        <div className="track"><div className="fill" style={{ width: `${atributos[row.key]}%` }} /></div>
+        {showValue ? <span className="a4-cap a4-num">{Math.round(atributos[row.key] / 10)}</span> : <span />}
+      </div>
+    ))}
+  </div>
+);
 
 export default AttributeBars;

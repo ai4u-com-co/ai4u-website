@@ -1,0 +1,19 @@
+/* SuperAI (v2): solo piezas que las primitivas a4-* no cubren. */
+.a4-superai-hero { padding-bottom: clamp(24px, 4vw, 56px); }
+.a4-superai-hero.is-modal .a4-display { font-size: clamp(38px, 5vw, 72px); }
+.a4-superai-orb { position: relative; width: min(60vw, 260px); aspect-ratio: 1; }
+.a4-superai-orb .a4-sphere img { width: 40%; }
+.a4-superai-num { font-family: var(--a4-mono); font-size: 12px; letter-spacing: .05em; }
+.a4-superai-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 15px; }
+.a4-superai-list li { padding-top: 8px; border-top: 1px solid var(--a4-ash); }
+.a4-superai-tier { display: grid; gap: 14px; align-content: start; }
+.a4-superai-tier.on { outline: 1px solid var(--a4-ink); }
+.a4-superai-yes { display: inline-block; width: 12px; height: 12px; background: var(--a4-ink); }
+.a4-superai-table th:not(:first-child), .a4-superai-table td:not(:first-child) { text-align: center; }
+.a4-superai-faq { border-top: 1px solid var(--a4-ash); }
+.a4-superai-faq details { border-bottom: 1px solid var(--a4-ash); }
+.a4-superai-faq summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; padding: 14px 0; font-weight: 500; list-style: none; gap: 12px; }
+.a4-superai-faq summary::-webkit-details-marker { display: none; }
+.a4-superai-faq summary::after { content: '+'; margin-left: auto; font-family: var(--a4-mono); }
+.a4-superai-faq details[open] summary::after { content: '−'; }
+.a4-superai-faq details p { margin: 0 0 18px; max-width: 66ch; }

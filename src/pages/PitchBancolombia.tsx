@@ -1,9 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import {
-    Box, Typography, IconButton, Container, Stack, Fade, GlobalStyles,
-    Menu, MenuItem, Tooltip, TextField, Drawer, List, ListItem,
-    ListItemText, ListItemSecondaryAction, Divider
-} from '@mui/material';
+import { Typography, Menu, MenuItem, Tooltip, Drawer, Fade, GlobalStyles } from '@mui/material';
 import {
     ArrowBackIosNew as PrevIcon,
     ArrowForwardIos as NextIcon,
@@ -23,12 +19,14 @@ import {
     FullscreenExit as FullscreenExitIcon
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { AI4U_PALETTE } from '../components/shared/ui/tokens/palette';
-import { SPACING_TOKENS } from '../components/shared/ui/tokens/spacing';
-import { TEXT_VARIANTS } from '../components/shared/ui/tokens/typography';
 import { ROUTES } from '../utils/constants';
-import Logo from '../components/shared/ui/atoms/Logo';
-import { PITCHES, getThemeStyles, Slide } from '../data/pitches';
+import { PITCHES, Slide } from '../data/pitches';
+import '../styles/site-v2.css';
+import '../styles/pages/pitch-bancolombia.css';
+
+// Los temas del dato original (negro, amarillo, neón) se traducen al lenguaje v2:
+// lienzo o papel. El amarillo del cliente queda solo como una línea mínima.
+const PAPER_THEMES = ['WHITE_MINIMAL', 'GRAY_MODERN', 'BLACK_MODERN', 'SUPER_AI_NEON'];
 
 const PitchBancolombia: React.FC = () => {
     const navigate = useNavigate();
@@ -53,7 +51,6 @@ const PitchBancolombia: React.FC = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     const current = slides[currentSlideIndex] || slides[0];
-    const styles = getThemeStyles(current.theme);
 
     // Toggle Fullscreen
     const toggleFullscreen = () => {
@@ -202,727 +199,283 @@ const PitchBancolombia: React.FC = () => {
 
     const progress = ((currentSlideIndex + 1) / slides.length) * 100;
     const isTitleOnly = current.content === '';
+    const isPaper = PAPER_THEMES.includes(current.theme);
+    const isClientBrand = current.theme === 'BANCOLOMBIA_PRIMARY';
+    const hasMedia = Boolean((current.image || current.video) && (current.imageLayout === 'side' || current.imageLayout === 'background'));
+    const isBackgroundVideo = Boolean(current.video && current.imageLayout === 'background');
+    const mediaFull = isBackgroundVideo && isFocusMode;
+    const pad = (n: number) => String(n).padStart(2, '0');
 
     return (
-        <Box
-            sx={{
-                minHeight: 'calc(100vh - 64px)',
-                bgcolor: AI4U_PALETTE.black,
-                display: 'flex',
-                flexDirection: 'column',
-                position: 'relative',
-                transition: 'background-color 0.8s ease',
-                cursor: isFocusMode ? 'none' : 'default'
-            }}
-        >
-            <GlobalStyles styles={{
-                body: { overflow: 'hidden' }
-            }} />
+        <div className={`a4 a4-page a4-pitch${isFocusMode ? ' is-focus' : ''}`}>
+            <GlobalStyles styles={{ body: { overflow: 'hidden' } }} />
 
-            {/* Premium Progress Bar */}
-            <Box sx={{
-                height: '8px',
-                width: '100%',
-                bgcolor: 'rgba(255,255,255,0.1)',
-                position: 'relative',
-                zIndex: 10,
-                transition: 'transform 0.5s ease',
-                transform: isFocusMode ? 'translateY(-100%)' : 'none'
-            }}>
-                <Box
-                    sx={{
-                        height: '100%',
-                        width: `${progress}%`,
-                        bgcolor: styles.accent,
-                        transition: 'width 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.8s ease',
-                        boxShadow: styles.glow ? `0 0 20px ${styles.accent}` : 'none'
-                    }}
-                />
-            </Box>
+            <div className="a4-pitch-bar" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress)} aria-label="Progreso del pitch">
+                <i style={{ width: `${progress}%` }} />
+            </div>
 
-            {/* Main Slide Stage */}
-            <Box
+            <div
+                className={`a4-pitch-stage${isPaper ? ' paper' : ''}${isBackgroundVideo ? ' clickable' : ''}`}
                 onClick={() => {
-                    if (current.video && current.imageLayout === 'background') {
-                        setIsFocusMode(!isFocusMode);
-                    }
-                }}
-                sx={{
-                    flexGrow: 1,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    bgcolor: styles.bg,
-                    transition: 'background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
-                    position: 'relative',
-                    py: { xs: 4, md: 8 },
-                    overflow: 'hidden',
-                    cursor: (current.video && current.imageLayout === 'background') ? 'pointer' : 'default'
+                    if (isBackgroundVideo) setIsFocusMode(!isFocusMode);
                 }}
             >
-                {/* Background Asset Layer (Image or Video) */}
-                {current.video && current.imageLayout === 'background' ? (
-                    <Box
-                        component="video"
-                        autoPlay
-                        muted={isMuted}
-                        loop
-                        playsInline
-                        src={current.video}
-                        sx={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'cover',
-                            zIndex: 0,
-                            opacity: isFocusMode ? 1 : 0.6,
-                            filter: isFocusMode ? 'none' : 'brightness(0.5)',
-                            transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)'
-                        }}
-                    />
-                ) : current.image && current.imageLayout === 'background' && (
-                    <Box
-                        sx={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            backgroundImage: `url(${current.image})`,
-                            backgroundSize: '120% auto',
-                            backgroundPosition: 'center',
-                            zIndex: 0,
-                            opacity: 0.7,
-                            filter: 'contrast(1.1) brightness(0.8)',
-                            '&::after': {
-                                content: '""',
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                                background: `linear-gradient(to bottom, transparent, ${styles.bg})`
-                            }
-                        }}
-                    />
-                )}
+                <span className="a4-pitch-idx a4-cap a4-num" aria-hidden="true">
+                    {pad(currentSlideIndex + 1)} / {pad(slides.length)}
+                </span>
 
-                <Fade in={!isFocusMode} timeout={800} key={`${selectedPitchId}-${currentSlideIndex}-${current.title}`}>
-                    <Container maxWidth="xl" sx={{ 
-                        maxHeight: '100%', 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        position: 'relative', 
-                        zIndex: 2,
-                        overflow: 'hidden'
-                    }}>
-                        <Stack
-                            direction={{ xs: 'column', lg: 'row' }}
-                            spacing={{ xs: 2, md: 4, lg: 8 }}
-                            alignItems="center"
-                            sx={{ 
-                                width: '100%',
-                                maxHeight: { xs: 'calc(100vh - 120px)', lg: 'calc(100vh - 200px)' },
-                                overflowY: 'auto',
-                                '&::-webkit-scrollbar': { display: 'none' },
-                                msOverflowStyle: 'none',
-                                scrollbarWidth: 'none',
-                                px: { xs: 2, md: 0 }
-                            }}
-                        >
-                            {/* Text Content Column */}
-                            <Box sx={{ 
-                                flex: 1.2, 
-                                width: '100%', 
-                                py: { xs: 2, md: 4 },
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center'
-                            }}>
+                <div className={`a4-pitch-body a4-wrap${hasMedia ? ' has-media' : ''}`}>
+                    <Fade in={!isFocusMode} timeout={600} key={`${selectedPitchId}-${currentSlideIndex}-${current.title}`}>
+                        <div className={`a4-pitch-text${isTitleOnly ? ' center' : ''}`}>
+                            {current.category && (
+                                <p className={`a4-cap${isClientBrand ? ' a4-pitch-mark' : ''}`}>{current.category.replace(/([a-záéíóú])([A-Z])/g, '$1 $2')}</p>
+                            )}
 
-                                {/* Category Tag */}
-                                {current.category && (
-                                    <Typography
-                                        variant="overline"
-                                        sx={{
-                                            color: styles.accent,
-                                            fontWeight: 400,
-                                            letterSpacing: 4,
-                                            fontSize: TEXT_VARIANTS.ui.caption.fontSize,
-                                            mb: 1,
-                                            display: 'block',
-                                            textAlign: isTitleOnly ? 'center' : 'left',
-                                            ...TEXT_VARIANTS.ui.code
-                                        }}
-                                    >
-                                        // {current.category}
-                                    </Typography>
-                                )}
+                            {isEditMode ? (
+                                <textarea
+                                    className="a4-pitch-edit title"
+                                    aria-label="Título"
+                                    rows={2}
+                                    value={current.title}
+                                    onChange={(e) => handleTextChange('title', e.target.value)}
+                                />
+                            ) : (
+                                <h1 className={`a4-pitch-title${isTitleOnly ? ' big' : ''}`}>{current.title}</h1>
+                            )}
 
-                                {/* Title Section */}
-                                {isEditMode ? (
-                                    <TextField
-                                        fullWidth
-                                        multiline
-                                        variant="standard"
-                                        value={current.title}
-                                        onChange={(e) => handleTextChange('title', e.target.value)}
-                                        InputProps={{
-                                            sx: {
-                                                color: styles.text,
-                                                fontWeight: 400,
-                                                fontSize: isTitleOnly 
-                                                    ? { xs: '2.5rem', md: '5rem', lg: '7rem' } 
-                                                    : { xs: '1.8rem', md: '3rem', lg: '4rem' },
-                                                textTransform: 'none',
-                                                textAlign: isTitleOnly ? 'center' : 'left',
-                                                mb: isTitleOnly && !current.subtitle ? 0 : { xs: 2, md: 4 },
-                                                lineHeight: 1.1
-                                            }
-                                        }}
+                            {isTitleOnly && current.subtitle && (
+                                isEditMode ? (
+                                    <input
+                                        className="a4-pitch-edit"
+                                        aria-label="Subtítulo"
+                                        value={current.subtitle}
+                                        onChange={(e) => handleTextChange('subtitle', e.target.value)}
                                     />
                                 ) : (
-                                    <Typography
-                                        sx={{
-                                            color: styles.text,
-                                            fontWeight: 400,
-                                            ...TEXT_VARIANTS.display.medium,
-                                            fontSize: isTitleOnly 
-                                                ? { xs: '2.5rem', md: '5rem', lg: '8rem' } 
-                                                : { xs: '1.8rem', md: '3rem', lg: '4.2rem' },
-                                            lineHeight: 1.1,
-                                            letterSpacing: '-0.04em',
-                                            textTransform: 'none',
-                                            mb: isTitleOnly && !current.subtitle ? 0 : { xs: 2, md: 4 },
-                                            maxWidth: isTitleOnly ? 'none' : '100%',
-                                            textAlign: isTitleOnly ? 'center' : 'left',
-                                            width: '100%'
-                                        }}
-                                    >
-                                        {current.title}
-                                    </Typography>
-                                )}
+                                    <p className="a4-cap" style={{ fontSize: 15 }}>{current.subtitle}</p>
+                                )
+                            )}
 
-                                {/* Subtitle for Title Only slides */}
-                                {isTitleOnly && current.subtitle && (
-                                    <Box sx={{ width: '100%', textAlign: 'center' }}>
+                            {!isTitleOnly && (
+                                <div className="a4-pitch-split">
+                                    <div>
                                         {isEditMode ? (
-                                            <TextField
-                                                fullWidth
-                                                variant="standard"
-                                                value={current.subtitle}
+                                            <textarea
+                                                className="a4-pitch-edit"
+                                                aria-label="Subtítulo"
+                                                rows={2}
+                                                value={current.subtitle || ''}
                                                 onChange={(e) => handleTextChange('subtitle', e.target.value)}
-                                                InputProps={{
-                                                    sx: {
-                                                        color: styles.accent,
-                                                        fontWeight: 400,
-                                                        fontSize: TEXT_VARIANTS.display.small.fontSize,
-                                                        textAlign: 'center',
-                                                        letterSpacing: 2,
-                                                        textTransform: 'none'
-                                                    }
-                                                }}
+                                            />
+                                        ) : current.subtitle && (
+                                            <h2 className="a4-pitch-sub">{current.subtitle}</h2>
+                                        )}
+                                    </div>
+
+                                    <div>
+                                        {Array.isArray(current.content) ? (
+                                            <div className="a4-pitch-lines">
+                                                {current.content.map((line, i) => (
+                                                    <div key={i}>
+                                                        <span className="a4-cap a4-num">{pad(i + 1)}</span>
+                                                        {isEditMode ? (
+                                                            <textarea
+                                                                className="a4-pitch-edit"
+                                                                aria-label={`Línea ${i + 1}`}
+                                                                rows={2}
+                                                                value={line}
+                                                                onChange={(e) => handleTextChange('content', e.target.value, i)}
+                                                            />
+                                                        ) : (
+                                                            <span>{line}</span>
+                                                        )}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        ) : isEditMode ? (
+                                            <textarea
+                                                className="a4-pitch-edit"
+                                                aria-label="Contenido"
+                                                rows={4}
+                                                value={current.content}
+                                                onChange={(e) => handleTextChange('content', e.target.value)}
                                             />
                                         ) : (
-                                            <Typography
-                                                sx={{
-                                                    color: styles.accent,
-                                                    fontWeight: 400,
-                                                    ...TEXT_VARIANTS.display.small,
-                                                    fontSize: { xs: '1.2rem', md: '1.8rem', lg: '2.5rem' },
-                                                    letterSpacing: 4,
-                                                    textTransform: 'none',
-                                                    opacity: 0.8
-                                                }}
-                                            >
-                                                {current.subtitle}
-                                            </Typography>
+                                            <p className="a4-pitch-lead">{current.content}</p>
                                         )}
-                                    </Box>
-                                )}
-
-                                {/* Subtitle & Content Split */}
-                                {!isTitleOnly && (
-                                    <Stack
-                                        direction={{ xs: 'column', md: 'row' }}
-                                        spacing={{ xs: 2, md: 4 }}
-                                        alignItems="flex-start"
-                                    >
-                                        <Box sx={{ flex: 1, width: '100%' }}>
-                                            {isEditMode ? (
-                                                <TextField
-                                                    fullWidth
-                                                    multiline
-                                                    variant="standard"
-                                                    value={current.subtitle || ''}
-                                                    onChange={(e) => handleTextChange('subtitle', e.target.value)}
-                                                    InputProps={{
-                                                        sx: {
-                                                            color: styles.text,
-                                                            opacity: 0.8,
-                                                            fontWeight: 300,
-                                                            fontSize: TEXT_VARIANTS.body.large.fontSize,
-                                                        }
-                                                    }}
-                                                />
-                                            ) : current.subtitle && (
-                                                <Typography
-                                                    variant="h2"
-                                                    sx={{
-                                                        color: styles.text,
-                                                        opacity: 0.8,
-                                                        fontWeight: 300,
-                                                        ...TEXT_VARIANTS.body.large,
-                                                        lineHeight: 1.2,
-                                                        letterSpacing: '-0.01em'
-                                                    }}
-                                                >
-                                                    {current.subtitle}
-                                                </Typography>
-                                            )}
-                                        </Box>
-
-                                        <Box sx={{ flex: 1.5, width: '100%' }}>
-                                            {Array.isArray(current.content) ? (
-                                                <Stack spacing={1.5}>
-                                                    {current.content.map((line, i) => (
-                                                        <Box key={i} sx={{ borderLeft: `${SPACING_TOKENS.borderWidth[2]}px solid ${styles.accent}`, pl: { xs: 2, md: 3 } }}>
-                                                            {isEditMode ? (
-                                                                <TextField
-                                                                    fullWidth
-                                                                    multiline
-                                                                    variant="standard"
-                                                                    value={line}
-                                                                    onChange={(e) => handleTextChange('content', e.target.value, i)}
-                                                                    InputProps={{
-                                                                        sx: {
-                                                                            color: styles.text,
-                                                                            fontSize: TEXT_VARIANTS.body.regular.fontSize,
-                                                                        }
-                                                                    }}
-                                                                />
-                                                            ) : (
-                                                                <Typography
-                                                                    sx={{
-                                                                        color: styles.text,
-                                                                        ...TEXT_VARIANTS.body.regular,
-                                                                        fontWeight: 400,
-                                                                        lineHeight: 1.4
-                                                                    }}
-                                                                >
-                                                                    {line}
-                                                                </Typography>
-                                                            )}
-                                                        </Box>
-                                                    ))}
-                                                </Stack>
-                                            ) : (
-                                                <Box>
-                                                    {isEditMode ? (
-                                                        <TextField
-                                                            fullWidth
-                                                            multiline
-                                                            variant="standard"
-                                                            value={current.content}
-                                                            onChange={(e) => handleTextChange('content', e.target.value)}
-                                                            InputProps={{
-                                                                sx: {
-                                                                    color: styles.text,
-                                                                    fontSize: TEXT_VARIANTS.body.large.fontSize,
-                                                                }
-                                                            }}
-                                                        />
-                                                    ) : (
-                                                        <Typography
-                                                            sx={{
-                                                                color: styles.text,
-                                                                ...TEXT_VARIANTS.body.large,
-                                                                fontWeight: 400,
-                                                                lineHeight: 1.4,
-                                                                opacity: 0.9
-                                                            }}
-                                                        >
-                                                            {current.content}
-                                                        </Typography>
-                                                    )}
-                                                </Box>
-                                            )}
-                                        </Box>
-                                    </Stack>
-                                )}
-                            </Box>
-
-                            {/* Side Asset Column (Image or Video) */}
-                            {(current.image || current.video) && current.imageLayout === 'side' && (
-                                <Box
-                                    sx={{
-                                        flex: 0.8,
-                                        width: '100%',
-                                        height: { xs: '250px', md: '400px', lg: '500px' },
-                                        borderRadius: 4,
-                                        overflow: 'hidden',
-                                        boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
-                                        border: '1px solid rgba(255,255,255,0.1)',
-                                        position: 'relative',
-                                        bgcolor: 'rgba(0,0,0,0.1)',
-                                        mb: { xs: 4, lg: 0 }
-                                    }}
-                                >
-                                    {/* Blurred Backdrop for mismatched aspect ratios */}
-                                    <Box
-                                        sx={{
-                                            position: 'absolute',
-                                            top: 0, left: 0, right: 0, bottom: 0,
-                                            backgroundImage: current.image ? `url(${current.image})` : 'none',
-                                            bgcolor: 'black',
-                                            backgroundSize: 'cover',
-                                            backgroundPosition: 'center',
-                                            filter: 'blur(30px) brightness(0.4)',
-                                            transform: 'scale(1.1)',
-                                            zIndex: 1
-                                        }}
-                                    />
-
-                                    {current.video ? (
-                                        <>
-                                            <Box
-                                                component="video"
-                                                autoPlay
-                                                muted={isMuted}
-                                                loop
-                                                playsInline
-                                                src={current.video}
-                                                sx={{
-                                                    width: '100%',
-                                                    height: '100%',
-                                                    objectFit: 'contain',
-                                                    position: 'relative',
-                                                    zIndex: 2,
-                                                    display: 'block'
-                                                }}
-                                            />
-                                            {/* Mute Toggle Button */}
-                                            <IconButton
-                                                onClick={() => setIsMuted(!isMuted)}
-                                                sx={{
-                                                    position: 'absolute',
-                                                    bottom: 16,
-                                                    right: 16,
-                                                    bgcolor: 'rgba(0,0,0,0.5)',
-                                                    color: 'white',
-                                                    zIndex: 4,
-                                                    '&:hover': { bgcolor: 'rgba(0,0,0,0.8)' }
-                                                }}
-                                                size="small"
-                                            >
-                                                {isMuted ? <VolumeOffIcon fontSize="small" /> : <VolumeOnIcon fontSize="small" />}
-                                            </IconButton>
-                                        </>
-                                    ) : (
-                                        <Box
-                                            component="img"
-                                            src={current.image}
-                                            sx={{
-                                                width: '100%',
-                                                height: '100%',
-                                                objectFit: 'contain',
-                                                position: 'relative',
-                                                zIndex: 2,
-                                                display: 'block'
-                                            }}
-                                        />
-                                    )}
-
-                                    {/* Subtle Overlay Reflection */}
-                                    <Box sx={{
-                                        position: 'absolute',
-                                        top: 0, left: 0, right: 0, bottom: 0,
-                                        background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%)',
-                                        zIndex: 3,
-                                        pointerEvents: 'none'
-                                    }} />
-                                </Box>
+                                    </div>
+                                </div>
                             )}
-                        </Stack>
-                    </Container>
-                </Fade>
+                        </div>
+                    </Fade>
 
-                {/* Floating Logo */}
-                <Box sx={{ position: 'absolute', top: 3, right: 4, zIndex: 5, opacity: 0.6 }}>
-                    <Logo variant="desktop" sx={{ height: 28, filter: styles.logoMode === 'dark' ? 'invert(1)' : 'none' }} />
-                </Box>
+                    {hasMedia && (
+                        <div className={`a4-pitch-media${mediaFull ? ' is-full' : ''}`}>
+                            {current.video ? (
+                                <>
+                                    <video
+                                        autoPlay
+                                        muted={isMuted}
+                                        loop
+                                        playsInline
+                                        src={current.video}
+                                    />
+                                    {!mediaFull && (
+                                        <button
+                                            type="button"
+                                            className="a4-pitch-mute"
+                                            aria-label={isMuted ? 'Activar sonido' : 'Silenciar'}
+                                            onClick={(e) => { e.stopPropagation(); setIsMuted(!isMuted); }}
+                                        >
+                                            {isMuted ? <VolumeOffIcon fontSize="small" /> : <VolumeOnIcon fontSize="small" />}
+                                        </button>
+                                    )}
+                                </>
+                            ) : (
+                                <img src={current.image} alt="" />
+                            )}
+                        </div>
+                    )}
+                </div>
+            </div>
 
-                {/* Big Background Number */}
-                <Typography
-                    sx={{
-                        position: 'absolute',
-                        bottom: -2.5,
-                        left: 2.5,
-                        fontSize: { xs: '15rem', md: '25rem' },
-                        fontWeight: 400,
-                        color: styles.text,
-                        opacity: 0.02,
-                        zIndex: 1,
-                        pointerEvents: 'none',
-                        userSelect: 'none',
-                        lineHeight: 0.8
-                    }}
-                >
-                    {String(currentSlideIndex + 1).padStart(2, '0')}
-                </Typography>
-            </Box>
+            <div className="a4-pitch-controls">
+                <div>
+                    <Tooltip title={isFullscreen ? 'Salir de pantalla completa' : 'Pantalla completa'}>
+                        <button type="button" className="a4-pitch-btn" aria-label="Pantalla completa" onClick={toggleFullscreen}>
+                            {isFullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
+                        </button>
+                    </Tooltip>
+                    <Tooltip title="Cambiar pitch">
+                        <button type="button" className="a4-pitch-btn" aria-label="Cambiar pitch" onClick={(e) => setAnchorEl(e.currentTarget)}>
+                            <PitchIcon />
+                        </button>
+                    </Tooltip>
+                    <Tooltip title="Organizar diapositivas">
+                        <button type="button" className={`a4-pitch-btn${isOrganizerOpen ? ' on' : ''}`} aria-label="Organizar diapositivas" onClick={() => setIsOrganizerOpen(true)}>
+                            <ListIcon />
+                        </button>
+                    </Tooltip>
+                    <Tooltip title={isEditMode ? 'Guardar cambios' : 'Editar pitch'}>
+                        <button type="button" className={`a4-pitch-btn${isEditMode ? ' on' : ''}`} aria-label={isEditMode ? 'Guardar cambios' : 'Editar pitch'} onClick={() => setIsEditMode(!isEditMode)}>
+                            {isEditMode ? <SaveIcon /> : <EditIcon />}
+                        </button>
+                    </Tooltip>
+                </div>
+                <div>
+                    <button type="button" className="a4-pitch-btn" aria-label="Diapositiva anterior" onClick={prevSlide}><PrevIcon /></button>
+                    <button type="button" className={`a4-pitch-btn${isPaused ? '' : ' on'}`} aria-label={isPaused ? 'Reproducir' : 'Pausar'} onClick={() => setIsPaused(!isPaused)}>
+                        {isPaused ? <PlayIcon /> : <PauseIcon />}
+                    </button>
+                    <button type="button" className="a4-pitch-btn" aria-label="Diapositiva siguiente" onClick={nextSlide}><NextIcon /></button>
+                    <span className="a4-cap a4-num" style={{ minWidth: 56, textAlign: 'center' }}>{currentSlideIndex + 1}/{slides.length}</span>
+                    <button type="button" className="a4-pitch-btn" aria-label="Ir al inicio" onClick={() => navigate(ROUTES.HOME)}><HomeIcon /></button>
+                </div>
+            </div>
 
-            {/* Floating Glass Controls */}
-            <Box
-                sx={{
-                    position: 'absolute',
-                    bottom: { xs: 20, md: 30 },
-                    right: { xs: 20, md: 30 },
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1.5,
-                    bgcolor: 'rgba(0,0,0,0.2)',
-                    backdropFilter: 'blur(10px)',
-                    p: 1,
-                    px: 2,
-                    borderRadius: 4,
-                    border: '1px solid rgba(255,255,255,0.05)',
-                    zIndex: 100,
-                    opacity: { xs: 0.8, md: 0.4 },
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                        opacity: 1,
-                        bgcolor: 'rgba(0,0,0,0.6)',
-                        transform: 'translateY(-5px)',
-                        boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
-                    }
-                }}
-            >
-                <Tooltip title={isFullscreen ? "Salir de Pantalla Completa" : "Pantalla Completa"}>
-                    <IconButton
-                        onClick={toggleFullscreen}
-                        size="small"
-                        sx={{ color: 'white', p: 0.5 }}
-                    >
-                        {isFullscreen ? <FullscreenExitIcon fontSize="small" /> : <FullscreenIcon fontSize="small" />}
-                    </IconButton>
-                </Tooltip>
-
-                <Box sx={{ width: 1, height: 16, bgcolor: 'rgba(255,255,255,0.2)', mx: 0.5 }} />
-
-                <Tooltip title="Cambiar Pitch">
-                    <IconButton
-                        onClick={(e) => setAnchorEl(e.currentTarget)}
-                        size="small"
-                        sx={{ color: 'white', p: 0.5 }}
-                    >
-                        <PitchIcon fontSize="small" />
-                    </IconButton>
-                </Tooltip>
-
-                <Box sx={{ width: 1, height: 16, bgcolor: 'rgba(255,255,255,0.2)', mx: 0.5 }} />
-
-                <Tooltip title="Organizar Diapositivas">
-                    <IconButton
-                        onClick={() => setIsOrganizerOpen(true)}
-                        size="small"
-                        sx={{ color: isOrganizerOpen ? styles.accent : 'white', p: 0.5 }}
-                    >
-                        <ListIcon fontSize="small" />
-                    </IconButton>
-                </Tooltip>
-
-                <Box sx={{ width: 1, height: 16, bgcolor: 'rgba(255,255,255,0.2)', mx: 0.5 }} />
-
-                <Tooltip title={isEditMode ? "Guardar Cambios" : "Editar Pitch"}>
-                    <IconButton
-                        onClick={() => setIsEditMode(!isEditMode)}
-                        size="small"
-                        sx={{ color: isEditMode ? styles.accent : 'white', p: 0.5 }}
-                    >
-                        {isEditMode ? <SaveIcon fontSize="small" /> : <EditIcon fontSize="small" />}
-                    </IconButton>
-                </Tooltip>
-
-                <Box sx={{ width: 1, height: 16, bgcolor: 'rgba(255,255,255,0.2)', mx: 0.5 }} />
-
-                <Stack direction="row" spacing={0.5}>
-                    <IconButton onClick={prevSlide} size="small" sx={{ color: 'white', p: 0.5 }}>
-                        <PrevIcon fontSize="small" />
-                    </IconButton>
-
-                    <IconButton
-                        onClick={() => setIsPaused(!isPaused)}
-                        size="small"
-                        sx={{
-                            color: isPaused ? 'white' : styles.accent,
-                            p: 0.5,
-                            transition: 'all 0.3s ease'
-                        }}
-                    >
-                        {isPaused ? <PlayIcon fontSize="small" /> : <PauseIcon fontSize="small" />}
-                    </IconButton>
-
-                    <IconButton onClick={nextSlide} size="small" sx={{ color: 'white', p: 0.5 }}>
-                        <NextIcon fontSize="small" />
-                    </IconButton>
-                </Stack>
-
-                <Box sx={{ width: 1, height: 16, bgcolor: 'rgba(255,255,255,0.2)', mx: 0.5 }} />
-
-                <Typography sx={{ color: 'white', fontWeight: 400, fontSize: '0.75rem', opacity: 0.8, minWidth: 40, textAlign: 'center' }}>
-                    {currentSlideIndex + 1}/{slides.length}
-                </Typography>
-
-                <IconButton
-                    onClick={() => navigate(ROUTES.HOME)}
-                    size="small"
-                    sx={{ color: 'white', p: 0.5 }}
-                >
-                    <HomeIcon fontSize="small" />
-                </IconButton>
-            </Box>
-
-            {/* Pitch Selector Menu */}
             <Menu
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
                 onClose={() => setAnchorEl(null)}
-                PaperProps={{
-                    sx: {
-                        bgcolor: 'rgba(18,18,18,0.95)',
-                        backdropFilter: 'blur(10px)',
-                        color: 'white',
-                        border: '1px solid rgba(255,255,255,0.1)',
-                        minWidth: 200
+                slotProps={{
+                    paper: {
+                        sx: {
+                            bgcolor: '#ffffff',
+                            color: '#171717',
+                            border: '1px solid #171717',
+                            borderRadius: 0,
+                            boxShadow: 'none',
+                            minWidth: 200
+                        }
                     }
                 }}
             >
-                <MenuItem onClick={() => handlePitchChange('bancolombia')}>Bancolombia</MenuItem>
-                <MenuItem onClick={() => handlePitchChange('corona')}>Alimentos Corona</MenuItem>
+                <MenuItem sx={{ minHeight: 44 }} onClick={() => handlePitchChange('bancolombia')}>Bancolombia</MenuItem>
+                <MenuItem sx={{ minHeight: 44 }} onClick={() => handlePitchChange('corona')}>Alimentos Corona</MenuItem>
             </Menu>
 
-            {/* Slide Organizer Drawer */}
             <Drawer
                 anchor="left"
                 open={isOrganizerOpen}
                 onClose={() => setIsOrganizerOpen(false)}
-                PaperProps={{
-                    sx: {
-                        width: { xs: '100%', sm: 350 },
-                        bgcolor: 'rgba(18,18,18,0.98)',
-                        backdropFilter: 'blur(15px)',
-                        color: 'white',
-                        borderRight: '1px solid rgba(255,255,255,0.1)'
+                slotProps={{
+                    paper: {
+                        sx: {
+                            width: { xs: '100%', sm: 380 },
+                            maxWidth: '100%',
+                            bgcolor: '#ffffff',
+                            color: '#171717',
+                            borderRight: '1px solid #171717',
+                            borderRadius: 0,
+                            boxShadow: 'none'
+                        }
                     }
                 }}
             >
-                <Box sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column' }}>
-                    <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
-                        <Typography variant="h6" sx={{ fontWeight: 400, letterSpacing: 1 }}>
-                            Organizador
-                        </Typography>
-                        <IconButton onClick={() => setIsOrganizerOpen(false)} sx={{ color: 'white' }}>
-                            <NextIcon sx={{ transform: 'rotate(180deg)' }} />
-                        </IconButton>
-                    </Stack>
-                    
-                    <Divider sx={{ bgcolor: 'rgba(255,255,255,0.1)', mb: 2 }} />
+                <div className="a4-pitch-org">
+                    <div className="a4-pitch-org-head">
+                        <p className="a4-cap">Organizador</p>
+                        <button type="button" className="a4-pitch-btn" aria-label="Cerrar organizador" onClick={() => setIsOrganizerOpen(false)}>
+                            <PrevIcon />
+                        </button>
+                    </div>
 
-                    <Box sx={{ flexGrow: 1, overflowY: 'auto', mb: 2, pr: 1 }}>
-                        <List sx={{ width: '100%' }}>
-                            {slides.map((slide, index) => (
-                                <ListItem
-                                    key={`${selectedPitchId}-${index}-${slide.title}`}
-                                    sx={{
-                                        mb: 1,
-                                        borderRadius: 2,
-                                        bgcolor: currentSlideIndex === index ? 'rgba(253, 218, 36, 0.1)' : 'transparent',
-                                        border: currentSlideIndex === index ? '1px solid rgba(253, 218, 36, 0.3)' : '1px solid rgba(255,255,255,0.05)',
-                                        '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' },
-                                        cursor: 'pointer',
-                                        transition: 'all 0.2s ease'
-                                    }}
-                                    onClick={() => {
-                                        setCurrentSlideIndex(index);
-                                        if (window.innerWidth < 600) setIsOrganizerOpen(false);
-                                    }}
+                    <div className="a4-pitch-org-list">
+                        {slides.map((slide, index) => (
+                            <div
+                                key={`${selectedPitchId}-${index}-${slide.title}`}
+                                className={`a4-pitch-org-item${currentSlideIndex === index ? ' on' : ''}`}
+                                onClick={() => {
+                                    setCurrentSlideIndex(index);
+                                    if (window.innerWidth < 600) setIsOrganizerOpen(false);
+                                }}
+                            >
+                                <div>
+                                    <Typography variant="body2" noWrap sx={{ fontWeight: 500, color: '#171717' }}>
+                                        {index + 1}. {slide.title}
+                                    </Typography>
+                                    <p className="a4-cap" style={{ color: '#555' }}>
+                                        {slide.type} · {slide.theme.replace(/_/g, ' ').toLowerCase()}
+                                    </p>
+                                </div>
+                                <button
+                                    type="button"
+                                    className="a4-pitch-btn"
+                                    aria-label="Subir diapositiva"
+                                    disabled={index === 0}
+                                    onClick={(e) => { e.stopPropagation(); moveSlide(index, 'up'); }}
                                 >
-                                    <ListItemText
-                                        primary={
-                                            <Typography variant="body2" sx={{ fontWeight: 400, color: currentSlideIndex === index ? '#FDDA24' : 'white', noWrap: true }}>
-                                                {index + 1}. {slide.title}
-                                            </Typography>
-                                        }
-                                        secondary={
-                                            <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>
-                                                {slide.type.toUpperCase()} • {slide.theme.replace(/_/g, ' ')}
-                                            </Typography>
-                                        }
-                                    />
-                                    <ListItemSecondaryAction>
-                                        <Stack direction="row" spacing={0.5}>
-                                            <IconButton
-                                                size="small"
-                                                disabled={index === 0}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    moveSlide(index, 'up');
-                                                }}
-                                                sx={{ color: 'white', '&.Mui-disabled': { color: 'rgba(255,255,255,0.1)' } }}
-                                            >
-                                                <UpIcon fontSize="small" />
-                                            </IconButton>
-                                            <IconButton
-                                                size="small"
-                                                disabled={index === slides.length - 1}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    moveSlide(index, 'down');
-                                                }}
-                                                sx={{ color: 'white', '&.Mui-disabled': { color: 'rgba(255,255,255,0.1)' } }}
-                                            >
-                                                <DownIcon fontSize="small" />
-                                            </IconButton>
-                                            <IconButton
-                                                size="small"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    deleteSlide(index);
-                                                }}
-                                                sx={{ color: 'rgba(255,0,0,0.6)', '&:hover': { color: 'red' } }}
-                                            >
-                                                <DeleteIcon fontSize="small" />
-                                            </IconButton>
-                                        </Stack>
-                                    </ListItemSecondaryAction>
-                                </ListItem>
-                            ))}
-                        </List>
-                    </Box>
+                                    <UpIcon />
+                                </button>
+                                <button
+                                    type="button"
+                                    className="a4-pitch-btn"
+                                    aria-label="Bajar diapositiva"
+                                    disabled={index === slides.length - 1}
+                                    onClick={(e) => { e.stopPropagation(); moveSlide(index, 'down'); }}
+                                >
+                                    <DownIcon />
+                                </button>
+                                <button
+                                    type="button"
+                                    className="a4-pitch-btn"
+                                    aria-label="Eliminar diapositiva"
+                                    onClick={(e) => { e.stopPropagation(); deleteSlide(index); }}
+                                >
+                                    <DeleteIcon />
+                                </button>
+                            </div>
+                        ))}
+                    </div>
 
-                    <Box sx={{ pt: 2, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-                        <IconButton
-                            onClick={restoreDefaults}
-                            sx={{ 
-                                color: 'rgba(255,255,255,0.5)', 
-                                fontSize: '0.75rem', 
-                                width: '100%', 
-                                borderRadius: 2, 
-                                gap: 1
-                            }}
-                        >
-                            <PitchIcon fontSize="small" />
-                            Restaurar orden original
-                        </IconButton>
-                    </Box>
-                </Box>
+                    <div className="a4-pitch-org-foot">
+                        <button type="button" className="a4-ghost" onClick={restoreDefaults}>
+                            Restaurar orden original →
+                        </button>
+                    </div>
+                </div>
             </Drawer>
-        </Box>
+        </div>
     );
 };
 

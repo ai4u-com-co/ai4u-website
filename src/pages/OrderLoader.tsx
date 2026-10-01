@@ -1,161 +1,95 @@
 import React from 'react';
-import { Box, Container, Grid, Stack } from '@mui/material';
-import { Giant, H2, BodyText, CodeText, SEOHead, GeometricIcon, RegistrationMarks, MoireText } from '../components/shared/ui/atoms';
-import { DiagnosticCTA, RelatedPages } from '../components/shared/ui/molecules';
-import { SurfaceProvider } from '../context';
-import { useColors, usePerformanceMonitoring } from '../hooks';
-import { getRelatedLinks } from '../data/internalLinkingStrategy';
-import { BRAND_ORANGE } from '../components/shared/ui/tokens/brandAccent';
+import { Link } from 'react-router-dom';
+import { SEOHead } from '../components/shared/ui/atoms';
+import { usePerformanceMonitoring } from '../hooks';
+import { APP_CONFIG, ROUTES } from '../utils/constants';
+import { scrollToTop } from '../utils/helpers';
+import '../styles/site-v2.css';
+import '../styles/pages/sitios-web.css';
+
+const waUrl = (message: string) =>
+  `https://wa.me/${APP_CONFIG.CONTACT.WHATSAPP}?text=${encodeURIComponent(message)}`;
 
 const STEPS = [
-  {
-    n: '01',
-    name: 'llega el correo',
-    desc: 'un pedido entra a la bandeja del cliente, en el formato que sea — PDF, Excel, texto plano.',
-  },
-  {
-    n: '02',
-    name: 'orderLoader lo lee',
-    desc: 'extrae artículos, cantidades, cliente, fechas — sin plantilla fija, sin digitación manual.',
-  },
-  {
-    n: '03',
-    name: 'crea el pedido en tu ERP',
-    desc: 'la orden queda lista para producción en SAP Business One, Siigo, World Office u otro ERP, sin que nadie la haya tipeado.',
-  },
+  { n: '01', name: 'Llega el correo', desc: 'Un pedido entra a la bandeja del cliente, en el formato que sea: PDF, Excel, texto plano.' },
+  { n: '02', name: 'orderLoader lo lee', desc: 'Extrae artículos, cantidades, cliente, fechas. Sin plantilla fija, sin digitación manual.' },
+  { n: '03', name: 'Crea el pedido en tu ERP', desc: 'La orden queda lista para producción en SAP Business One, Siigo, World Office u otro ERP, sin que nadie la haya tipeado.' },
 ];
 
 const FACTS = [
-  { n: '2', label: 'plantas en producción', detail: 'Tamaprint y Flexoimpresos, mismo motor, sin bifurcar código' },
-  { n: '24/7', label: 'sin turnos', detail: 'corre solo, todos los días, no espera a que alguien lo revise' },
-  { n: '0', label: 'digitación manual', detail: 'el pedido nace en SAP directo desde el correo del cliente' },
+  { n: '2', label: 'Plantas en producción', detail: 'Tamaprint y Flexoimpresos, mismo motor, sin bifurcar código.' },
+  { n: '24/7', label: 'Sin turnos', detail: 'Corre solo, todos los días, no espera a que alguien lo revise.' },
+  { n: '0', label: 'Digitación manual', detail: 'El pedido nace en SAP directo desde el correo del cliente.' },
 ];
 
-// Cuerpo real — vive dentro del SurfaceProvider "cream" del wrapper de más abajo
-// (mismo patrón que SitiosWeb.tsx/Home.tsx). Módulo propio: orderLoader es el
-// producto que originó a Ai4U, no un caso más dentro del portafolio genérico.
-const OrderLoaderBody: React.FC = () => {
-  const colors = useColors();
+const OrderLoader: React.FC = () => {
   usePerformanceMonitoring('orderloader', { lcp: 2500, fcp: 1800 });
-  const relatedLinks = getRelatedLinks('/orderloader');
+  const top = () => scrollToTop('auto');
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: colors.contrast.background, color: colors.contrast.text.primary }}>
+    <div className="a4 a4-page">
       <SEOHead
         title="orderLoader | AI4U"
         description="El correo del pedido entra, la orden sale creada en tu ERP (SAP Business One, Siigo, World Office u otro). Sin digitación manual, corriendo 24/7 en plantas de manufactura reales."
         canonical="https://www.ai4u.com.co/orderloader"
       />
 
-      {/* Hero */}
-      <Box sx={{ py: { xs: 10, md: 16 }, position: 'relative', borderBottom: `1px solid ${colors.contrast.border}` }}>
-        <RegistrationMarks corners={['tl', 'tr']} circles />
-        <Container maxWidth="lg">
-          <CodeText sx={{ fontSize: '0.72rem', letterSpacing: '0.25em', color: BRAND_ORANGE, mb: 4, display: 'block' }}>
-            // ai4u.orderloader
-          </CodeText>
-          <Giant sx={{ fontWeight: 400, lineHeight: 0.85, fontSize: { xs: '2.4rem', sm: '3.5rem', md: '7rem' }, mb: 4, overflowWrap: 'break-word', wordBreak: 'break-word' }}>
-            <MoireText sx={{ fontSize: 'inherit', lineHeight: 'inherit', letterSpacing: 'inherit' }}>
-              orderloader
-            </MoireText>
-          </Giant>
-          <BodyText sx={{ fontSize: { xs: '1.2rem', md: '1.5rem' }, maxWidth: '620px', opacity: 0.85, fontWeight: 300 }}>
-            un agente lee los correos de pedidos y los crea en tu ERP — SAP Business One,
-            Siigo, World Office u otro —, sin que nadie los digite. es el producto que
-            originó a AI4U — hoy corre en dos plantas reales sobre SAP Business One.
-          </BodyText>
-        </Container>
-      </Box>
+      <header className="a4-page-head a4-wrap">
+        <p className="a4-cap">Ai4U · Producto</p>
+        <h1 className="a4-display" style={{ overflowWrap: 'anywhere' }}>orderLoader</h1>
+        <p className="a4-lead">
+          Un agente lee los correos de pedidos y los crea en tu ERP (SAP Business One, Siigo, World Office u otro), sin que nadie los digite. Es el producto que originó a Ai4U y hoy corre en dos plantas reales sobre SAP Business One.
+        </p>
+        <div className="a4-flow" role="img" aria-label="Correo, agente, ERP"><b>Correo</b><em /><b>Agente</b><em /><b>ERP</b></div>
+      </header>
 
-      {/* Cómo funciona */}
-      <Box sx={{ py: { xs: 8, md: 12 } }}>
-        <Container maxWidth="lg">
-          <Grid container spacing={4}>
-            {STEPS.map((step) => (
-              <Grid item xs={12} md={4} key={step.n}>
-                <Box sx={{
-                  p: { xs: 4, md: 5 },
-                  height: '100%',
-                  border: `1px solid ${colors.contrast.border}`,
-                  display: 'flex',
-                  flexDirection: 'column',
-                }}>
-                  <CodeText sx={{ fontSize: '0.75rem', opacity: 0.5, mb: 3 }}>{step.n}</CodeText>
-                  <H2 sx={{ fontWeight: 400, fontSize: { xs: '1.5rem', md: '1.8rem' }, mb: 2, textTransform: 'none' }}>
-                    {step.name}
-                  </H2>
-                  <BodyText sx={{ opacity: 0.75, fontSize: '0.95rem' }}>{step.desc}</BodyText>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      </Box>
+      <section className="a4-section a4-wrap" aria-label="Cómo funciona">
+        <div className="a4-sec-label"><span className="a4-cap">Cómo funciona</span></div>
+        <div className="a4-grid">
+          {STEPS.map((step) => (
+            <article className="a4-card" key={step.n}>
+              <p className="a4-cap a4-num">{step.n}</p>
+              <h2 className="a4-sub">{step.name}</h2>
+              <p className="a4-sm">{step.desc}</p>
+            </article>
+          ))}
+        </div>
+      </section>
 
-      {/* En producción — hechos, no promesas */}
-      <Box sx={{ py: { xs: 8, md: 12 }, borderTop: `1px solid ${colors.contrast.border}` }}>
-        <Container maxWidth="lg">
-          <CodeText sx={{ fontSize: '0.72rem', letterSpacing: '0.2em', color: colors.contrast.text.secondary, mb: 5, display: 'block' }}>
-            // en producción, no en demo
-          </CodeText>
-          <Grid container spacing={4}>
-            {FACTS.map((fact) => (
-              <Grid item xs={12} md={4} key={fact.label}>
-                <CodeText sx={{ fontSize: { xs: '2.5rem', md: '3.2rem' }, fontWeight: 700, color: BRAND_ORANGE, display: 'block', lineHeight: 1 }}>
-                  {fact.n}
-                </CodeText>
-                <BodyText sx={{ fontSize: '1rem', fontWeight: 500, mt: 1.5, mb: 0.5 }}>{fact.label}</BodyText>
-                <BodyText sx={{ fontSize: '0.85rem', opacity: 0.65 }}>{fact.detail}</BodyText>
-              </Grid>
-            ))}
-          </Grid>
+      <section className="a4-section a4-wrap" aria-label="En producción">
+        <div className="a4-sec-label"><span className="a4-cap">En producción, no en demo</span></div>
+        <div className="a4-ol-facts">
+          {FACTS.map((fact) => (
+            <div key={fact.label}>
+              <p className="a4-ol-big a4-num">{fact.n}</p>
+              <p className="a4-cap">{fact.label}</p>
+              <p className="a4-sm">{fact.detail}</p>
+            </div>
+          ))}
+        </div>
+        <ul className="a4-points" style={{ marginTop: 30 }}>
+          <li>Mismo motor, configuración por planta, sin bifurcar código por cliente</li>
+          <li>Habla con SAP a través de un único gateway propio, no directo a Service Layer</li>
+        </ul>
+      </section>
 
-          <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mt: 6 }}>
-            <GeometricIcon type="check" size="small" variant="minimal" color={BRAND_ORANGE} />
-            <BodyText sx={{ fontSize: '0.9rem', opacity: 0.7 }}>mismo motor, config por planta — sin bifurcar código por cliente</BodyText>
-          </Stack>
-          <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mt: 2 }}>
-            <GeometricIcon type="check" size="small" variant="minimal" color={BRAND_ORANGE} />
-            <BodyText sx={{ fontSize: '0.9rem', opacity: 0.7 }}>habla con SAP a través de un único gateway propio, no directo a Service Layer</BodyText>
-          </Stack>
-        </Container>
-      </Box>
-
-      {/* CTA */}
-      <Box sx={{ py: { xs: 10, md: 16 }, borderTop: `1px solid ${colors.contrast.border}`, display: 'flex', justifyContent: 'center' }}>
-        <Container maxWidth="md" sx={{ textAlign: 'center' }}>
-          <Giant sx={{ fontWeight: 400, fontSize: { xs: '2.5rem', md: '4.5rem' }, lineHeight: 0.9, mb: 6 }}>
-            ¿tu equipo sigue digitando pedidos?
-          </Giant>
-          <DiagnosticCTA
-            variant="primary"
-            text="escríbenos por WhatsApp"
-            size="large"
-            showIcon={false}
-            message="hola, vi orderLoader en la web y quiero saber más"
-            sx={{
-              height: '52px', px: 5, fontSize: '0.85rem', fontWeight: 400,
-              fontFamily: 'monospace', letterSpacing: '0.05em', borderRadius: 0,
-              bgcolor: BRAND_ORANGE, color: '#fff', border: 'none',
-              '&:hover': { bgcolor: BRAND_ORANGE, opacity: 0.85 },
-            }}
-          />
-        </Container>
-      </Box>
-
-      {relatedLinks.length > 0 && (
-        <Container maxWidth="lg" sx={{ py: 8 }}>
-          <RelatedPages pages={relatedLinks} title="Sigue explorando:" variant="horizontal" />
-        </Container>
-      )}
-    </Box>
+      <section className="a4-cta a4-wrap">
+        <p className="a4-cap" style={{ marginBottom: 24 }}>Empecemos</p>
+        <h2 className="a4-h-lg" style={{ maxWidth: '14ch' }}>¿Tu equipo sigue digitando pedidos?</h2>
+        <div style={{ marginTop: 32 }}>
+          <a className="a4-ghost" href={waUrl('hola, vi orderLoader en la web y quiero saber más')} target="_blank" rel="noopener noreferrer">
+            Escríbenos por WhatsApp →
+          </a>
+        </div>
+        <p className="a4-cap" style={{ marginTop: 40 }}>Sigue explorando</p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 28px' }}>
+          <Link className="a4-ghost" to={ROUTES.SITIOS_WEB} onClick={top}>Sitios web →</Link>
+          <Link className="a4-ghost" to={ROUTES.AGENTES} onClick={top}>Agentes →</Link>
+          <Link className="a4-ghost" to={ROUTES.PORTFOLIO} onClick={top}>Portafolio →</Link>
+        </div>
+      </section>
+    </div>
   );
 };
-
-const OrderLoader: React.FC = () => (
-  <SurfaceProvider surface="cream">
-    <OrderLoaderBody />
-  </SurfaceProvider>
-);
 
 export default OrderLoader;
