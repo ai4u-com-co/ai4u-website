@@ -16,8 +16,7 @@
 .a4-agentes-card-top { display: flex; justify-content: space-between; gap: 10px; }
 .a4-agentes-card-id { display: flex; gap: 14px; align-items: center; min-width: 0; }
 .a4-agentes-card-id > div { min-width: 0; }
-.a4-agentes-ident { width: 72px; flex: 0 0 72px; background: var(--a4-paper); border: 1px solid var(--a4-ash); }
-.a4-agentes-ident svg { display: block; width: 100%; height: auto; aspect-ratio: 1; }
+.a4-agentes-ident { width: 72px; flex: 0 0 72px; }
 .a4-agentes-name { margin: 0; overflow-wrap: anywhere; }
 .a4-agentes-card p { margin: 0; }
 .a4-agentes-card-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
@@ -39,23 +38,46 @@
 .a4-agentes-toolbtn[aria-pressed="true"] { background: var(--a4-ink); color: var(--a4-canvas); }
 .a4-agentes-opt:focus-visible, .a4-agentes-toolbtn:focus-visible, .a4-agentes-filters summary:focus-visible { outline: 2px solid var(--a4-ink); outline-offset: 3px; }
 
-/* atributos y herramientas */
-.a4-agentes-bars { display: grid; gap: 6px; width: 100%; }
-.a4-agentes-bar-row { display: grid; grid-template-columns: 76px minmax(0, 1fr) 20px; gap: 10px; align-items: center; }
-.a4-agentes-bar-row .track { height: 6px; background: var(--a4-paper); border: 1px solid var(--a4-ash); }
-.a4-agentes-bar-row .fill { height: 100%; background: var(--a4-ink); }
+/* herramientas */
 .a4-agentes-tools { display: grid; gap: 6px; }
 .a4-agentes-tools-row { display: flex; gap: 6px; flex-wrap: wrap; }
 .a4-agentes-tool { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--a4-ink); background: var(--a4-paper); color: var(--a4-ink); }
 
-/* drawer */
-.a4-agentes-scrim { position: fixed; inset: 0; background: rgba(29, 29, 29, .35); z-index: 1300; }
-.a4-agentes-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(100%, 440px); background: var(--a4-canvas); border-left: 1px solid var(--a4-ink); z-index: 1301; padding: 22px; display: flex; flex-direction: column; gap: 22px; overflow-y: auto; color: var(--a4-ink); font-family: var(--a4-font); letter-spacing: .013em; }
-.a4-agentes-drawer p { margin: 0; }
-.a4-agentes-drawer-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-.a4-agentes-drawer-nav { display: flex; justify-content: space-between; gap: 10px; margin-top: auto; }
-.a4-agentes-close { width: 44px; height: 44px; border: 1px solid var(--a4-ink); border-radius: 10px; background: none; cursor: pointer; font: 400 18px/1 var(--a4-mono); color: var(--a4-ink); }
-.a4-agentes-close:focus-visible { outline: 2px solid var(--a4-ink); outline-offset: 3px; }
+/* nivel: tres cuadros llenos según cuánto supervisa una persona */
+.a4-agentes-pips { display: inline-flex; gap: 4px; }
+.a4-agentes-pips i { width: 14px; height: 14px; border: 1px solid var(--a4-ink); background: var(--a4-paper); display: block; }
+.a4-agentes-pips i.on { background: var(--a4-ink); }
+.a4-agentes-level { display: flex; align-items: center; gap: 10px; margin: 0; }
+.a4-niveles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--a4-ash); margin-top: 24px; }
+.a4-nivel { display: grid; gap: 10px; align-content: start; padding: 20px 20px 24px 0; }
+.a4-nivel + .a4-nivel { padding-left: 20px; border-left: 1px solid var(--a4-ash); }
+.a4-nivel p { margin: 0; }
+
+/* tarjeta de jugador: frente y reverso (ficha de negocio) */
+.a4-flip { perspective: 1400px; min-width: 0; display: grid; }
+.a4-flip-inner { display: grid; grid-template-rows: minmax(0, 1fr); transform-style: preserve-3d; transition: transform .45s ease; }
+.a4-flip.is-flipped .a4-flip-inner { transform: rotateY(180deg); }
+.a4-face { grid-area: 1 / 1; display: grid; gap: 16px; align-content: start; padding: 22px; min-width: 0; border: 1px solid var(--a4-ink); background-color: var(--a4-paper); background-image: linear-gradient(var(--a4-canvas) 1px, transparent 1px), linear-gradient(90deg, var(--a4-canvas) 1px, transparent 1px); background-size: 24px 24px; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.a4-flip.is-piloto .a4-face { border-style: dashed; }
+.a4-face p { margin: 0; }
+.a4-face-back { transform: rotateY(180deg); visibility: hidden; transition: visibility 0s .22s; }
+.a4-flip.is-flipped .a4-face-back { visibility: visible; transition-delay: 0s; }
+.a4-flip.is-flipped .a4-face-front { visibility: hidden; transition: visibility 0s .22s; }
+.a4-ficha { display: grid; gap: 12px; margin: 0; }
+.a4-ficha > div { display: grid; gap: 2px; }
+.a4-ficha dt { color: #55554f; }
+.a4-ficha dd { margin: 0; font-size: 15px; line-height: 1.4; }
+
+/* alineaciones: los agentes que juegan juntos en cada cliente */
+.a4-lineups { border-top: 1px solid var(--a4-ash); margin-top: clamp(24px, 3vw, 40px); }
+.a4-lineup { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 12px clamp(19px, 3vw, 46px); padding: 22px 0; border-bottom: 1px solid var(--a4-ash); align-items: start; }
+.a4-lineup > * { min-width: 0; }
+.a4-lineup-head { display: grid; gap: 6px; }
+.a4-lineup-head h3 { margin: 0; }
+.a4-lineup-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 8px; }
+.a4-lineup-list li { display: flex; align-items: center; }
+.a4-lineup-chip { font: 400 12px/1.4 var(--a4-mono); letter-spacing: .05em; text-transform: uppercase; border: 1px solid var(--a4-ink); border-radius: 10px; padding: 10px 14px; min-height: 44px; background: var(--a4-paper); color: var(--a4-ink); cursor: pointer; }
+.a4-lineup-chip:hover, .a4-lineup-chip:focus-visible { background: var(--a4-ink); color: var(--a4-canvas); outline: none; }
 
 /* confirmación */
 .a4-agentes-confirm { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 30px clamp(19px, 4vw, 76px); align-items: start; }
@@ -63,10 +85,18 @@
 .a4-agentes-ctas { display: flex; flex-wrap: wrap; gap: 12px; }
 
 @media (max-width: 900px) {
-  .a4-agentes-layout, .a4-agentes-confirm { grid-template-columns: minmax(0, 1fr); }
+  .a4-agentes-layout, .a4-agentes-confirm, .a4-lineup { grid-template-columns: minmax(0, 1fr); }
+  .a4-niveles { grid-template-columns: minmax(0, 1fr); }
+  .a4-nivel, .a4-nivel + .a4-nivel { padding: 18px 0; border-left: 0; border-bottom: 1px solid var(--a4-ash); }
   .a4-agentes-aside { position: static; }
   .a4-agentes-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 760px) {
   .a4-agentes-grid { grid-template-columns: minmax(0, 1fr); }
 }
+@media (prefers-reduced-motion: reduce) { .a4-flip-inner { transition: none; } .a4-face-back, .a4-flip.is-flipped .a4-face-front { transition: none; } }
+
+/* foto de jugador: el rostro grande sobre el color del agente */
+.a4-photo { padding: 14px; }
+.a4-photo svg { width: min(100%, 128px); }
+.a4-face-back { border-top: 10px solid var(--agent, var(--a4-ink)); }

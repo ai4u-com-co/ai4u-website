@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { AGENT_GROUPS, ALL_AGENTS } from '../agents';
+import { AGENT_GROUPS, ALL_AGENTS, NIVELES } from '../agents';
+import { CASES, clientesDe } from '../cases';
 
-// Catálogo ampliado (octubre 2026): 33 agentes agrupados por tipo de trabajo.
+// Catálogo ampliado (octubre 2026): 33 agentes agrupados por tipo de trabajo, con ficha de negocio.
 describe('catálogo de agentes', () => {
   it('tiene 33 agentes, sin nombres repetidos', () => {
     expect(ALL_AGENTS).toHaveLength(33);
@@ -31,14 +32,43 @@ describe('catálogo de agentes', () => {
   });
 
   it('los textos no mencionan SAP ni prometen cifras', () => {
-    const texto = ALL_AGENTS.map(a => `${a.name} ${a.pitch}`).join(' ');
+    const texto = ALL_AGENTS.map(a => `${a.name} ${a.pitch} ${a.recibe} ${a.entrega} ${a.revisa} ${a.horario}`).join(' ');
     expect(texto).not.toMatch(/\bSAP\b|\d+ ?%|\$ ?\d/);
   });
+});
 
-  it('los atributos están entre 0 y 100', () => {
-    ALL_AGENTS.forEach(a => Object.values(a.atributos).forEach(v => {
-      expect(v).toBeGreaterThanOrEqual(0);
-      expect(v).toBeLessThanOrEqual(100);
-    }));
+describe('tarjetas: ficha de negocio y niveles', () => {
+  it('no hay barras de atributos inventadas', () => {
+    ALL_AGENTS.forEach(a => expect(a).not.toHaveProperty('atributos'));
+  });
+
+  it('cada agente tiene su ficha completa', () => {
+    ALL_AGENTS.forEach(a => {
+      (['recibe', 'entrega', 'revisa', 'horario'] as const).forEach(k => expect(a[k].trim().length, `${a.name}.${k}`).toBeGreaterThan(3));
+    });
+  });
+
+  it('el nivel es 1, 2 o 3 y tiene significado definido por la supervisión', () => {
+    ALL_AGENTS.forEach(a => expect([1, 2, 3]).toContain(a.nivel));
+    expect(Object.values(NIVELES).map(n => n.nombre)).toEqual(['Propone', 'Ejecuta', 'Autónomo']);
+  });
+
+  it('las 4 ideas sin construir son nivel 1 o 2: ninguna promete trabajar sola', () => {
+    ['cierre mensual', 'reposición de inventario', 'resumen semanal', 'seguimiento de cotizaciones'].forEach(n => {
+      expect(ALL_AGENTS.find(a => a.name === n)!.nivel).toBeLessThan(3);
+    });
+  });
+});
+
+describe('alineaciones por cliente', () => {
+  it('todo agente nombrado en un caso existe en el catálogo', () => {
+    const nombres = new Set(ALL_AGENTS.map(a => a.name));
+    CASES.forEach(c => c.agentes.forEach(a => expect(nombres.has(a), `${c.name}: ${a}`).toBe(true)));
+  });
+
+  it('los clientes de un agente salen de los casos', () => {
+    expect(clientesDe('lector de pedidos')).toEqual(['Tamaprint', 'Flexoimpresos']);
+    expect(clientesDe('agente de huéspedes')).toEqual(['Estudio Índigo']);
+    expect(clientesDe('cierre mensual')).toEqual([]);
   });
 });

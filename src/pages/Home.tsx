@@ -6,45 +6,13 @@ import { useErrorTracking } from '../hooks';
 import { getHomeStructuredData, getPageMetaTags } from '../utils/seo';
 import { clients } from '../data/clients';
 import { ALL_AGENTS } from '../data/agents';
+import FaceTile from '../components/agentes/FaceTile';
 import { ROUTES, APP_CONFIG } from '../utils/constants';
 import { scrollToTop } from '../utils/helpers';
 import '../styles/site-v2.css';
 
 const whatsappUrl = `https://wa.me/${APP_CONFIG.CONTACT.WHATSAPP}?text=${encodeURIComponent(APP_CONFIG.CONTACT.WHATSAPP_MESSAGE)}`;
 const problemUrl = `https://wa.me/${APP_CONFIG.CONTACT.WHATSAPP}?text=${encodeURIComponent('hola, quiero contarles qué me quita más tiempo en mi empresa')}`;
-
-// Avatar determinista por nombre: rejilla 9×9 simétrica, tinta sobre papel.
-const hash = (s: string) => {
-  let h = 5381;
-  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0;
-  return h;
-};
-const rng = (seed: number) => () => {
-  seed |= 0;
-  seed = (seed + 0x6d2b79f5) | 0;
-  let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-};
-
-const Identicon: React.FC<{ name: string }> = ({ name }) => {
-  const N = 9;
-  const next = rng(hash(name));
-  const cells: JSX.Element[] = [];
-  for (let y = 0; y < N; y++) {
-    for (let x = 0; x < 5; x++) {
-      if (next() > 0.5) {
-        cells.push(<rect key={`${x}-${y}`} x={x} y={y} width={1} height={1} />);
-        if (x < 4) cells.push(<rect key={`m${x}-${y}`} x={N - 1 - x} y={y} width={1} height={1} />);
-      }
-    }
-  }
-  return (
-    <svg viewBox="-1 -1 11 11" role="img" aria-label={name} fill="#1d1d1d" shapeRendering="crispEdges">
-      {cells}
-    </svg>
-  );
-};
 
 const SERVICES_INDEX: { title: string; text: string; to?: string; href?: string }[] = [
   { title: 'Agentes', text: 'Hacen el trabajo repetitivo, todo el día: leen pedidos y facturas, cobran la cartera y responden mensajes.', to: ROUTES.AGENTES },
@@ -140,7 +108,7 @@ const Home = () => {
             <p className="a4-cap">Catálogo</p>
             <h3 className="a4-h-sm">{ALL_AGENTS.length} agentes</h3>
             <div className="a4-avatars" aria-hidden="true">
-              {ALL_AGENTS.map(a => <Identicon key={a.name} name={a.name} />)}
+              {ALL_AGENTS.map(a => <FaceTile key={a.name} name={a.name} />)}
             </div>
             <p className="a4-sm">Pedidos, cobros, dashboards, planta, atención al cliente, contenido y la fábrica que construye a los demás.</p>
             <Link className="a4-ghost" to={ROUTES.AGENTES} onClick={top} style={{ justifySelf: 'start' }}>Ver el catálogo →</Link>
