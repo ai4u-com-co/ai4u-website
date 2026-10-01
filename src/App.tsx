@@ -16,10 +16,6 @@ const Portfolio = lazy(() => import('./pages/Portfolio'));
 const SitiosWeb = lazy(() => import('./pages/SitiosWeb'));
 const OrderLoader = lazy(() => import('./pages/OrderLoader'));
 const SuperAI = lazy(() => import('./pages/SuperAI'));
-const DesignSystem = lazy(() => import('./pages/DesignSystem'));
-const Pitch = lazy(() => import('./pages/Pitch'));
-const PitchBancolombia = lazy(() => import('./pages/PitchBancolombia'));
-const PropuestaManufactura = lazy(() => import('./pages/PropuestaManufactura'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 const DataDeletion = lazy(() => import('./pages/DataDeletion'));
@@ -40,11 +36,6 @@ function App() {
                 <ScrollToTop />
                 <Suspense fallback={null}>
                 <Routes>
-                  {/* Standalone Routes */}
-                  <Route
-                    path={ROUTES.DESIGN_SYSTEM}
-                    element={<DesignSystem />}
-                  />
 
                   {/* Main Application Layout Routes */}
                   <Route
@@ -110,23 +101,6 @@ function App() {
                           <Route
                             path={ROUTES.SUPER_AI}
                             element={<SuperAI />}
-                          />
-
-                          <Route
-                            path={ROUTES.PITCH}
-                            element={<Pitch />}
-                          />
-
-                          {/* Pitch Bancolombia Route */}
-                          <Route
-                            path={ROUTES.PITCH_BANCOLOMBIA}
-                            element={<PitchBancolombia />}
-                          />
-
-                          {/* Propuesta Manufactura Route */}
-                          <Route
-                            path={ROUTES.PROPUESTA_MANUFACTURA}
-                            element={<PropuestaManufactura />}
                           />
 
                           <Route
