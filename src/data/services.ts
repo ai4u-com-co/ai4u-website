@@ -220,7 +220,7 @@ export const services: Service[] = [
     benefits: [
       'Visibilidad 360°',
       'Predicción IA',
-      'ROI optimizado'
+      'Decisiones con datos'
     ],
     deliveryTime: '7 días',
     category: ServiceCategory.ANALYTICS,
@@ -280,7 +280,7 @@ export const services: Service[] = [
     benefits: [
       'Pipeline siempre lleno',
       'Leads de alta calidad',
-      'ROI en marketing'
+      'Seguimiento de cada campaña'
     ],
     deliveryTime: '7 días',
     category: ServiceCategory.AUTOMATION,
@@ -396,31 +396,6 @@ export const services: Service[] = [
   },
 
   // --- EJE 4: TRANSFORMACIÓN DIGITAL (GREEN) ---
-  {
-    id: 'super-ai',
-    title: 'capa de inteligencia',
-    subtitle: 'tu primer empleado IA',
-    description: 'No es software, es tu primer empleado digital. Un agente autónomo que entrenamos y al que le enseñamos "Skills" para que ejecute tu operación.',
-    benefits: [
-      'Skills base incluidos según plan',
-      'Entrenamiento continuo y evolutivo',
-      'Ejecución en tus sistemas vía Skills',
-      'Skills adicionales a la medida'
-    ],
-    deliveryTime: 'A medida',
-    category: ServiceCategory.AUTOMATION,
-    priority: 1,
-    featured: true,
-    media: {
-      video: '/assets/videos/data-entry-automatico.mp4',
-      poster: '/assets/images/services-thumbnails/data-entry-automatico.png'
-    },
-    color: AI4U_PALETTE.accentColors.mint,
-    tags: ['super-ai', 'autonomía', 'eje:transformation', 'eje:operation'],
-    status: ServiceStatus.ACTIVE,
-    thumbnail: '/assets/images/services-thumbnails/data-entry-automatico.png',
-    metadata: { createdAt: '2025-02-03', updatedAt: '2025-02-03', version: '1.0', author: 'AI4U Team' }
-  },
   {
     id: 'metodologia-ai-first',
     title: 'Metodología AI-First',

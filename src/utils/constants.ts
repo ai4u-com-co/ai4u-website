@@ -18,9 +18,9 @@ export const ROUTES = {
 // Configuración de la aplicación
 export const APP_CONFIG = {
   NAME: 'AI4U',
-  DESCRIPTION: 'Construimos tu infraestructura de IA personalizada',
+  DESCRIPTION: 'Ponemos inteligencia artificial a trabajar en tu operación',
   CONTACT: {
-    EMAIL: 'contacto@ai4u.com.co',
+    EMAIL: 'hola@ai4u.com.co',
     PHONE: '+57 302 490 6414',
     WHATSAPP: '573024906414',
     WHATSAPP_MESSAGE: 'hola, quiero recuperar mi tiempo con ai4u',

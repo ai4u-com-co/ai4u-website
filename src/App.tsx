@@ -15,7 +15,6 @@ const WhyAI4U = lazy(() => import('./pages/WhyAI4U'));
 const Portfolio = lazy(() => import('./pages/Portfolio'));
 const SitiosWeb = lazy(() => import('./pages/SitiosWeb'));
 const OrderLoader = lazy(() => import('./pages/OrderLoader'));
-const SuperAI = lazy(() => import('./pages/SuperAI'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 const DataDeletion = lazy(() => import('./pages/DataDeletion'));
@@ -97,10 +96,10 @@ function App() {
                             element={<Navigate to={ROUTES.WHY_AI4U} replace />}
                           />
 
-                          {/* SuperAI — capa de inteligencia, cuarta categoría de la propuesta de valor */}
+                          {/* superAI salió del sitio (decisión 8-jul): la ruta vieja lleva al inicio */}
                           <Route
                             path={ROUTES.SUPER_AI}
-                            element={<SuperAI />}
+                            element={<Navigate to={ROUTES.HOME} replace />}
                           />
 
                           <Route

@@ -1,5 +1,6 @@
 import type { IconType } from 'react-icons';
-import { SiWhatsapp, SiGmail, SiSap, SiInstagram, SiGithub } from 'react-icons/si';
+import { SiWhatsapp, SiGmail, SiInstagram, SiGithub } from 'react-icons/si';
+import { FiDatabase } from 'react-icons/fi';
 // LinkedIn no está en el set simple-icons de esta versión de react-icons — Font Awesome sí lo trae.
 import { FaLinkedin } from 'react-icons/fa';
 
@@ -17,7 +18,7 @@ export interface ToolDef {
 export const TOOLS: Record<ToolId, ToolDef> = {
   whatsapp: { label: 'WhatsApp', Icon: SiWhatsapp, color: '#25D366' },
   gmail: { label: 'Gmail', Icon: SiGmail, color: '#EA4335' },
-  sap: { label: 'SAP', Icon: SiSap, color: '#0FAAFF' },
+  sap: { label: 'Tu ERP', Icon: FiDatabase, color: '#1d1d1d' },
   linkedin: { label: 'LinkedIn', Icon: FaLinkedin, color: '#0A66C2' },
   instagram: { label: 'Instagram', Icon: SiInstagram, color: '#E4405F' },
   github: { label: 'GitHub', Icon: SiGithub, color: '#FFFFFF' },

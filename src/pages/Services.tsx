@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { SEOHead } from '@/components/shared/ui/atoms';
-import { SuperAIModal } from '@/components/shared/ui/organisms';
 import { useServicesContext } from '@/context';
 import { usePerformanceMonitoring } from '@/hooks';
 import { getServicesStructuredData, getPageMetaTags } from '@/utils/seo';
@@ -13,8 +12,7 @@ import '@/styles/pages/services.css';
 
 const whatsappUrl = `https://wa.me/${APP_CONFIG.CONTACT.WHATSAPP}?text=${encodeURIComponent(APP_CONFIG.CONTACT.WHATSAPP_MESSAGE)}`;
 
-// Camino 1 — cualquier empresa que ya tenga un ERP (SAP Business One incluido,
-// pero no exclusivo). Nos conectamos directo — es tu primera línea de IA.
+// Camino 1 — cualquier empresa que ya tenga un ERP. Nos conectamos directo — es tu primera línea de IA.
 const ERP_ITEMS = [
   { n: '01', name: 'dashboards en vivo', desc: 'ventas, cartera, inventario y producción conectados en tiempo real a tu ERP.' },
   { n: '02', name: 'automatización de procesos', desc: 'pedidos, cartera, facturación — el proceso que más tiempo te cuesta, resuelto.' },
@@ -60,7 +58,6 @@ const Rows: React.FC<{ items: { n: string; name: string; desc: string }[] }> = (
 );
 
 const Services: React.FC = () => {
-  const [isSuperAIModalOpen, setIsSuperAIModalOpen] = useState(false);
   const { getFilteredServices } = useServicesContext();
 
   usePerformanceMonitoring('services', { lcp: 2500, fcp: 1800 });
@@ -88,9 +85,9 @@ const Services: React.FC = () => {
       />
 
       <header className="a4-page-head a4-wrap">
-        <p className="a4-cap">Servicios · Ai4U</p>
-        <h1 className="a4-display">Agentes<br />dentro de tu<br />operación</h1>
-        <p className="a4-lead a4-sm">Dos caminos, un solo objetivo: que tu operación trabaje sola.</p>
+        <p className="a4-cap">A tu medida · Ai4U</p>
+        <h1 className="a4-display">A tu<br />medida</h1>
+        <p className="a4-lead a4-sm">Software, automatizaciones y sitios web pensados para tu operación. Después los mantenemos funcionando.</p>
       </header>
 
       <section className="a4-section a4-wrap" aria-labelledby="camino-1">
@@ -98,7 +95,7 @@ const Services: React.FC = () => {
         <div className="a4-two">
           <div className="a4-stack">
             <h2 className="a4-h-sm" id="camino-1">Si tu empresa ya tiene un ERP</h2>
-            <p className="a4-sm">Nos conectamos directo a tu ERP y se vuelve tu primera línea de inteligencia artificial. Ya lo hicimos en producción para empresas que corren SAP Business One.</p>
+            <p className="a4-sm">Nos conectamos directo a tu ERP y se vuelve tu primera línea de inteligencia artificial. Ya lo hicimos en producción en empresas de manufactura.</p>
           </div>
           <Rows items={ERP_ITEMS} />
         </div>
@@ -115,13 +112,13 @@ const Services: React.FC = () => {
         </div>
       </section>
 
-      <section className="a4-section a4-wrap" aria-label="Todo incluido">
+      <section className="a4-section a4-wrap" aria-label="Cuéntanos tu problema">
         <div className="a4-card" style={{ gap: 22 }}>
-          <p className="a4-cap">Todo incluido</p>
-          <h2 className="a4-h-sm">Los dos caminos, en uno solo</h2>
-          <p className="a4-sm" style={{ maxWidth: 520 }}>Contrato mínimo de 1 año. El software siempre es de Ai4U y se cobra mientras siga corriendo.</p>
+          <p className="a4-cap">Empecemos</p>
+          <h2 className="a4-h-sm">Cuéntanos qué te quita tiempo</h2>
+          <p className="a4-sm" style={{ maxWidth: 520 }}>Lo escuchamos y te decimos cómo lo resolveríamos.</p>
           <div>
-            <a className="a4-pill" href={`https://wa.me/${APP_CONFIG.CONTACT.WHATSAPP}?text=${encodeURIComponent('Hola, quiero cotizar el plan Todo Incluido (los dos caminos en uno).')}`} target="_blank" rel="noopener noreferrer">Cotizar este plan →</a>
+            <a className="a4-pill" href={whatsappUrl} target="_blank" rel="noopener noreferrer">Escribir por WhatsApp →</a>
           </div>
         </div>
       </section>
@@ -137,11 +134,7 @@ const Services: React.FC = () => {
               <ul>
                 {group.items.map((service) => (
                   <li key={service.id}>
-                    {service.id === 'super-ai' ? (
-                      <button type="button" onClick={() => setIsSuperAIModalOpen(true)}>{service.description}</button>
-                    ) : (
-                      <span className="a4-sm">{service.description}</span>
-                    )}
+                    <span className="a4-sm">{service.description}</span>
                   </li>
                 ))}
               </ul>
@@ -182,10 +175,6 @@ const Services: React.FC = () => {
         )}
       </section>
 
-      <SuperAIModal
-        open={isSuperAIModalOpen}
-        onClose={() => setIsSuperAIModalOpen(false)}
-      />
     </div>
   );
 };

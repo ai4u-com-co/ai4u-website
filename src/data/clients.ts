@@ -15,27 +15,6 @@ export const clients: Client[] = [
     sector: 'Impact Storytelling'
   },
   {
-    id: 'true',
-    name: 'True',
-    website: 'https://www.trueshop.co',
-    logo: '/assets/images/cases/logo-true.png',
-    sector: 'Fashion'
-  },
-  {
-    id: 'rascal',
-    name: 'Rascal',
-    website: 'https://rascal-three.vercel.app/',
-    logo: '/assets/images/cases/logo-rascal.png',
-    sector: 'E-Mobility'
-  },
-  {
-    id: 'EAFIT',
-    name: 'EAFIT',
-    website: 'https://www.eafit.edu.co',
-    logo: '/assets/images/cases/logo-eafit.png',
-    sector: 'Educación Superior'
-  },
-  {
     id: 'tamaprint',
     name: 'Tamaprint',
     website: 'https://www.tamaprint.com',
@@ -55,6 +34,20 @@ export const clients: Client[] = [
     website: 'https://www.huanaturals.com',
     logo: '/assets/images/cases/logo-hua-naturals.png',
     sector: 'Reality-Hacking'
+  },
+  {
+    id: 'estudio-indigo',
+    name: 'Estudio Índigo',
+    website: '',
+    logo: '',
+    sector: 'Hospitalidad'
+  },
+  {
+    id: 'multihealth',
+    name: 'Multihealth',
+    website: '',
+    logo: '',
+    sector: 'Salud y bienestar'
   },
   {
     id: 'ai4u',

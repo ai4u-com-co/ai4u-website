@@ -28,7 +28,7 @@ const Identicon: React.FC<{ name: string }> = ({ name }) => {
   }
   return (
     <div className="a4-agentes-ident">
-      <svg viewBox="-1 -1 11 11" role="img" aria-label={`Avatar de ${name}`} fill="#171717" shapeRendering="crispEdges">
+      <svg viewBox="-1 -1 11 11" role="img" aria-label={`Avatar de ${name}`} fill="#1d1d1d" shapeRendering="crispEdges">
         {cells}
       </svg>
     </div>
