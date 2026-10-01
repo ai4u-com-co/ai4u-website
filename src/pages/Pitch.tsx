@@ -52,7 +52,7 @@ const slides: DeckSlide[] = [
     content: [
       'Extracción inteligente de datos de facturas y documentos (OCR).',
       'Ingreso automático a ERP y sistemas contables.',
-      'Liberación de +20 horas semanales de carga administrativa.'
+      'Menos carga administrativa para tu equipo.'
     ],
     type: 'product',
     category: 'operativo'
@@ -63,7 +63,7 @@ const slides: DeckSlide[] = [
     content: [
       'Validación automática de procesos operativos y cumplimiento.',
       'Detección de anomalías en facturación y logística.',
-      'Reportes de auditoría generados en segundos, no semanas.'
+      'Reportes de auditoría generados automáticamente.'
     ],
     type: 'product',
     category: 'operativo'

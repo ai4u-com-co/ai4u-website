@@ -5,7 +5,7 @@ import '../styles/site-v2.css';
 const whatsappUrl = `https://wa.me/${APP_CONFIG.CONTACT.WHATSAPP}?text=${encodeURIComponent(APP_CONFIG.CONTACT.WHATSAPP_MESSAGE)}`;
 
 const PROBLEMS = [
-  { title: 'El costo del "lag" de decisión', text: 'Un cuello de botella en la Línea A detectado 4 horas tarde significa toneladas de producción perdida. La falta de un vínculo en tiempo real entre planta y gerencia castiga su EBITDA.' },
+  { title: 'El costo del "lag" de decisión', text: 'Un cuello de botella en la Línea A detectado tarde significa producción perdida. La falta de un vínculo en tiempo real entre planta y gerencia castiga su EBITDA.' },
   { title: 'Silos de información legacy', text: 'Datos que están en el ERP nunca hablan con los del CRM. Super AI actúa como el orquestador que automatiza los flujos entre plataformas para que no haya burocracia digital.' },
   { title: 'Dependencia de persona clave', text: 'Si el analista de datos no está, el CEO no tiene visibilidad. Super AI democratiza el acceso a la inteligencia operativa corporativa sin depender de terceros.' },
 ];
@@ -14,12 +14,6 @@ const SKILLS = [
   { title: 'Orquestación de sistemas', desc: 'Conecta ERPs (SAP, Oracle, Odoo) con sus canales de comunicación y sistemas de planta. Super AI maneja la data para que usted maneje el negocio.' },
   { title: 'Inteligencia operativa', desc: 'Reportes ejecutivos automáticos. Super AI analiza tendencias en tiempo real y alerta sobre desviaciones críticas antes de que afecten el P&L.' },
   { title: 'Visibilidad de planta 360°', desc: 'Interrogue a su fábrica en lenguaje natural. "¿Cuál es el cuello de botella actual en la línea 3?" Super AI responde basándose en data real.' },
-];
-
-const METRICS = [
-  { label: 'Tiempo de respuesta', val: '-85%', desc: 'De horas a segundos en consultas operativas.' },
-  { label: 'Carga administrativa', val: '-40%', desc: 'Liberación de mandos medios para tareas de valor.' },
-  { label: 'Precisión de data', val: '99.9%', desc: 'Eliminación del error humano en la captura y reporte.' },
 ];
 
 const RECEIVES = [
@@ -82,36 +76,18 @@ const PropuestaManufactura: React.FC = () => {
               </div>
             ))}
           </div>
-
-          <p className="a4-cap" style={{ margin: 'clamp(40px, 5vw, 76px) 0 clamp(16px, 2vw, 24px)' }}>Métrica clave para el CEO: el ROI de la atención</p>
-          <div className="a4-grid">
-            {METRICS.map((m) => (
-              <article className="a4-card" key={m.label} style={{ gridColumn: 'auto' }}>
-                <p className="a4-h-sm a4-num">{m.val}</p>
-                <p className="a4-cap">{m.label}</p>
-                <p className="a4-sm">{m.desc}</p>
-              </article>
-            ))}
-          </div>
         </section>
 
         {/* 3. Inversión */}
         <section className="a4-section">
           <div className="a4-sec-label">
             <span className="a4-cap a4-num">03</span>
-            <span className="a4-cap">Inversión estratégica</span>
+            <span className="a4-cap">Alcance</span>
           </div>
           <div className="a4-two">
-            <div className="a4-stack" style={{ gap: 28 }}>
-              <div className="a4-stack">
-                <p className="a4-cap">Orquestador industrial (setup)</p>
-                <p className="a4-h-lg a4-num" style={{ fontFamily: 'inherit' }}>$2,500 <span className="a4-cap">USD</span></p>
-                <p className="a4-sm">Incluye mapeo de arquitectura de datos, integración con 2 sistemas core (ERP/CRM) y entrenamiento del orquestador ejecutivo.</p>
-              </div>
-              <div className="a4-stack" style={{ borderTop: '1px solid var(--a4-ash)', paddingTop: 24 }}>
-                <p className="a4-cap">Acompañamiento estratégico</p>
-                <p className="a4-h-sm a4-num" style={{ fontFamily: 'inherit' }}>$350 <span className="a4-cap">USD/mes</span></p>
-              </div>
+            <div className="a4-stack">
+              <p className="a4-cap">Orquestador industrial</p>
+              <p className="a4-sm">Incluye mapeo de arquitectura de datos, integración con los sistemas core (ERP/CRM) y entrenamiento del orquestador ejecutivo. La inversión se cotiza según el alcance.</p>
             </div>
             <div>
               <p className="a4-cap" style={{ marginBottom: 16 }}>Lo que usted recibe</p>

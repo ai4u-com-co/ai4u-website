@@ -19,8 +19,6 @@ const SuperAI = lazy(() => import('./pages/SuperAI'));
 const DesignSystem = lazy(() => import('./pages/DesignSystem'));
 const Pitch = lazy(() => import('./pages/Pitch'));
 const PitchBancolombia = lazy(() => import('./pages/PitchBancolombia'));
-const PitchFondoEmprender = lazy(() => import('./pages/PitchFondoEmprender'));
-const PropuestaElBarril = lazy(() => import('./pages/PropuestaElBarril'));
 const PropuestaManufactura = lazy(() => import('./pages/PropuestaManufactura'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./pages/TermsOfService'));
@@ -123,16 +121,6 @@ function App() {
                           <Route
                             path={ROUTES.PITCH_BANCOLOMBIA}
                             element={<PitchBancolombia />}
-                          />
-
-                          <Route
-                            path={ROUTES.PITCH_FONDO_EMPRENDER}
-                            element={<PitchFondoEmprender />}
-                          />
-
-                          <Route
-                            path={ROUTES.PROPUESTA_EL_BARRIL}
-                            element={<PropuestaElBarril />}
                           />
 
                           {/* Propuesta Manufactura Route */}
