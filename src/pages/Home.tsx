@@ -143,7 +143,7 @@ const Home = () => {
             <div className="a4-avatars" aria-hidden="true">
               {ALL_AGENTS.map(a => <Identicon key={a.name} name={a.name} />)}
             </div>
-            <p className="a4-sm">Tickets, servicio al cliente, operación, contenido y la fábrica de desarrollo que construye a los demás.</p>
+            <p className="a4-sm">Pedidos, cobros, tableros, planta, atención al cliente, contenido y la fábrica que construye a los demás.</p>
             <Link className="a4-ghost" to={ROUTES.AGENTES} onClick={top} style={{ justifySelf: 'start' }}>Ver el catálogo →</Link>
           </article>
           <article className="a4-card wide">

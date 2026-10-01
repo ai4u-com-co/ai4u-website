@@ -159,7 +159,7 @@ export const getPageMetaTags = (page: string) => {
     },
     agentes: {
       title: "Agentes de IA en Producción | AI4U",
-      description: "Los agentes que hoy trabajan en operaciones reales: tickets, servicio al cliente, automatización de ERP y contenido. No es una demo, es lo que ya corre.",
+      description: "Los agentes que hoy trabajan en operaciones reales: pedidos, cobros, tableros, planta, atención al cliente y contenido. No es una demo, es lo que ya corre.",
       keywords: "agentes de IA, equipo de agentes, automatización IA, agentes en producción, AI4U"
     }
   };
