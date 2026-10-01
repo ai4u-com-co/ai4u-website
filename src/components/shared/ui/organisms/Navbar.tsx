@@ -5,10 +5,11 @@ import { ROUTES, APP_CONFIG } from '../../../../utils/constants';
 import { scrollToTop } from '../../../../utils/helpers';
 import '../../../../styles/site-v2.css';
 
-// Agentes, a tu medida, sitios web, casos y nosotros. Tableros se suma al menú cuando exista su página.
+// Las tres capas (agentes, tableros, a tu medida) más sitios web, casos y nosotros.
 // orderLoader se llega desde Agentes y el inicio.
 const NAV_ITEMS = [
   { name: 'Agentes', path: ROUTES.AGENTES },
+  { name: 'Tableros', path: ROUTES.TABLEROS },
   { name: 'A tu medida', path: ROUTES.SERVICES },
   { name: 'Sitios web', path: ROUTES.SITIOS_WEB },
   { name: 'Casos', path: ROUTES.PORTFOLIO },

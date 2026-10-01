@@ -11,6 +11,7 @@ import Home from './pages/Home';
 
 const Services = lazy(() => import('./pages/Services'));
 const Agentes = lazy(() => import('./pages/Agentes'));
+const Tableros = lazy(() => import('./pages/Tableros'));
 const WhyAI4U = lazy(() => import('./pages/WhyAI4U'));
 const Portfolio = lazy(() => import('./pages/Portfolio'));
 const SitiosWeb = lazy(() => import('./pages/SitiosWeb'));
@@ -76,6 +77,12 @@ function App() {
                           <Route
                             path={ROUTES.ORDER_LOADER}
                             element={<OrderLoader />}
+                          />
+
+                          {/* Tableros — segunda capa de la oferta */}
+                          <Route
+                            path={ROUTES.TABLEROS}
+                            element={<Tableros />}
                           />
 
                           {/* Agentes Route — catálogo público de agentes, la evidencia detrás del pitch */}

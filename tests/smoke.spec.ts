@@ -88,10 +88,21 @@ test.describe('AI4U Smoke Test', () => {
     await expect(page.locator('h1').first()).toBeVisible();
   });
 
+  test('/tableros renders its own page', async ({ page }) => {
+    await page.goto('/tableros');
+    await expect(page).toHaveTitle(/Tableros/);
+    await expect(page.locator('h1').first()).toBeVisible();
+  });
+
+  test('/portafolio lists the five cases', async ({ page }) => {
+    await page.goto('/portafolio');
+    await expect(page.locator('article.a4-case')).toHaveCount(5);
+  });
+
   test('menu shows the new entries and the unified contact', async ({ page }) => {
     await page.goto('/');
     const nav = page.locator('nav').first();
-    for (const name of ['Agentes', 'A tu medida', 'Sitios web', 'Casos', 'Nosotros']) {
+    for (const name of ['Agentes', 'Tableros', 'A tu medida', 'Sitios web', 'Casos', 'Nosotros']) {
       await expect(nav.getByRole('link', { name })).toBeVisible();
     }
     await expect(page.locator('footer')).toContainText('hola@ai4u.com.co');

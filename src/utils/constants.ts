@@ -8,6 +8,7 @@ export const ROUTES = {
   ORDER_LOADER: '/orderloader',
   SUPER_AI: '/super-ai',
   AGENTES: '/agentes',
+  TABLEROS: '/tableros',
   /** @deprecated nombre viejo de /agentes — solo para el redirect en App.tsx, no usar para nada nuevo */
   TIENDA_AI_LEGACY: '/tienda-ai',
   PRIVACY_POLICY: '/politica-de-privacidad',

@@ -23,224 +23,42 @@ export interface ServiceCrossReference {
 }
 
 // Mapeo principal de enlaces internos por página
+const link = (to: string, label: string, context: string, trackingLabel: string, semantic: InternalLink['semantic'], priority: InternalLink['priority'] = 'high'): InternalLink => ({ to, label, context, trackingLabel, priority, semantic });
+
 export const INTERNAL_LINKS_MAP: Record<string, InternalLink[]> = {
-  // Home (/) - Hub Principal
   '/': [
-    {
-      to: '/servicios',
-      label: 'Conoce nuestros servicios',
-      context: 'Descubre cómo podemos automatizar tu empresa',
-      trackingLabel: 'home_to_services',
-      priority: 'high',
-      semantic: 'progression'
-    },
-    {
-      to: '/portafolio',
-      label: 'Portafolio de innovación',
-      context: 'Proyectos reales y aplicaciones de vanguardia',
-      trackingLabel: 'home_to_portfolio',
-      priority: 'high',
-      semantic: 'evidence'
-    },
-    {
-      to: '/por-que-ai4u',
-      label: 'Resultados y metodología',
-      context: 'Empresas que ya transformaron sus procesos',
-      trackingLabel: 'home_to_why',
-      priority: 'high',
-      semantic: 'evidence'
-    }
+    link('/agentes', 'Agentes', 'Los que hacen el trabajo repetitivo, todo el día', 'home_to_agentes', 'progression'),
+    link('/tableros', 'Tableros', 'Ve cómo va tu empresa sin pedir reportes', 'home_to_tableros', 'progression'),
+    link('/portafolio', 'Casos', 'Empresas que ya trabajan con agentes de Ai4U', 'home_to_casos', 'evidence'),
   ],
-
-  // Servicios (/servicios) - Conversion Focus
   '/servicios': [
-    {
-      to: '/portafolio',
-      label: 'Ver portafolio de innovación',
-      context: 'Proyectos reales y aplicaciones de IA',
-      trackingLabel: 'services_to_portfolio',
-      priority: 'high',
-      semantic: 'evidence'
-    },
-    {
-      to: '/por-que-ai4u',
-      label: 'Nuestra metodología',
-      context: 'Por qué elegir AI4U',
-      trackingLabel: 'services_to_why',
-      priority: 'high',
-      semantic: 'evidence'
-    },
-    {
-      to: '/',
-      label: 'Volver al inicio',
-      context: 'Conoce más sobre nuestra filosofía',
-      trackingLabel: 'services_to_home',
-      priority: 'low',
-      semantic: 'related'
-    }
+    link('/tableros', 'Tableros', 'Las cifras que necesitas, siempre al día', 'services_to_tableros', 'related'),
+    link('/portafolio', 'Ver los casos', 'Lo que ya construimos a la medida', 'services_to_casos', 'evidence'),
+    link('/por-que-ai4u', 'Nosotros', 'La parte humana de la IA', 'services_to_why', 'evidence', 'medium'),
   ],
-
-  // Por qué AI4U (/por-que-ai4u) - Differentiation & Evidence
+  '/tableros': [
+    link('/portafolio', 'Ver los casos', 'Empresas que ya ven su operación en un tablero', 'tableros_to_casos', 'evidence'),
+    link('/agentes', 'Agentes', 'El trabajo que hacen mientras tú decides', 'tableros_to_agentes', 'related'),
+    link('/servicios', 'A tu medida', 'Si necesitas algo que no existe', 'tableros_to_servicios', 'progression', 'medium'),
+  ],
   '/por-que-ai4u': [
-    {
-      to: '/portafolio',
-      label: 'Ver portafolio',
-      context: 'Proyectos de innovación destacados',
-      trackingLabel: 'why_to_portfolio',
-      priority: 'high',
-      semantic: 'evidence'
-    },
-    {
-      to: '/servicios',
-      label: 'Nuestros servicios',
-      context: 'Conoce qué ofrecemos exactamente',
-      trackingLabel: 'why_to_services',
-      priority: 'high',
-      semantic: 'progression'
-    },
-    {
-      to: '/',
-      label: 'Comenzar ahora',
-      context: 'Agendar diagnóstico gratuito',
-      trackingLabel: 'why_to_home',
-      priority: 'medium',
-      semantic: 'progression'
-    }
+    link('/portafolio', 'Casos', 'Empresas que ya trabajan con nosotros', 'why_to_casos', 'evidence'),
+    link('/agentes', 'Agentes', 'Conoce a quién entra a tu equipo', 'why_to_agentes', 'progression'),
+    link('/servicios', 'A tu medida', 'Cómo construimos y mantenemos', 'why_to_servicios', 'progression', 'medium'),
   ],
-
-  // Portafolio (/portafolio) - Evidence & Innovation
   '/portafolio': [
-    {
-      to: '/servicios',
-      label: 'Ver servicios',
-      context: 'Cómo implementamos estas tecnologías',
-      trackingLabel: 'portfolio_to_services',
-      priority: 'high',
-      semantic: 'progression'
-    },
-    {
-      to: '/por-que-ai4u',
-      label: 'Nuestra metodología',
-      context: 'Por qué somos líderes en IA',
-      trackingLabel: 'portfolio_to_why',
-      priority: 'high',
-      semantic: 'evidence'
-    }
+    link('/agentes', 'Agentes', 'Los agentes que usan estas empresas', 'casos_to_agentes', 'related'),
+    link('/tableros', 'Tableros', 'Cómo ven su operación', 'casos_to_tableros', 'related'),
+    link('/servicios', 'A tu medida', 'Cuando lo que necesitas no existe', 'casos_to_servicios', 'progression', 'medium'),
   ],
-
-  // orderLoader (/orderloader) - Módulo dedicado al producto que originó a AI4U
   '/orderloader': [
-    {
-      to: '/agentes',
-      label: 'Ver más agentes',
-      context: 'orderLoader es uno de varios agentes ya en producción',
-      trackingLabel: 'orderloader_to_agentes',
-      priority: 'high',
-      semantic: 'related'
-    },
-    {
-      to: '/portafolio',
-      label: 'Ver portafolio',
-      context: 'Más proyectos reales de AI4U',
-      trackingLabel: 'orderloader_to_portfolio',
-      priority: 'medium',
-      semantic: 'evidence'
-    },
-    {
-      to: '/servicios',
-      label: 'Ver servicios',
-      context: 'Cómo construimos automatizaciones como esta',
-      trackingLabel: 'orderloader_to_services',
-      priority: 'medium',
-      semantic: 'progression'
-    }
-  ]
-};
-
-// Servicios y sus casos relacionados
-export const SERVICE_CROSS_REFERENCES: Record<string, ServiceCrossReference> = {
-  'superai-empresarial': {
-    serviceSlug: 'superai-empresarial',
-    serviceName: 'Capa de Inteligencia Empresarial',
-    description: 'Arquitectura integral de IA que transforma recursos operativos en ventaja estratégica',
-    relatedCases: [
-      { client: 'True', sector: 'Fashion', slug: 'fashion' },
-      { client: 'HUA Naturals', sector: 'Wellness', slug: 'wellness' }
-    ],
-    relatedServices: ['gpt-personalizado', 'automatizacion-inteligente']
-  },
-  'gpt-personalizado': {
-    serviceSlug: 'gpt-personalizado',
-    serviceName: 'GPT Personalizado',
-    description: 'Modelos de lenguaje entrenados específicamente para tu industria y procesos',
-    relatedCases: [
-      { client: 'EAFIT', sector: 'Educación Superior', slug: 'educacion-superior' },
-      { client: 'HUA Naturals', sector: 'Wellness', slug: 'wellness' }
-    ],
-    relatedServices: ['superai-empresarial', 'chatbots-avanzados']
-  },
-  'automatizacion-inteligente': {
-    serviceSlug: 'automatizacion-inteligente',
-    serviceName: 'Automatización Inteligente',
-    description: 'Procesos automatizados que se adaptan y aprenden de tu operación',
-    relatedCases: [
-      { client: 'La Magdalena', sector: 'Impact Storytelling', slug: 'impact-storytelling' },
-      { client: 'True', sector: 'Fashion', slug: 'fashion' }
-    ],
-    relatedServices: ['superai-empresarial', 'machine-learning']
-  },
-  'chatbots-avanzados': {
-    serviceSlug: 'chatbots-avanzados',
-    serviceName: 'Chatbots Avanzados',
-    description: 'Asistentes conversacionales que entienden contexto y generan valor real',
-    relatedCases: [
-      { client: 'HUA Naturals', sector: 'Wellness', slug: 'wellness' }
-    ],
-    relatedServices: ['gpt-personalizado', 'automatizacion-inteligente']
-  }
-};
-
-// Enlaces contextuales específicos por sección
-export const CONTEXTUAL_CTA_LINKS = {
-  heroSection: {
-    primary: { to: '/servicios', label: 'Conoce nuestros servicios' },
-    secondary: { to: '/por-que-ai4u', label: 'Ver casos reales' }
-  },
-  featuresSection: {
-    automation: { to: '/servicios#automatizacion-inteligente', label: 'Automatización Inteligente' },
-    ai: { to: '/servicios#superai-empresarial', label: 'Capa de Inteligencia Empresarial' },
-    personalization: { to: '/servicios#gpt-personalizado', label: 'GPT Personalizado' }
-  },
-  socialProof: {
-    cases: { to: '/portafolio', label: 'Ver portafolio' },
-    why: { to: '/por-que-ai4u', label: '¿Por qué nos eligen?' }
-  }
+    link('/agentes', 'Ver más agentes', 'orderLoader es uno de varios agentes ya en producción', 'orderloader_to_agentes', 'related'),
+    link('/portafolio', 'Ver los casos', 'Empresas donde ya trabaja', 'orderloader_to_casos', 'evidence', 'medium'),
+    link('/servicios', 'A tu medida', 'Cómo construimos automatizaciones como esta', 'orderloader_to_servicios', 'progression', 'medium'),
+  ],
 };
 
 // Función para obtener enlaces relacionados por página
 export const getRelatedLinks = (currentPath: string): InternalLink[] => {
   return INTERNAL_LINKS_MAP[currentPath] || [];
-};
-
-// Función para obtener referencias cruzadas de servicios
-export const getServiceCrossReference = (serviceSlug: string): ServiceCrossReference | null => {
-  return SERVICE_CROSS_REFERENCES[serviceSlug] || null;
-};
-
-// Función para generar enlaces contextuales basados en contenido
-export const generateContextualLinks = (
-  currentPage: string, 
-  contentContext: string[]
-): InternalLink[] => {
-  const baseLinks = getRelatedLinks(currentPage);
-  
-  // Filtrar y priorizar basado en contexto
-  return baseLinks
-    .filter(link => 
-      contentContext.some(context => 
-        link.semantic === context || 
-        link.trackingLabel?.includes(context)
-      )
-    )
-    .slice(0, 3); // Máximo 3 enlaces para mantener minimalismo
 };

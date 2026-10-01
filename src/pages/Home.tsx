@@ -12,7 +12,6 @@ import '../styles/site-v2.css';
 
 const whatsappUrl = `https://wa.me/${APP_CONFIG.CONTACT.WHATSAPP}?text=${encodeURIComponent(APP_CONFIG.CONTACT.WHATSAPP_MESSAGE)}`;
 const problemUrl = `https://wa.me/${APP_CONFIG.CONTACT.WHATSAPP}?text=${encodeURIComponent('hola, quiero contarles qué me quita más tiempo en mi empresa')}`;
-const dashboardsUrl = `https://wa.me/${APP_CONFIG.CONTACT.WHATSAPP}?text=${encodeURIComponent('hola, quiero ver cómo va mi empresa en un tablero')}`;
 
 // Avatar determinista por nombre: rejilla 9×9 simétrica, tinta sobre papel.
 const hash = (s: string) => {
@@ -49,7 +48,7 @@ const Identicon: React.FC<{ name: string }> = ({ name }) => {
 
 const SERVICES_INDEX: { title: string; text: string; to?: string; href?: string }[] = [
   { title: 'Agentes', text: 'Hacen el trabajo repetitivo, todo el día: leen pedidos y facturas, cobran la cartera y responden mensajes.', to: ROUTES.AGENTES },
-  { title: 'Tableros', text: 'Ves cómo va tu empresa sin pedir reportes: ventas, cartera, producción y alertas cuando algo se sale de lo normal.', href: dashboardsUrl },
+  { title: 'Tableros', text: 'Ves cómo va tu empresa sin pedir reportes y chateas con ella: le preguntas a tus datos y responde en tiempo real.', to: ROUTES.TABLEROS },
   { title: 'A tu medida', text: 'Lo que no existe, lo construimos: software y automatizaciones pensados para tu operación.', to: ROUTES.SERVICES },
   { title: 'Sitios web', text: 'Sitios y tiendas con diseño propio, hechos para trabajar por ti.', to: ROUTES.SITIOS_WEB },
 ];
