@@ -7,7 +7,7 @@ import { join, extname, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const DIST = join(dirname(fileURLToPath(import.meta.url)), '..', 'dist');
-const ROUTES = ['/', '/servicios', '/portafolio', '/por-que-ai4u', '/agentes', '/sitios-web', '/orderloader'];
+const ROUTES = ['/', '/servicios', '/portafolio', '/por-que-ai4u', '/agentes', '/sitios-web', '/orderloader', '/super-ai', '/politica-de-privacidad', '/condiciones-de-servicio', '/eliminacion-de-datos'];
 const PORT = 4173;
 
 const MIME = {
@@ -62,13 +62,19 @@ async function main() {
   try {
     const page = await browser.newPage();
     for (const route of ROUTES) {
-      await page.goto(`http://localhost:${PORT}${route}`, { waitUntil: 'networkidle' });
-      await page.waitForSelector('#root :first-child', { timeout: 15000 });
-      const html = await page.content();
-      const outDir = route === '/' ? DIST : join(DIST, route.slice(1));
-      await mkdir(outDir, { recursive: true });
-      await writeFile(join(outDir, 'index.html'), '<!DOCTYPE html>\n' + html.replace(/^<!DOCTYPE html>/i, '').trim());
-      console.log(`[prerender] ${route} → ${join(outDir, 'index.html').replace(DIST, 'dist')}`);
+      // Una ruta que falle no debe tumbar el deploy: queda con el fallback SPA (404.html) y se avisa.
+      try {
+        await page.goto(`http://localhost:${PORT}${route}`, { waitUntil: 'load' });
+        await page.waitForSelector('#root :first-child', { timeout: 15000 });
+        await page.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
+        const html = await page.content();
+        const outDir = route === '/' ? DIST : join(DIST, route.slice(1));
+        await mkdir(outDir, { recursive: true });
+        await writeFile(join(outDir, 'index.html'), '<!DOCTYPE html>\n' + html.replace(/^<!DOCTYPE html>/i, '').trim());
+        console.log(`[prerender] ${route} → ${join(outDir, 'index.html').replace(DIST, 'dist')}`);
+      } catch (err) {
+        console.warn(`[prerender] ${route} falló, se omite: ${String(err.message).split('\n')[0]}`);
+      }
     }
   } finally {
     await browser.close();
