@@ -45,9 +45,9 @@
 
 /* Semantic theme variables */
 [data-theme="light"], :root {
-  --ai4u-bg-default: #eaf4eb;
-  --ai4u-bg-surface: #eaf4eb;
-  --ai4u-text-primary: #171717;
+  --ai4u-bg-default: #e5e4e0;
+  --ai4u-bg-surface: #e5e4e0;
+  --ai4u-text-primary: #1d1d1d;
   --ai4u-text-secondary: #525252;
   --ai4u-border-color: #E5E5E5;
 }

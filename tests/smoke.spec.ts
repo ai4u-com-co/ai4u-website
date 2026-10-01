@@ -29,7 +29,7 @@ test.describe('AI4U Smoke Test', () => {
     await page.goto('/');
     
     // Buscar enlace a servicios (ajustar selector según tu Navbar)
-    const servicesLink = page.getByRole('link', { name: /servicios/i }).first();
+    const servicesLink = page.getByRole('link', { name: /a tu medida/i }).first();
     await servicesLink.click();
 
     // Verificar que la URL cambió a /servicios
@@ -52,10 +52,10 @@ test.describe('AI4U Smoke Test', () => {
 
   test('should set per-route titles (SEO)', async ({ page }) => {
     await page.goto('/servicios');
-    await expect(page).toHaveTitle(/Servicios de Inteligencia Artificial/);
+    await expect(page).toHaveTitle(/A tu medida/);
 
     await page.goto('/portafolio');
-    await expect(page).toHaveTitle(/Portafolio/);
+    await expect(page).toHaveTitle(/Casos/);
 
     await page.goto('/por-que-ai4u');
     await expect(page).toHaveTitle(/Por qué AI4U/);
@@ -82,16 +82,35 @@ test.describe('AI4U Smoke Test', () => {
     await expect(nav).not.toContainText(/superAI/i);
   });
 
-  test('/super-ai should render its own page', async ({ page }) => {
-    // App.tsx renderiza SuperAI en /super-ai (el redirect al home ya no existe)
+  test('/super-ai redirects to the home (superAI salió del sitio)', async ({ page }) => {
     await page.goto('/super-ai');
-    await expect(page).toHaveURL(/\/super-ai/);
+    await expect(page).not.toHaveURL(/\/super-ai/);
     await expect(page.locator('h1').first()).toBeVisible();
+  });
+
+  test('pitches and proposals are not indexed', async ({ page }) => {
+    for (const path of ['/pitch', '/pitch-bancolombia', '/propuesta-manufactura']) {
+      await page.goto(path);
+      // Helmet suma su meta robots al estático de index.html: basta con que alguno diga noindex.
+      await expect.poll(async () =>
+        (await page.locator('meta[name="robots"]').evaluateAll(els => els.map(e => e.getAttribute('content')).join(' | ')))
+      ).toContain('noindex');
+    }
+  });
+
+  test('menu shows the new entries and the unified contact', async ({ page }) => {
+    await page.goto('/');
+    const nav = page.locator('nav').first();
+    for (const name of ['Agentes', 'A tu medida', 'Sitios web', 'Casos', 'Nosotros']) {
+      await expect(nav.getByRole('link', { name })).toBeVisible();
+    }
+    await expect(page.locator('footer')).toContainText('hola@ai4u.com.co');
+    await expect(page.locator('footer')).toContainText('+57 302 490 6414');
   });
 
   test('primary CTA should point to WhatsApp', async ({ page }) => {
     await page.goto('/');
-    const cta = page.getByRole('link', { name: /hablar con el equipo/i }).first();
+    const cta = page.getByRole('link', { name: /cuéntanos tu problema/i }).first();
     await expect(cta).toBeVisible();
     // Se valida el href: abrir wa.me depende de la red y deja popup.url() vacío
     await expect(cta).toHaveAttribute('href', /wa\.me\/573024906414/);

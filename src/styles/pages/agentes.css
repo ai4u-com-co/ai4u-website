@@ -49,7 +49,7 @@
 .a4-agentes-tool { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--a4-ink); background: var(--a4-paper); color: var(--a4-ink); }
 
 /* drawer */
-.a4-agentes-scrim { position: fixed; inset: 0; background: rgba(23, 23, 23, .35); z-index: 1300; }
+.a4-agentes-scrim { position: fixed; inset: 0; background: rgba(29, 29, 29, .35); z-index: 1300; }
 .a4-agentes-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(100%, 440px); background: var(--a4-canvas); border-left: 1px solid var(--a4-ink); z-index: 1301; padding: 22px; display: flex; flex-direction: column; gap: 22px; overflow-y: auto; color: var(--a4-ink); font-family: var(--a4-font); letter-spacing: .013em; }
 .a4-agentes-drawer p { margin: 0; }
 .a4-agentes-drawer-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }

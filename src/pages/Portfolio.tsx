@@ -38,9 +38,9 @@ const Portfolio = () => {
       />
 
       <header className="a4-page-head a4-wrap">
-        <p className="a4-cap">Portafolio · {featuredProjects.length} proyectos</p>
-        <h1 className="a4-display">Portafolio</h1>
-        <p className="a4-lead">Exploración de sistemas inteligentes y arquitecturas digitales aplicadas a problemas industriales de alta complejidad.</p>
+        <p className="a4-cap">Casos · Ai4U</p>
+        <h1 className="a4-display">Casos</h1>
+        <p className="a4-lead">Cómo trabajan hoy las empresas que ya usan agentes de Ai4U.</p>
       </header>
 
       <section className="a4-section a4-wrap" aria-label="Proyectos">

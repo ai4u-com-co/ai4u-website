@@ -7,11 +7,11 @@ import '../styles/site-v2.css';
 import '../styles/pages/design-system.css';
 
 const COLORS = [
-  { name: 'Mint Cream', hex: '#EAF4EB', token: '--a4-canvas', role: 'Lienzo de todas las páginas', bg: '#EAF4EB' },
-  { name: 'Erie Black', hex: '#171717', token: '--a4-ink', role: 'Tinta: texto, líneas y botones', bg: '#171717' },
-  { name: 'Cadet Gray', hex: '#C3CAC7', token: '--a4-ash', role: 'Líneas finas y divisores', bg: '#C3CAC7' },
-  { name: 'Hot Orange', hex: '#FF6E00', token: '--a4-orange', role: 'Solo dentro de la esfera', bg: '#FF6E00' },
-  { name: 'Moderate Blue', hex: '#3DAED1', token: '--a4-blue', role: 'Solo dentro de la esfera', bg: '#3DAED1' },
+  { name: 'Pergamino', hex: '#E5E4E0', token: '--a4-canvas', role: 'Lienzo de todas las páginas', bg: '#E5E4E0' },
+  { name: 'Tinta', hex: '#1D1D1D', token: '--a4-ink', role: 'Texto, líneas y botones', bg: '#1D1D1D' },
+  { name: 'Papel', hex: '#FFFFFF', token: '--a4-paper', role: 'Tarjetas y celdas de logos', bg: '#FFFFFF' },
+  { name: 'Ceniza', hex: '#BFBEBE', token: '--a4-ash', role: 'Líneas finas y divisores', bg: '#BFBEBE' },
+  { name: 'Piedra', hex: '#CDCDC9', token: '--a4-stone', role: 'Paneles secundarios', bg: '#CDCDC9' },
 ];
 
 const SCALE = [
@@ -22,8 +22,8 @@ const SCALE = [
 ];
 
 const RULES = [
-  'Lienzo Mint Cream, tinta Erie Black, superficies blancas y líneas Cadet Gray. Solo modo claro.',
-  'Hot Orange y Moderate Blue viven únicamente dentro de la esfera. Nunca como relleno de botones ni como color de texto.',
+  'Lienzo pergamino, tinta casi negra, superficies blancas y líneas ceniza. Solo modo claro.',
+  'La esfera (amarillo, rosa y azul) es el único color y vive solo en la portada. Nunca como relleno de botones ni como color de texto.',
   'Sin sombras. La jerarquía sale de líneas finas, rejillas y espacio.',
   'Los titulares se escriben en caja normal; el CSS los pone en mayúsculas.',
   'Radio 0 en tarjetas y rejillas. Radio 10px solo en pills, enlaces, chips e inputs.',

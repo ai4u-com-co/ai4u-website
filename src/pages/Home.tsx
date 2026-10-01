@@ -11,6 +11,8 @@ import { scrollToTop } from '../utils/helpers';
 import '../styles/site-v2.css';
 
 const whatsappUrl = `https://wa.me/${APP_CONFIG.CONTACT.WHATSAPP}?text=${encodeURIComponent(APP_CONFIG.CONTACT.WHATSAPP_MESSAGE)}`;
+const problemUrl = `https://wa.me/${APP_CONFIG.CONTACT.WHATSAPP}?text=${encodeURIComponent('hola, quiero contarles qué me quita más tiempo en mi empresa')}`;
+const dashboardsUrl = `https://wa.me/${APP_CONFIG.CONTACT.WHATSAPP}?text=${encodeURIComponent('hola, quiero ver cómo va mi empresa en un tablero')}`;
 
 // Avatar determinista por nombre: rejilla 9×9 simétrica, tinta sobre papel.
 const hash = (s: string) => {
@@ -39,17 +41,17 @@ const Identicon: React.FC<{ name: string }> = ({ name }) => {
     }
   }
   return (
-    <svg viewBox="-1 -1 11 11" role="img" aria-label={name} fill="#171717" shapeRendering="crispEdges">
+    <svg viewBox="-1 -1 11 11" role="img" aria-label={name} fill="#1d1d1d" shapeRendering="crispEdges">
       {cells}
     </svg>
   );
 };
 
-const SERVICES_INDEX = [
-  { title: 'orderLoader', text: 'Software propio: de correo a tu ERP, sin digitar. Ya corre en producción.', to: ROUTES.ORDER_LOADER },
-  { title: 'Automatización a medida', text: 'Procesos, cartera, WhatsApp. Resolvemos el que más tiempo te cuesta y lo dejamos corriendo solo.', to: ROUTES.SERVICES },
-  { title: 'Sitios web', text: 'Sitios y tiendas de alto rendimiento, con diseño propio y sin plantillas.', to: ROUTES.SITIOS_WEB },
-  { title: 'Agentes de IA', text: 'Tu primer empleado digital: un agente que aprende tus procesos y opera en tus sistemas.', to: ROUTES.AGENTES },
+const SERVICES_INDEX: { title: string; text: string; to?: string; href?: string }[] = [
+  { title: 'Agentes', text: 'Hacen el trabajo repetitivo, todo el día: leen pedidos y facturas, cobran la cartera y responden mensajes.', to: ROUTES.AGENTES },
+  { title: 'Tableros', text: 'Ves cómo va tu empresa sin pedir reportes: ventas, cartera, producción y alertas cuando algo se sale de lo normal.', href: dashboardsUrl },
+  { title: 'A tu medida', text: 'Lo que no existe, lo construimos: software y automatizaciones pensados para tu operación.', to: ROUTES.SERVICES },
+  { title: 'Sitios web', text: 'Sitios y tiendas con diseño propio, hechos para trabajar por ti.', to: ROUTES.SITIOS_WEB },
 ];
 
 const Home = () => {
@@ -82,11 +84,12 @@ const Home = () => {
           <i /><i /><i />
         </div>
         <div className="a4-hero-in">
-          <p className="a4-cap">Ai4U · Inteligencia artificial para tu negocio</p>
-          <h1 className="a4-display">Recupera<br />tu<br />tiempo.</h1>
-          <p className="a4-lead">Agentes de IA conectados a SAP, WhatsApp y tu correo. Trabajan las 24 horas y una persona revisa lo que importa.</p>
-          <div>
-            <a className="a4-ghost" href={whatsappUrl} target="_blank" rel="noopener noreferrer">Hablar con el equipo →</a>
+          <p className="a4-cap">Ai4U · Inteligencia artificial para tu operación</p>
+          <h1 className="a4-display a4-slab">Recupera<br /><span className="a4-soft">tu tiempo.</span></h1>
+          <p className="a4-lead" style={{ maxWidth: 560 }}>Ai4U pone inteligencia artificial a trabajar en la operación de tu empresa. Los agentes hacen el trabajo repetitivo, los tableros te muestran cómo va todo y, cuando hace falta, construimos a tu medida.</p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0 28px' }}>
+            <a className="a4-ghost" href={problemUrl} target="_blank" rel="noopener noreferrer">Cuéntanos tu problema →</a>
+            <Link className="a4-ghost" to={ROUTES.AGENTES} onClick={top}>Ver los agentes →</Link>
           </div>
         </div>
         <span className="a4-scroll a4-cap" aria-hidden="true">Scroll ↓</span>
@@ -95,20 +98,32 @@ const Home = () => {
       <section className="a4-block a4-wrap">
         <div className="a4-two">
           <div className="a4-stack">
-            <p className="a4-cap" style={{ fontSize: 15 }}>Un estudio colombiano de agentes de IA</p>
+            <p className="a4-cap" style={{ fontSize: 15 }}>Ai4U, en una frase</p>
             <Link className="a4-ghost" to={ROUTES.WHY_AI4U} onClick={top} style={{ justifySelf: 'start' }}>Sobre Ai4U →</Link>
           </div>
           <p style={{ margin: 0 }}>
-            Construimos agentes que se conectan a lo que tu empresa ya usa y hacen el trabajo repetitivo: leer pedidos, cotizar, cobrar cartera, atender mensajes. Hoy corren en plantas de manufactura reales, sin que nadie tenga que digitar.
+            Los agentes leen pedidos y facturas, cobran la cartera y responden mensajes. Los tableros muestran ventas, cartera y producción. Lo que no existe, lo construimos a tu medida. Trabajan las 24 horas y una persona revisa lo que importa.
           </p>
         </div>
       </section>
 
       <section className="a4-block a4-wrap">
-        <p className="a4-cap">Ya trabajan con agentes</p>
-        <div className="a4-logos">
-          {shown.map(c => <div key={c.id}>{c.name}</div>)}
-          <div><a className="a4-ghost" href={whatsappUrl} target="_blank" rel="noopener noreferrer">¿Tu empresa? →</a></div>
+        <p className="a4-cap">Lo que hacemos</p>
+        <div className="a4-idx">
+          {SERVICES_INDEX.map(s => {
+            const inner = (
+              <>
+                <h3 className="a4-sub">{s.title}</h3>
+                <p className="a4-sm">{s.text}</p>
+                <span className="a4-arr" aria-hidden="true">→</span>
+              </>
+            );
+            return s.to ? (
+              <Link key={s.title} to={s.to} onClick={top}>{inner}</Link>
+            ) : (
+              <a key={s.title} href={s.href} target="_blank" rel="noopener noreferrer">{inner}</a>
+            );
+          })}
         </div>
       </section>
 
@@ -118,8 +133,8 @@ const Home = () => {
           <article className="a4-card">
             <p className="a4-cap">Producto</p>
             <h3 className="a4-h-sm">orderLoader</h3>
-            <div className="a4-flow" role="img" aria-label="Correo, agente, SAP Business One"><b>Correo</b><em /><b>Agente</b><em /><b>SAP B1</b></div>
-            <p className="a4-sm">Lee el pedido que llega por correo y lo crea en SAP Business One. En producción en dos plantas, las 24 horas, sin digitación.</p>
+            <div className="a4-flow" role="img" aria-label="Correo, agente, tu sistema"><b>Correo</b><em /><b>Agente</b><em /><b>Tu sistema</b></div>
+            <p className="a4-sm">Lee el pedido que llega por correo y lo crea en tu sistema. En producción en dos plantas, las 24 horas, sin digitación.</p>
             <Link className="a4-ghost" to={ROUTES.ORDER_LOADER} onClick={top} style={{ justifySelf: 'start' }}>Ver orderLoader →</Link>
           </article>
           <article className="a4-card">
@@ -153,22 +168,17 @@ const Home = () => {
       </section>
 
       <section className="a4-block a4-wrap">
-        <p className="a4-cap">Lo que hacemos</p>
-        <div className="a4-idx">
-          {SERVICES_INDEX.map(s => (
-            <Link key={s.title} to={s.to} onClick={top}>
-              <h3 className="a4-sub">{s.title}</h3>
-              <p className="a4-sm">{s.text}</p>
-              <span className="a4-arr" aria-hidden="true">→</span>
-            </Link>
-          ))}
+        <p className="a4-cap">Ya trabajan con agentes</p>
+        <div className="a4-logos">
+          {shown.map(c => <div key={c.id}>{c.name}</div>)}
+          <div><a className="a4-ghost" href={whatsappUrl} target="_blank" rel="noopener noreferrer">¿Tu empresa? →</a></div>
         </div>
       </section>
 
       <section className="a4-cta a4-wrap">
         <p className="a4-cap" style={{ marginBottom: 24 }}>Empecemos</p>
-        <h2 className="a4-h-lg" style={{ maxWidth: '12ch' }}>¿Lo construimos?</h2>
-        <p className="a4-sm" style={{ marginTop: 24 }}>Sin compromiso. Sin pitch.</p>
+        <h2 className="a4-h-lg" style={{ maxWidth: '14ch' }}>¿Qué te quita más tiempo?</h2>
+        <p className="a4-sm" style={{ marginTop: 24 }}>Cuéntanos tu problema y te decimos qué agente lo resolvería.</p>
         <div style={{ marginTop: 8 }}>
           <a className="a4-ghost" href={whatsappUrl} target="_blank" rel="noopener noreferrer">Escríbenos por WhatsApp →</a>
         </div>

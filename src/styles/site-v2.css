@@ -1,16 +1,15 @@
-/* Lenguaje visual v2 (octubre 2026): editorial sobre papel.
-   Se conservan logo, isotipo, colores y fuentes de marca; la composición sale de la referencia OFF+BRAND.
-   Solo claro, sin sombras. Prefijo a4- para no chocar con MUI. Breakpoints: 760 (menú), 900 (columnas). */
+/* Lenguaje visual v3 (octubre 2026): OFF+BRAND. de Refero aplicado a todo el sitio.
+   Pergamino, tinta, ceniza y una sola esfera de color; tarjetas planas, sin sombras.
+   Letra de marca (Red Hat Display) como única familia; Necto Mono solo para etiquetas y cifras.
+   Solo claro. Prefijo a4- para no chocar con MUI. Breakpoints: 760 (menú), 900 (columnas). */
 :root {
-  --a4-canvas: #eaf4eb;   /* Mint Cream */
-  --a4-ink: #171717;      /* Erie Black */
+  --a4-canvas: #e5e4e0;   /* Pergamino */
+  --a4-ink: #1d1d1d;      /* Tinta */
   --a4-paper: #ffffff;
-  --a4-gray: #94989b;     /* Cadet Gray */
-  --a4-ash: #c3cac7;      /* Cadet Gray sobre Mint, líneas finas */
-  --a4-orange: #ff6e00;   /* Hot Orange */
-  --a4-blue: #3daed1;     /* Moderate Blue */
-  --a4-sphere: linear-gradient(255deg, #ff6e00, #ffb98a 28%, #3daed1 62%, #cfeaee 82%, #eaf4eb);
-  --a4-sphere: linear-gradient(in oklch 255deg, #ff6e00, #ffb98a 28%, #3daed1 62%, #cfeaee 82%, #eaf4eb);
+  --a4-gray: #8c8b86;
+  --a4-ash: #bfbebe;      /* Ceniza: líneas finas */
+  --a4-stone: #cdcdc9;    /* Piedra: paneles secundarios */
+  --a4-sphere: linear-gradient(255deg, rgb(250, 203, 14), rgb(240, 107, 168) 30%, rgb(120, 186, 230) 65%, rgb(255, 255, 255));
   --a4-font: 'Red Hat Display', 'Helvetica Neue', Arial, sans-serif;
   --a4-mono: 'Necto Mono', 'Fira Mono', 'Courier New', monospace;
   --a4-gutter: clamp(16px, 3.2vw, 46px);
@@ -27,6 +26,8 @@
 .a4-num { font-family: var(--a4-mono); font-variant-numeric: tabular-nums; letter-spacing: .02em; }
 .a4-sm { font-size: 15px; line-height: 1.45; letter-spacing: .01em; margin: 0; }
 .a4-display { font-weight: 500; text-transform: uppercase; line-height: .8; letter-spacing: .013em; font-size: clamp(46px, 7.2vw, 103px); margin: 0; text-wrap: balance; }
+.a4-display.a4-slab { font-weight: 900; }
+.a4-display .a4-soft { font-weight: 300; text-transform: lowercase; letter-spacing: 0; }
 .a4-h-lg { font-weight: 500; text-transform: uppercase; line-height: .84; letter-spacing: .013em; font-size: clamp(38px, 5.4vw, 76px); margin: 0; text-wrap: balance; }
 .a4-h-sm { font-weight: 500; text-transform: uppercase; line-height: 1; letter-spacing: .013em; font-size: clamp(30px, 3.3vw, 46px); margin: 0; overflow-wrap: anywhere; }
 .a4-sub { font-weight: 500; text-transform: uppercase; line-height: 1; letter-spacing: .013em; font-size: clamp(22px, 2.4vw, 34px); margin: 0; }
@@ -51,7 +52,7 @@
 .a4-orb { position: absolute; right: clamp(0px, 6vw, 110px); top: clamp(10px, 6vh, 60px); width: min(46vw, 540px); aspect-ratio: 1; z-index: 0; }
 .a4-sphere { position: absolute; inset: 0; border-radius: 50%; background: var(--a4-sphere); display: grid; place-items: center; }
 .a4-sphere img { width: 34%; height: auto; opacity: .92; }
-.a4-orb i { position: absolute; border: 1px solid rgba(23, 23, 23, .2); border-radius: 50%; }
+.a4-orb i { position: absolute; border: 1px solid rgba(29, 29, 29, .2); border-radius: 50%; }
 .a4-orb i:nth-child(2) { inset: -11%; }
 .a4-orb i:nth-child(3) { inset: -26%; }
 .a4-orb i:nth-child(4) { inset: -46%; }
@@ -142,7 +143,7 @@ button.a4-chip { cursor: pointer; min-height: 44px; display: inline-flex; align-
 .a4-table-wrap th, .a4-table-wrap td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--a4-ash); }
 .a4-table-wrap th { font-family: var(--a4-mono); font-weight: 400; font-size: 12px; letter-spacing: .05em; text-transform: uppercase; }
 .a4-paper { background: var(--a4-paper); padding: 30px; min-width: 0; }
-.a4-note { color: #555; font-size: 15px; margin: 0; }
+.a4-note { color: #55554f; font-size: 15px; margin: 0; }
 @media (max-width: 900px) {
   .a4-row, .a4-row.three { grid-template-columns: minmax(0, 1fr); }
   .a4-grid, .a4-grid.two-col { grid-template-columns: minmax(0, 1fr); }

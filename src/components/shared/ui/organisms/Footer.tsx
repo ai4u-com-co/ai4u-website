@@ -5,9 +5,10 @@ import { scrollToTop } from '../../../../utils/helpers';
 import '../../../../styles/site-v2.css';
 
 const SITE_LINKS = [
-  { name: 'Trabajo', path: ROUTES.PORTFOLIO },
   { name: 'Agentes', path: ROUTES.AGENTES },
-  { name: 'Servicios', path: ROUTES.SERVICES },
+  { name: 'A tu medida', path: ROUTES.SERVICES },
+  { name: 'Sitios web', path: ROUTES.SITIOS_WEB },
+  { name: 'Casos', path: ROUTES.PORTFOLIO },
   { name: 'Nosotros', path: ROUTES.WHY_AI4U },
 ];
 
@@ -24,7 +25,7 @@ const Footer = () => (
       <div className="a4-foot-cols">
         <div>
           <img src="/assets/images/logo-v2-negro.png" alt="Ai4U" width={78} height={26} />
-          <p className="a4-sm" style={{ marginTop: 12 }}>Inteligencia para tu negocio.</p>
+          <p className="a4-sm" style={{ marginTop: 12 }}>Inteligencia artificial para tu operación.</p>
         </div>
         <div className="a4-foot-col">
           <span className="a4-cap">Sitio</span>

@@ -138,24 +138,24 @@ export const getBreadcrumbStructuredData = (breadcrumbs: Array<{name: string, ur
 export const getPageMetaTags = (page: string) => {
   const metaTags = {
     home: {
-      title: "AI4U - Recupera tiempo automatizando tu operación",
-      description: "Automatizamos lo repetitivo, conectamos tu ERP, construimos tu software y tu sitio web. Sin vueltas, en producción.",
+      title: "AI4U - Recupera tu tiempo con inteligencia artificial",
+      description: "Ai4U pone inteligencia artificial a trabajar en tu operación: agentes que hacen el trabajo repetitivo, tableros que muestran cómo va todo y desarrollo a tu medida.",
       keywords: "automatización de procesos, mejora de procesos, software a medida, sitios web, conexión ERP, AI4U, Colombia"
     },
     services: {
-      title: "Servicios de Inteligencia Artificial | AI4U",
-      description: "Soluciones de IA organizadas en 4 ejes: Operación, Estrategia, Educación y Transformación. IA diseñada para resolver problemas reales.",
+      title: "A tu medida: software, automatización y sitios web | AI4U",
+      description: "Software, automatizaciones y sitios web pensados para tu operación. Los construimos y los mantenemos funcionando.",
       keywords: "servicios IA, operación IA, estrategia IA, educación IA, transformación digital IA, agentes de IA"
     },
     why: {
-      title: "¿Por qué AI4U? | Casos de Éxito e Infraestructura de IA",
-      description: "Descubre por qué somos tu mejor aliado en IA. Explora nuestros casos de éxito y la metodología que genera resultados reales.",
+      title: "¿Por qué AI4U? | La parte humana de la IA",
+      description: "Quién está detrás de Ai4U y cómo trabajamos: agentes que hacen el trabajo y una persona que revisa lo que importa.",
       keywords: "por qué AI4U, casos de éxito IA, ventajas IA, experiencia inteligencia artificial, resultados IA, Colombia"
     },
     portfolio: {
-      title: "Portafolio de Innovación | Proyectos de IA | AI4U",
-      description: "Explora nuestro portafolio de innovación. Proyectos reales de IA aplicados a diferentes industrias: desde Fashion Tech hasta E-Mobility.",
-      keywords: "portafolio innovación, proyectos IA, casos éxito IA, IA aplicada, Fashion Tech IA, E-Mobility IA"
+      title: "Casos | Empresas que trabajan con agentes de IA | AI4U",
+      description: "Cómo trabajan hoy las empresas que ya usan agentes de IA de Ai4U.",
+      keywords: "casos de éxito IA, agentes de IA, automatización, IA aplicada, Colombia"
     },
     agentes: {
       title: "Agentes de IA en Producción | AI4U",

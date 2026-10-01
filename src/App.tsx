@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { HelmetProvider } from 'react-helmet-async';
 import { Layout, ScrollToTop, BasicLoadingWrapper } from './components/shared/ui/layouts';
 import { ErrorBoundary } from './components/shared/ui/molecules';
+import { SEOHead } from './components/shared/ui/atoms';
 import { ThemeProvider, ServicesProvider } from '@/context';
 import { ROUTES } from './utils/constants';
 import './utils/errorTracking';
@@ -15,7 +16,6 @@ const WhyAI4U = lazy(() => import('./pages/WhyAI4U'));
 const Portfolio = lazy(() => import('./pages/Portfolio'));
 const SitiosWeb = lazy(() => import('./pages/SitiosWeb'));
 const OrderLoader = lazy(() => import('./pages/OrderLoader'));
-const SuperAI = lazy(() => import('./pages/SuperAI'));
 const DesignSystem = lazy(() => import('./pages/DesignSystem'));
 const Pitch = lazy(() => import('./pages/Pitch'));
 const PitchBancolombia = lazy(() => import('./pages/PitchBancolombia'));
@@ -23,6 +23,14 @@ const PropuestaManufactura = lazy(() => import('./pages/PropuestaManufactura'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 const DataDeletion = lazy(() => import('./pages/DataDeletion'));
+
+// Pitches y propuestas: se abren por enlace directo, no se indexan.
+const NoIndex: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <>
+    <SEOHead title="AI4U" noIndex noFollow />
+    {children}
+  </>
+);
 
 function App() {
   return (
@@ -106,27 +114,27 @@ function App() {
                             element={<Navigate to={ROUTES.WHY_AI4U} replace />}
                           />
 
-                          {/* SuperAI — capa de inteligencia, cuarta categoría de la propuesta de valor */}
+                          {/* superAI salió del sitio (decisión 8-jul): la ruta vieja lleva al inicio */}
                           <Route
                             path={ROUTES.SUPER_AI}
-                            element={<SuperAI />}
+                            element={<Navigate to={ROUTES.HOME} replace />}
                           />
 
                           <Route
                             path={ROUTES.PITCH}
-                            element={<Pitch />}
+                            element={<NoIndex><Pitch /></NoIndex>}
                           />
 
                           {/* Pitch Bancolombia Route */}
                           <Route
                             path={ROUTES.PITCH_BANCOLOMBIA}
-                            element={<PitchBancolombia />}
+                            element={<NoIndex><PitchBancolombia /></NoIndex>}
                           />
 
                           {/* Propuesta Manufactura Route */}
                           <Route
                             path={ROUTES.PROPUESTA_MANUFACTURA}
-                            element={<PropuestaManufactura />}
+                            element={<NoIndex><PropuestaManufactura /></NoIndex>}
                           />
 
                           <Route

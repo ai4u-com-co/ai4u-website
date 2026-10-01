@@ -82,7 +82,7 @@ const WhyAI4U = () => {
         <div className="a4-why-clients">
           {clients.map(c => (
             <div key={c.id}>
-              <div className="logo"><img loading="lazy" src={c.logo} alt={c.name} /></div>
+              {c.logo && <div className="logo"><img loading="lazy" src={c.logo} alt={c.name} /></div>}
               <div>
                 <b>{c.name}</b>
                 <span className="a4-cap" style={{ marginTop: 4 }}>{c.sector}</span>

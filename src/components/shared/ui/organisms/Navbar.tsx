@@ -5,12 +5,13 @@ import { ROUTES, APP_CONFIG } from '../../../../utils/constants';
 import { scrollToTop } from '../../../../utils/helpers';
 import '../../../../styles/site-v2.css';
 
-// Cinco enlaces (antes ocho): lo que el visitante busca, sin solapes.
-// orderLoader y sitios web siguen en sus URLs y se llegan desde el home y /servicios.
+// Agentes, a tu medida, sitios web, casos y nosotros. Tableros se suma al menú cuando exista su página.
+// orderLoader se llega desde Agentes y el inicio.
 const NAV_ITEMS = [
-  { name: 'Trabajo', path: ROUTES.PORTFOLIO },
   { name: 'Agentes', path: ROUTES.AGENTES },
-  { name: 'Servicios', path: ROUTES.SERVICES },
+  { name: 'A tu medida', path: ROUTES.SERVICES },
+  { name: 'Sitios web', path: ROUTES.SITIOS_WEB },
+  { name: 'Casos', path: ROUTES.PORTFOLIO },
   { name: 'Nosotros', path: ROUTES.WHY_AI4U },
 ];
 
