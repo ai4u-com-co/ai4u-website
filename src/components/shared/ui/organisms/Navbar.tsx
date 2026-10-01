@@ -17,11 +17,20 @@ const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
   const { pathname } = useLocation();
   const btnRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const close = useCallback(() => setOpen(false), []);
+
+  // La barra va fija: al bajar se le suma un sombreado por detrás (ver .a4-nav::before).
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   // Cambiar de página cierra el menú.
   useEffect(() => { setOpen(false); }, [pathname]);
@@ -59,7 +68,7 @@ const Navbar = () => {
   const go = () => scrollToTop('auto');
 
   return (
-    <header className="a4 a4-nav">
+    <header className={`a4 a4-nav${scrolled ? ' is-scrolled' : ''}`}>
       <nav className="a4-nav-in a4-wrap" aria-label="Principal">
         <RouterLink to={ROUTES.HOME} aria-label="Ai4U, inicio" onClick={go}>
           <img src="/assets/images/logo-v2-negro.png" alt="Ai4U" width={90} height={30} />

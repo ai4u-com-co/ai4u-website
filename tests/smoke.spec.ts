@@ -120,6 +120,18 @@ test.describe('AI4U Smoke Test', () => {
     await expect(menu).toBeHidden();
   });
 
+  test('the logo and the Menú button stay fixed at the top while scrolling', async ({ page }) => {
+    for (const path of ['/', '/agentes', '/portafolio']) {
+      await page.goto(path);
+      await page.evaluate(() => window.scrollTo(0, 1500));
+      await page.waitForTimeout(300);
+      const btn = page.getByRole('button', { name: /menú/i }).first();
+      await expect(btn).toBeInViewport();
+      expect((await btn.boundingBox())!.y).toBeLessThan(100);
+      await expect(page.getByRole('link', { name: /ai4u, inicio/i }).first()).toBeInViewport();
+    }
+  });
+
   test('every public page has the footer with the unified contact', async ({ page }) => {
     for (const path of ['/', '/agentes', '/dashboards', '/servicios', '/sitios-web', '/portafolio', '/por-que-ai4u', '/orderloader', '/politica-de-privacidad', '/condiciones-de-servicio', '/eliminacion-de-datos']) {
       await page.goto(path);
