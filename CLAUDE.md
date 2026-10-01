@@ -23,7 +23,7 @@ Sitio web corporativo público de Ai4U (www.ai4u.com.co): landing, servicios, ag
 - Convención de texto (`.cursor/rules/text-conventions.mdc`): sin MAYÚSCULAS sostenidas en UI o código; capitalización normal o camelCase.
 - Contenido en español; i18n/traducción descrito en `src/docs/INTERNATIONALIZATION.md` y `docs/TRANSLATION_STATUS.md` (hay widget de Google Translate). Estado real: por confirmar.
 - Toda variable `VITE_*` queda embebida en el bundle público: nunca poner ahí secretos. Hoy `src/utils/api.ts` lee un webhook y un token opcional de Make.com del chat; que ese token sea realmente privado es por confirmar.
-- El HTML de las rutas públicas se prerenderiza tras el build con Playwright (`scripts/prerender.mjs`; rutas fijas: `/`, `/servicios`, `/portafolio`, `/por-que-ai4u`, `/agentes`, `/tableros`, `/sitios-web`, `/orderloader`). Una ruta pública nueva que deba indexarse hay que agregarla ahí y en `public/sitemap.xml`.
+- El HTML de las rutas públicas se prerenderiza tras el build con Playwright (`scripts/prerender.mjs`; rutas fijas: `/`, `/servicios`, `/portafolio`, `/por-que-ai4u`, `/agentes`, `/dashboards`, `/sitios-web`, `/orderloader`). Una ruta pública nueva que deba indexarse hay que agregarla ahí y en `public/sitemap.xml`.
 - Mobile first: sin scroll horizontal a 375px; imágenes con `max-width: 100%`. Hay guía de optimización de imágenes en `docs/IMAGE_OPTIMIZATION_GUIDE.md`.
 - No es multitenant ni toca SAP ni Supabase. No hay páginas de propuestas ni pitches (se eliminaron el 1-oct-2026 por ser contenido público con datos de clientes): no añadir cifras, precios, nombres ni datos confidenciales de clientes.
 

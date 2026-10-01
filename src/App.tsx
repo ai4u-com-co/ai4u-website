@@ -11,7 +11,7 @@ import Home from './pages/Home';
 
 const Services = lazy(() => import('./pages/Services'));
 const Agentes = lazy(() => import('./pages/Agentes'));
-const Tableros = lazy(() => import('./pages/Tableros'));
+const Dashboards = lazy(() => import('./pages/Dashboards'));
 const WhyAI4U = lazy(() => import('./pages/WhyAI4U'));
 const Portfolio = lazy(() => import('./pages/Portfolio'));
 const SitiosWeb = lazy(() => import('./pages/SitiosWeb'));
@@ -79,16 +79,22 @@ function App() {
                             element={<OrderLoader />}
                           />
 
-                          {/* Tableros — segunda capa de la oferta */}
+                          {/* Dashboards — segunda capa de la oferta */}
                           <Route
-                            path={ROUTES.TABLEROS}
-                            element={<Tableros />}
+                            path={ROUTES.DASHBOARDS}
+                            element={<Dashboards />}
                           />
 
                           {/* Agentes Route — catálogo público de agentes, la evidencia detrás del pitch */}
                           <Route
                             path={ROUTES.AGENTES}
                             element={<Agentes />}
+                          />
+
+                          {/* /tableros pasó a /dashboards */}
+                          <Route
+                            path={ROUTES.TABLEROS_LEGACY}
+                            element={<Navigate to={ROUTES.DASHBOARDS} replace />}
                           />
 
                           {/* Redirect nombre viejo de la página (Tienda AI → Agentes) */}

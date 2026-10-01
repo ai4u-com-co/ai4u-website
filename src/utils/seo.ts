@@ -139,7 +139,7 @@ export const getPageMetaTags = (page: string) => {
   const metaTags = {
     home: {
       title: "AI4U - Recupera tu tiempo con inteligencia artificial",
-      description: "Ai4U pone inteligencia artificial a trabajar en tu operación: agentes que hacen el trabajo repetitivo, tableros que muestran cómo va todo y desarrollo a tu medida.",
+      description: "Ai4U pone inteligencia artificial a trabajar en tu operación: agentes que hacen el trabajo repetitivo, dashboards que muestran cómo va todo y desarrollo a tu medida.",
       keywords: "automatización de procesos, mejora de procesos, software a medida, sitios web, conexión ERP, AI4U, Colombia"
     },
     services: {
@@ -157,14 +157,14 @@ export const getPageMetaTags = (page: string) => {
       description: "Tamaprint, Flexoimpresos, La Magdalena, Estudio Índigo y Multihealth: el problema, lo que construimos y cómo trabajan hoy con agentes de IA.",
       keywords: "casos de éxito IA, agentes de IA, automatización, IA aplicada, Colombia"
     },
-    tableros: {
-      title: "Tableros: cómo va tu empresa, siempre al día | AI4U",
+    dashboards: {
+      title: "Dashboards: cómo va tu empresa, siempre al día | AI4U",
       description: "Ventas, cartera, producción y cumplimiento en un solo lugar, y un chat para preguntarle a tu empresa. Responde con tus datos en tiempo real.",
-      keywords: "tableros, dashboards, chat con tu empresa, indicadores, cartera, ventas, producción, alertas, AI4U, Colombia"
+      keywords: "dashboards, tableros de control, chat con tu empresa, indicadores, cartera, ventas, producción, alertas, AI4U, Colombia"
     },
     agentes: {
       title: "Agentes de IA en Producción | AI4U",
-      description: "Los agentes que hoy trabajan en operaciones reales: pedidos, cobros, tableros, planta, atención al cliente y contenido. No es una demo, es lo que ya corre.",
+      description: "Los agentes que hoy trabajan en operaciones reales: pedidos, cobros, dashboards, planta, atención al cliente y contenido. No es una demo, es lo que ya corre.",
       keywords: "agentes de IA, equipo de agentes, automatización IA, agentes en producción, AI4U"
     }
   };

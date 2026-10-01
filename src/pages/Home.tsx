@@ -48,7 +48,7 @@ const Identicon: React.FC<{ name: string }> = ({ name }) => {
 
 const SERVICES_INDEX: { title: string; text: string; to?: string; href?: string }[] = [
   { title: 'Agentes', text: 'Hacen el trabajo repetitivo, todo el día: leen pedidos y facturas, cobran la cartera y responden mensajes.', to: ROUTES.AGENTES },
-  { title: 'Tableros', text: 'Ves cómo va tu empresa sin pedir reportes y chateas con ella: le preguntas a tus datos y responde en tiempo real.', to: ROUTES.TABLEROS },
+  { title: 'Dashboards', text: 'Ves cómo va tu empresa sin pedir reportes y chateas con ella: le preguntas a tus datos y responde en tiempo real.', to: ROUTES.DASHBOARDS },
   { title: 'A tu medida', text: 'Lo que no existe, lo construimos: software y automatizaciones pensados para tu operación.', to: ROUTES.SERVICES },
   { title: 'Sitios web', text: 'Sitios y tiendas con diseño propio, hechos para trabajar por ti.', to: ROUTES.SITIOS_WEB },
 ];
@@ -85,7 +85,7 @@ const Home = () => {
         <div className="a4-hero-in">
           <p className="a4-cap">Ai4U · Inteligencia artificial para tu operación</p>
           <h1 className="a4-display a4-slab">Recupera<br /><span className="a4-soft">tu tiempo.</span></h1>
-          <p className="a4-lead" style={{ maxWidth: 560 }}>Ai4U pone inteligencia artificial a trabajar en la operación de tu empresa. Los agentes hacen el trabajo repetitivo, los tableros te muestran cómo va todo y, cuando hace falta, construimos a tu medida.</p>
+          <p className="a4-lead" style={{ maxWidth: 560 }}>Ai4U pone inteligencia artificial a trabajar en la operación de tu empresa. Los agentes hacen el trabajo repetitivo, los dashboards te muestran cómo va todo y, cuando hace falta, construimos a tu medida.</p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0 28px' }}>
             <a className="a4-ghost" href={problemUrl} target="_blank" rel="noopener noreferrer">Cuéntanos tu problema →</a>
             <Link className="a4-ghost" to={ROUTES.AGENTES} onClick={top}>Ver los agentes →</Link>
@@ -101,7 +101,7 @@ const Home = () => {
             <Link className="a4-ghost" to={ROUTES.WHY_AI4U} onClick={top} style={{ justifySelf: 'start' }}>Sobre Ai4U →</Link>
           </div>
           <p style={{ margin: 0 }}>
-            Los agentes leen pedidos y facturas, cobran la cartera y responden mensajes. Los tableros muestran ventas, cartera y producción. Lo que no existe, lo construimos a tu medida. Trabajan las 24 horas y una persona revisa lo que importa.
+            Los agentes leen pedidos y facturas, cobran la cartera y responden mensajes. Los dashboards muestran ventas, cartera y producción. Lo que no existe, lo construimos a tu medida. Trabajan las 24 horas y una persona revisa lo que importa.
           </p>
         </div>
       </section>
@@ -142,7 +142,7 @@ const Home = () => {
             <div className="a4-avatars" aria-hidden="true">
               {ALL_AGENTS.map(a => <Identicon key={a.name} name={a.name} />)}
             </div>
-            <p className="a4-sm">Pedidos, cobros, tableros, planta, atención al cliente, contenido y la fábrica que construye a los demás.</p>
+            <p className="a4-sm">Pedidos, cobros, dashboards, planta, atención al cliente, contenido y la fábrica que construye a los demás.</p>
             <Link className="a4-ghost" to={ROUTES.AGENTES} onClick={top} style={{ justifySelf: 'start' }}>Ver el catálogo →</Link>
           </article>
           <article className="a4-card wide">

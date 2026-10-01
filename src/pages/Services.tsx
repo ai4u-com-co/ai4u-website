@@ -15,7 +15,7 @@ const whatsappUrl = `https://wa.me/${APP_CONFIG.CONTACT.WHATSAPP}?text=${encodeU
 const QUE_CONSTRUIMOS = [
   { n: '01', name: 'Software y automatizaciones', desc: 'El proceso que más tiempo te cuesta, resuelto: pedidos, cotizaciones, facturación, planeación de producción.', to: undefined as string | undefined },
   { n: '02', name: 'Conexión con tus sistemas', desc: 'Tu sistema de gestión, tu correo y WhatsApp trabajando juntos para que la información fluya sin digitar.', to: undefined },
-  { n: '03', name: 'Tableros a tu medida', desc: 'Las cifras que necesitas, siempre al día y con alertas.', to: ROUTES.TABLEROS },
+  { n: '03', name: 'Dashboards a tu medida', desc: 'Las cifras que necesitas, siempre al día y con alertas.', to: ROUTES.DASHBOARDS },
   { n: '04', name: 'Sitios web', desc: 'Sitios y tiendas con diseño propio, hechos para trabajar por ti.', to: ROUTES.SITIOS_WEB },
 ];
 
@@ -66,7 +66,7 @@ const Services: React.FC = () => {
         <div className="a4-two">
           <div className="a4-stack">
             <h2 className="a4-h-sm" id="que-construimos">Empezamos por el proceso que más tiempo te cuesta</h2>
-            <p className="a4-sm">Si ya existe un agente o un tablero que lo resuelve, lo usamos. Si no existe, lo construimos.</p>
+            <p className="a4-sm">Si ya existe un agente o un dashboard que lo resuelve, lo usamos. Si no existe, lo construimos.</p>
           </div>
           <div className="a4-rows">
             {QUE_CONSTRUIMOS.map((item) => (

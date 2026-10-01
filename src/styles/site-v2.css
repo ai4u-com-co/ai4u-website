@@ -43,8 +43,6 @@
 .a4-nav { position: relative; background: var(--a4-canvas); font-family: var(--a4-font); }
 .a4-nav-in { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 22px; }
 .a4-nav-in > a img { height: 30px; width: auto; }
-.a4-nav-links { display: flex; align-items: center; gap: 6px clamp(14px, 2.4vw, 34px); }
-.a4-menu-btn { display: none; }
 .a4-nav-lang { display: flex; align-items: center; }
 
 /* hero */
@@ -108,9 +106,6 @@
   .a4-scroll { display: none; }
 }
 @media (max-width: 760px) {
-  .a4-menu-btn { display: inline-flex; }
-  .a4-nav-links { display: none; position: absolute; left: 0; right: 0; top: 100%; flex-direction: column; align-items: flex-start; background: var(--a4-canvas); border-top: 1px solid var(--a4-ash); border-bottom: 1px solid var(--a4-ash); padding: 10px var(--a4-gutter); z-index: 20; }
-  .a4-nav-links.open { display: flex; }
   .a4-shots { grid-template-columns: minmax(0, 1fr); }
   .a4-avatars { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 }
@@ -153,3 +148,30 @@ button.a4-chip { cursor: pointer; min-height: 44px; display: inline-flex; align-
 /* Preguntas de ejemplo del chat con tu empresa */
 .a4-prompts { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
 .a4-prompts li { font-family: var(--a4-mono); font-size: 12px; letter-spacing: .05em; border: 1px solid var(--a4-ink); border-radius: 10px; padding: 12px 16px; background: var(--a4-paper); min-width: 0; overflow-wrap: anywhere; }
+
+/* Menú de pantalla completa. Por debajo del menú de idiomas de MUI (1300) para que éste se vea encima. */
+.a4-menu { position: fixed; inset: 0; z-index: 1250; background: var(--a4-canvas); display: none; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; }
+.a4-menu.open { display: grid; grid-template-rows: auto 1fr auto; animation: a4-menu-in .2s ease-out; }
+@keyframes a4-menu-in { from { opacity: 0; } to { opacity: 1; } }
+.a4-menu-bar { width: 100%; position: sticky; top: 0; z-index: 3; background: var(--a4-canvas); }
+.a4-menu-body { position: relative; display: grid; align-content: center; width: 100%; padding-block: clamp(8px, 2vw, 24px); }
+.a4-menu-orb { right: clamp(-6vw, 2vw, 40px); top: 50%; transform: translateY(calc(-50% + var(--oy, 0px))); transition: transform .2s ease-out; z-index: 0; width: min(44vw, 520px); }
+.a4-menu-orb .a4-sphere { filter: hue-rotate(var(--hue, 0deg)); transition: filter .2s ease-out; }
+.a4-menu-body nav { position: relative; z-index: 1; }
+.a4-menu-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--a4-ash); }
+.a4-menu-item { display: grid; grid-template-columns: 56px minmax(0, 1fr) minmax(0, 260px); align-items: baseline; gap: 4px 24px; padding: clamp(8px, 1.5vh, 18px) 0; border-bottom: 1px solid var(--a4-ash); text-decoration: none; color: inherit; min-height: 44px; }
+.a4-menu-title { font-weight: 500; text-transform: uppercase; line-height: .95; letter-spacing: .013em; font-size: clamp(32px, min(6.4vw, 9vh), 92px); overflow-wrap: anywhere; }
+.a4-menu-item:hover .a4-menu-title, .a4-menu-item:focus-visible .a4-menu-title { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 8px; }
+.a4-menu-item:focus-visible { outline: 2px solid var(--a4-ink); outline-offset: 3px; }
+.a4-menu-item[aria-current="page"] .a4-menu-title::after { content: " ·"; }
+.a4-menu-note { text-align: right; min-width: 0; }
+.a4-menu-foot { width: 100%; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 32px; padding-block: 22px; border-top: 1px solid var(--a4-ash); }
+.a4-menu-contact, .a4-menu-social { display: flex; flex-wrap: wrap; gap: 4px 24px; font-size: 15px; }
+.a4-menu-foot a { text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
+.a4-menu-foot a:hover { text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 760px) {
+  .a4-menu-item { grid-template-columns: 36px minmax(0, 1fr); }
+  .a4-menu-note { grid-column: 2; text-align: left; }
+  .a4-menu-orb { width: 78vw; right: -26vw; opacity: .9; }
+}
+@media (prefers-reduced-motion: reduce) { .a4-menu.open { animation: none; } .a4-menu-orb, .a4-menu-orb .a4-sphere { transition: none; } }
