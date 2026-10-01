@@ -89,14 +89,14 @@ test.describe('AI4U Smoke Test', () => {
 
   test('primary CTA should point to WhatsApp', async ({ page, context }) => {
     await page.goto('/');
-    const cta = page.getByRole('button', { name: /hablar con el equipo/i }).first();
+    const cta = page.getByRole('link', { name: /hablar con el equipo/i }).first();
     await expect(cta).toBeVisible();
     const [popup] = await Promise.all([
       context.waitForEvent('page'),
       cta.click(),
     ]);
     // wa.me redirige a api.whatsapp.com — validamos el número en cualquiera de las dos formas
-    expect(popup.url()).toContain('573218175744');
+    expect(popup.url()).toContain('573024906414');
     await popup.close();
   });
 });

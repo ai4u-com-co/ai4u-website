@@ -1,19 +1,56 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Container, Grid, Stack, alpha } from '@mui/material';
-import { H2, BodyText, CodeText, SEOHead, GeometricIcon } from '../components/shared/ui/atoms';
-import { HeroFullscreen } from '../components/shared/ui/organisms';
-import { DiagnosticCTA, RelatedPages } from '../components/shared/ui/molecules';
-import { useColors } from '../hooks';
-import { SurfaceProvider } from '../context';
+import { SEOHead } from '../components/shared/ui/atoms';
 import { usePerformanceMonitoring } from '../hooks/usePerformanceMonitoring';
 import { useErrorTracking } from '../hooks';
 import { getHomeStructuredData, getPageMetaTags } from '../utils/seo';
-import { getRelatedLinks } from '../data/internalLinkingStrategy';
 import { clients } from '../data/clients';
-import { ROUTES } from '../utils/constants';
+import { ALL_AGENTS } from '../data/agents';
+import { ROUTES, APP_CONFIG } from '../utils/constants';
 import { scrollToTop } from '../utils/helpers';
-import { BRAND_ORANGE } from '../components/shared/ui/tokens/brandAccent';
+import '../styles/site-v2.css';
+
+const whatsappUrl = `https://wa.me/${APP_CONFIG.CONTACT.WHATSAPP}?text=${encodeURIComponent(APP_CONFIG.CONTACT.WHATSAPP_MESSAGE)}`;
+
+// Avatar determinista por nombre: rejilla 9×9 simétrica, tinta sobre papel.
+const hash = (s: string) => {
+  let h = 5381;
+  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0;
+  return h;
+};
+const rng = (seed: number) => () => {
+  seed |= 0;
+  seed = (seed + 0x6d2b79f5) | 0;
+  let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+};
+
+const Identicon: React.FC<{ name: string }> = ({ name }) => {
+  const N = 9;
+  const next = rng(hash(name));
+  const cells: JSX.Element[] = [];
+  for (let y = 0; y < N; y++) {
+    for (let x = 0; x < 5; x++) {
+      if (next() > 0.5) {
+        cells.push(<rect key={`${x}-${y}`} x={x} y={y} width={1} height={1} />);
+        if (x < 4) cells.push(<rect key={`m${x}-${y}`} x={N - 1 - x} y={y} width={1} height={1} />);
+      }
+    }
+  }
+  return (
+    <svg viewBox="-1 -1 11 11" role="img" aria-label={name} fill="#171717" shapeRendering="crispEdges">
+      {cells}
+    </svg>
+  );
+};
+
+const SERVICES_INDEX = [
+  { title: 'orderLoader', text: 'Software propio: de correo a tu ERP, sin digitar. Ya corre en producción.', to: ROUTES.ORDER_LOADER },
+  { title: 'Automatización a medida', text: 'Procesos, cartera, WhatsApp. Resolvemos el que más tiempo te cuesta y lo dejamos corriendo solo.', to: ROUTES.SERVICES },
+  { title: 'Sitios web', text: 'Sitios y tiendas de alto rendimiento, con diseño propio y sin plantillas.', to: ROUTES.SITIOS_WEB },
+  { title: 'Agentes de IA', text: 'Tu primer empleado digital: un agente que aprende tus procesos y opera en tus sistemas.', to: ROUTES.AGENTES },
+];
 
 const Home = () => {
   usePerformanceMonitoring('home', { lcp: 2000, fcp: 1500 });
@@ -26,10 +63,11 @@ const Home = () => {
 
   const metaTags = getPageMetaTags('home');
   const structuredData = getHomeStructuredData();
-  const relatedLinks = getRelatedLinks('/');
+  const shown = clients.filter(c => c.id !== 'ai4u');
+  const top = () => scrollToTop('auto');
 
   return (
-    <SurfaceProvider surface="black">
+    <div className="a4">
       <SEOHead
         title={metaTags.title}
         description={metaTags.description}
@@ -37,362 +75,110 @@ const Home = () => {
         canonical="https://www.ai4u.com.co/"
         structuredData={structuredData}
       />
-      <HomeBody relatedLinks={relatedLinks} />
-    </SurfaceProvider>
-  );
-};
 
-// Todo el cuerpo (más allá del hero) vive en un componente aparte: necesita
-// montarse DENTRO del SurfaceProvider de arriba para que useColors() lea la
-// superficie "black" — ya es el patrón que usa WhyAI4U.tsx.
-const HomeBody: React.FC<{ relatedLinks: ReturnType<typeof getRelatedLinks> }> = ({ relatedLinks }) => {
-  const colors = useColors();
-  const divider = `1px solid ${alpha(colors.contrast.text.primary, 0.1)}`;
-  // 0.55 mantiene el look atenuado pero pasa contraste AA (0.38 fallaba en Lighthouse)
-  const muted = alpha(colors.contrast.text.primary, 0.55);
+      <section className="a4-hero a4-wrap" aria-label="Inicio">
+        <div className="a4-orb" aria-hidden="true">
+          <div className="a4-sphere"><img alt="" src="/assets/images/isotipo-negro.png" /></div>
+          <i /><i /><i />
+        </div>
+        <div className="a4-hero-in">
+          <p className="a4-cap">Ai4U · Inteligencia artificial para tu negocio</p>
+          <h1 className="a4-display">Recupera<br />tu<br />tiempo.</h1>
+          <p className="a4-lead">Agentes de IA conectados a SAP, WhatsApp y tu correo. Trabajan las 24 horas y una persona revisa lo que importa.</p>
+          <div>
+            <a className="a4-ghost" href={whatsappUrl} target="_blank" rel="noopener noreferrer">Hablar con el equipo →</a>
+          </div>
+        </div>
+        <span className="a4-scroll a4-cap" aria-hidden="true">Scroll ↓</span>
+      </section>
 
-  return (
-    <Box sx={{ bgcolor: colors.contrast.background, color: colors.contrast.text.primary, minHeight: '100vh' }}>
-      {/* ── HERO ── */}
-      <HeroFullscreen
-        badge="ai4u.equipo // siempre activo"
-        subtitle="la primera capa de inteligencia de tu empresa."
-        primaryButtonText="hablar con el equipo"
-      />
+      <section className="a4-block a4-wrap">
+        <div className="a4-two">
+          <div className="a4-stack">
+            <p className="a4-cap" style={{ fontSize: 15 }}>Un estudio colombiano de agentes de IA</p>
+            <Link className="a4-ghost" to={ROUTES.WHY_AI4U} onClick={top} style={{ justifySelf: 'start' }}>Sobre Ai4U →</Link>
+          </div>
+          <p style={{ margin: 0 }}>
+            Construimos agentes que se conectan a lo que tu empresa ya usa y hacen el trabajo repetitivo: leer pedidos, cotizar, cobrar cartera, atender mensajes. Hoy corren en plantas de manufactura reales, sin que nadie tenga que digitar.
+          </p>
+        </div>
+      </section>
 
-      {/* ── WHY ── */}
-      <Box sx={{ borderTop: divider }}>
-        <Container maxWidth="xl" sx={{ py: { xs: 10, md: 14 } }}>
-          <CodeText sx={{
-            fontSize: '0.72rem', letterSpacing: '0.25em',
-            color: BRAND_ORANGE, mb: 5, display: 'block',
-          }}>
-            // why
-          </CodeText>
-          <Grid container spacing={{ xs: 6, md: 12 }} alignItems="center">
-            <Grid item xs={12} md={6}>
-              <Box
-                component="h2"
-                sx={{
-                  m: 0,
-                  fontSize: { xs: '2rem', md: 'clamp(2rem, 3.5vw, 3.2rem)' },
-                  fontWeight: 300,
-                  fontFamily: '"Red Hat Display", sans-serif',
-                  lineHeight: 0.92,
-                  letterSpacing: '-0.03em',
-                  color: colors.contrast.text.primary,
-                }}
-              >
-                cada hora en operación<br />
-                es una hora que{' '}
-                <Box component="em" sx={{ fontStyle: 'italic', color: muted }}>
-                  no estás liderando.
-                </Box>
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <BodyText sx={{
-                fontSize: '0.95rem',
-                fontWeight: 300,
-                lineHeight: 1.7,
-                color: muted,
-                maxWidth: '420px',
-              }}>
-                Tu negocio necesita tu visión — no tu tiempo en tareas que se pueden automatizar.
-                <br /><br />
-                <Box component="strong" sx={{ color: colors.contrast.text.primary, fontWeight: 400 }}>
-                  Nosotros nos encargamos de lo que no te necesita a ti.
-                </Box>
-              </BodyText>
-            </Grid>
-          </Grid>
-        </Container>
-      </Box>
+      <section className="a4-block a4-wrap">
+        <p className="a4-cap">Ya trabajan con agentes</p>
+        <div className="a4-logos">
+          {shown.map(c => <div key={c.id}>{c.name}</div>)}
+          <div><a className="a4-ghost" href={whatsappUrl} target="_blank" rel="noopener noreferrer">¿Tu empresa? →</a></div>
+        </div>
+      </section>
 
-      {/* ── HOW ── */}
-      <Box sx={{ borderTop: divider }}>
-        <Container maxWidth="xl" sx={{ py: { xs: 10, md: 14 } }}>
-          <CodeText sx={{
-            fontSize: '0.72rem', letterSpacing: '0.25em',
-            color: BRAND_ORANGE, mb: 5, display: 'block',
-          }}>
-            // how
-          </CodeText>
-          <Box
-            component="h2"
-            sx={{
-              m: 0,
-              mb: { xs: 6, md: 8 },
-              fontSize: { xs: '2rem', md: 'clamp(2rem, 3.5vw, 3.2rem)' },
-              fontWeight: 300,
-              fontFamily: '"Red Hat Display", sans-serif',
-              lineHeight: 0.92,
-              letterSpacing: '-0.03em',
-              color: colors.contrast.text.primary,
-            }}
-          >
-            agentes que trabajan<br />
-            como parte de tu equipo.
-          </Box>
+      <section className="a4-block a4-wrap">
+        <p className="a4-cap">Trabajo reciente</p>
+        <div className="a4-cards">
+          <article className="a4-card">
+            <p className="a4-cap">Producto</p>
+            <h3 className="a4-h-sm">orderLoader</h3>
+            <div className="a4-flow" role="img" aria-label="Correo, agente, SAP Business One"><b>Correo</b><em /><b>Agente</b><em /><b>SAP B1</b></div>
+            <p className="a4-sm">Lee el pedido que llega por correo y lo crea en SAP Business One. En producción en dos plantas, las 24 horas, sin digitación.</p>
+            <Link className="a4-ghost" to={ROUTES.ORDER_LOADER} onClick={top} style={{ justifySelf: 'start' }}>Ver orderLoader →</Link>
+          </article>
+          <article className="a4-card">
+            <p className="a4-cap">Catálogo</p>
+            <h3 className="a4-h-sm">{ALL_AGENTS.length} agentes</h3>
+            <div className="a4-avatars" aria-hidden="true">
+              {ALL_AGENTS.map(a => <Identicon key={a.name} name={a.name} />)}
+            </div>
+            <p className="a4-sm">Tickets, servicio al cliente, operación, contenido y la fábrica de desarrollo que construye a los demás.</p>
+            <Link className="a4-ghost" to={ROUTES.AGENTES} onClick={top} style={{ justifySelf: 'start' }}>Ver el catálogo →</Link>
+          </article>
+          <article className="a4-card wide">
+            <p className="a4-cap">Sitios web</p>
+            <h3 className="a4-h-sm">Plataformas de alto rendimiento</h3>
+            <div className="a4-shots">
+              <figure>
+                <img loading="lazy" width={1200} height={750} alt="Captura del sitio de La Magdalena: paisaje, sección Historias y obra literaria" src="/assets/images/cases/screenshots/lamagdalena-site.jpg" />
+                <figcaption className="a4-cap">La Magdalena · lamagdalena.com.co</figcaption>
+              </figure>
+              <figure>
+                <img loading="lazy" width={1200} height={750} alt="Captura del portafolio de dirección de arte de Catalina Romero" src="/assets/images/cases/screenshots/cromero-site.jpg" />
+                <figcaption className="a4-cap">Catalina Romero · cromero.vercel.app</figcaption>
+              </figure>
+            </div>
+            <Link className="a4-ghost" to={ROUTES.SITIOS_WEB} onClick={top} style={{ justifySelf: 'start' }}>Ver sitios web →</Link>
+          </article>
+        </div>
+        <p style={{ margin: '30px 0 0' }}>
+          <Link className="a4-pill" to={ROUTES.PORTFOLIO} onClick={top}>Todo el trabajo →</Link>
+        </p>
+      </section>
 
-          <Grid container spacing={0}>
-            {[
-              {
-                num: '01 ─ entendemos',
-                title: 'mapeamos\ntu operación',
-                body: 'Identificamos qué tareas pueden automatizarse sin perder calidad ni control.',
-                icon: 'circle' as const,
-              },
-              {
-                num: '02 ─ construimos',
-                title: 'entrenamos\ntus agentes',
-                body: 'Cada agente aprende tu voz, tus procesos y tu forma de trabajar.',
-                icon: 'square' as const,
-              },
-              {
-                num: '03 ─ operamos',
-                title: 'activos\ndesde el día uno',
-                body: 'Tu equipo digital corre 24/7 mientras tú te enfocas en lo que importa.',
-                icon: 'triangle' as const,
-              },
-            ].map((step, idx) => (
-              <Grid
-                item xs={12} md={4} key={idx}
-                sx={{
-                  pt: { xs: 4, md: 0 },
-                  pr: { md: idx < 2 ? 5 : 0 },
-                  pl: { md: idx > 0 ? 5 : 0 },
-                  borderRight: { md: idx < 2 ? divider : 'none' },
-                  borderTop: { xs: idx > 0 ? divider : 'none', md: 'none' },
-                }}
-              >
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: 2 }}>
-                  <GeometricIcon type={step.icon} variant="outline" size="small" color={BRAND_ORANGE} />
-                  <CodeText sx={{
-                    fontSize: '0.65rem', letterSpacing: '0.15em',
-                    color: BRAND_ORANGE, display: 'block',
-                  }}>
-                    {step.num}
-                  </CodeText>
-                </Box>
-                <H2 sx={{
-                  fontSize: '1.2rem', fontWeight: 300,
-                  lineHeight: 1.15, letterSpacing: '-0.02em',
-                  mb: 1.5, whiteSpace: 'pre-line',
-                }}>
-                  {step.title}
-                </H2>
-                <BodyText sx={{ fontSize: '0.85rem', fontWeight: 300, lineHeight: 1.6, color: muted }}>
-                  {step.body}
-                </BodyText>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      </Box>
-
-      {/* ── WHAT ── */}
-      <Box sx={{ borderTop: divider }}>
-        <Container maxWidth="xl" sx={{ py: { xs: 10, md: 14 } }}>
-          <CodeText sx={{
-            fontSize: '0.72rem', letterSpacing: '0.25em',
-            color: BRAND_ORANGE, mb: 5, display: 'block',
-          }}>
-            // what
-          </CodeText>
-
-          {/* Header row */}
-          <Box sx={{
-            display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between',
-            pb: 3, mb: 0, borderBottom: divider,
-          }}>
-            <Box
-              component="h2"
-              sx={{
-                m: 0,
-                fontSize: { xs: '2rem', md: 'clamp(2rem, 3vw, 2.8rem)' },
-                fontWeight: 300,
-                fontFamily: '"Red Hat Display", sans-serif',
-                lineHeight: 0.9,
-                letterSpacing: '-0.03em',
-              }}
-            >
-              lo que hacemos.
-            </Box>
-            <CodeText sx={{ fontSize: '0.65rem', letterSpacing: '0.15em', color: muted, pb: '3px' }}>
-              cuatro formas de trabajar con nosotros.
-            </CodeText>
-          </Box>
-
-          {/* Service rows — las 4 categorías reales de la oferta, cada una a su página */}
-          {[
-            {
-              num: '01',
-              name: 'orderloader',
-              desc: 'Software propio: de correo a tu ERP, sin digitar. Ya corre en producción, listo para instalar.',
-              path: ROUTES.ORDER_LOADER,
-            },
-            {
-              num: '02',
-              name: 'automatización a medida',
-              desc: 'Procesos, cartera, WhatsApp — resolvemos el que más tiempo te cuesta y lo dejamos corriendo solo.',
-              path: ROUTES.SERVICES,
-            },
-            {
-              num: '03',
-              name: 'sitios web',
-              desc: 'Sitios y tiendas de alto rendimiento, con diseño propio y sin plantillas genéricas.',
-              path: ROUTES.SITIOS_WEB,
-            },
-            {
-              num: '04',
-              name: 'superai',
-              desc: 'Tu primer empleado digital: un agente que aprende tus procesos y opera en tus sistemas.',
-              path: ROUTES.SUPER_AI,
-            },
-          ].map((svc) => (
-            <Box
-              key={svc.num}
-              component={Link}
-              to={svc.path}
-              onClick={() => scrollToTop()}
-              sx={{
-                display: 'flex', alignItems: 'center', gap: { xs: 2, md: 4 },
-                py: { xs: 3, md: 3.5 },
-                borderBottom: divider,
-                cursor: 'pointer',
-                textDecoration: 'none',
-                color: 'inherit',
-                transition: 'gap 0.25s',
-                '&:hover .svc-arrow': { opacity: 1, color: BRAND_ORANGE },
-              }}
-            >
-              <CodeText sx={{ fontSize: '0.7rem', color: BRAND_ORANGE, width: '24px', flexShrink: 0 }}>
-                {svc.num}
-              </CodeText>
-              <Box sx={{
-                flex: 1,
-                fontSize: { xs: '1.5rem', md: 'clamp(1.6rem, 3vw, 2.8rem)' },
-                fontWeight: 300,
-                fontFamily: '"Red Hat Display", sans-serif',
-                letterSpacing: '-0.03em',
-                lineHeight: 1,
-              }}>
-                {svc.name}
-              </Box>
-              <BodyText sx={{
-                fontSize: '0.78rem', fontWeight: 300, lineHeight: 1.4,
-                color: muted, maxWidth: '220px', textAlign: 'right',
-                display: { xs: 'none', md: 'block' },
-              }}>
-                {svc.desc}
-              </BodyText>
-              <Box className="svc-arrow" sx={{
-                fontSize: '1.1rem', color: muted, opacity: 0,
-                transition: 'all 0.2s', display: { xs: 'none', md: 'block' },
-              }}>
-                →
-              </Box>
-            </Box>
+      <section className="a4-block a4-wrap">
+        <p className="a4-cap">Lo que hacemos</p>
+        <div className="a4-idx">
+          {SERVICES_INDEX.map(s => (
+            <Link key={s.title} to={s.to} onClick={top}>
+              <h3 className="a4-sub">{s.title}</h3>
+              <p className="a4-sm">{s.text}</p>
+              <span className="a4-arr" aria-hidden="true">→</span>
+            </Link>
           ))}
-        </Container>
-      </Box>
+        </div>
+      </section>
 
-      {/* ── CLIENTES ── */}
-      <Box sx={{ borderTop: divider }}>
-        <Container maxWidth="xl" sx={{ py: { xs: 8, md: 10 } }}>
-          <CodeText sx={{
-            fontSize: '0.72rem', letterSpacing: '0.25em',
-            color: BRAND_ORANGE, mb: 5, display: 'block',
-          }}>
-            // quiénes ya trabajan con agentes
-          </CodeText>
-          <Box sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            columnGap: { xs: 3, md: 6 },
-            rowGap: 2.5,
-            alignItems: 'baseline',
-          }}>
-            {clients.filter(c => c.id !== 'ai4u').map(client => (
-              <Box key={client.id} sx={{ display: 'flex', alignItems: 'baseline', gap: 1.5 }}>
-                <Box sx={{
-                  fontSize: { xs: '1.3rem', md: '1.7rem' },
-                  fontWeight: 300,
-                  fontFamily: '"Red Hat Display", sans-serif',
-                  letterSpacing: '-0.02em',
-                  color: colors.contrast.text.primary,
-                }}>
-                  {client.name}
-                </Box>
-                <CodeText sx={{ fontSize: '0.6rem', letterSpacing: '0.12em', color: muted, display: { xs: 'none', md: 'inline' } }}>
-                  {client.sector.toLowerCase()}
-                </CodeText>
-              </Box>
-            ))}
-          </Box>
-        </Container>
-      </Box>
-
-      {/* ── FINAL CTA ── */}
-      <Box sx={{ borderTop: divider }}>
-        <Container maxWidth="xl">
-          <Box sx={{
-            py: { xs: 10, md: 14 },
-            display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
-            alignItems: { xs: 'flex-start', md: 'center' },
-            justifyContent: 'space-between',
-            gap: 6,
-          }}>
-            <Box
-              component="h2"
-              sx={{
-                m: 0,
-                fontSize: { xs: '2.5rem', md: 'clamp(2.5rem, 5vw, 5rem)' },
-                fontWeight: 300,
-                fontFamily: '"Red Hat Display", sans-serif',
-                lineHeight: 0.88,
-                letterSpacing: '-0.04em',
-              }}
-            >
-              empieza a recuperar<br />tu tiempo hoy.
-            </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xs: 'flex-start', md: 'center' }, gap: 1.5, flexShrink: 0 }}>
-              <DiagnosticCTA
-                variant="primary"
-                text="escríbenos por WhatsApp"
-                size="large"
-                showIcon={true}
-                sx={{
-                  height: '52px',
-                  px: 5,
-                  fontSize: '0.85rem',
-                  fontWeight: 400,
-                  fontFamily: 'monospace',
-                  letterSpacing: '0.05em',
-                  borderRadius: 0,
-                  bgcolor: BRAND_ORANGE,
-                  color: '#fff',
-                  border: 'none',
-                  transition: 'opacity 0.2s',
-                  '&:hover': { bgcolor: BRAND_ORANGE, opacity: 0.85 },
-                }}
-              />
-              <CodeText sx={{ fontSize: '0.65rem', letterSpacing: '0.15em', color: muted }}>
-                // sin compromiso. sin pitch.
-              </CodeText>
-            </Box>
-          </Box>
-        </Container>
-      </Box>
-
-      {relatedLinks.length > 0 && (
-        <Box sx={{ borderTop: `1px solid ${alpha(colors.contrast.divider, 0.5)}` }}>
-          <RelatedPages pages={relatedLinks} />
-        </Box>
-      )}
-    </Box>
+      <section className="a4-cta a4-wrap">
+        <p className="a4-cap" style={{ marginBottom: 24 }}>Empecemos</p>
+        <h2 className="a4-h-lg" style={{ maxWidth: '12ch' }}>¿Lo construimos?</h2>
+        <p className="a4-sm" style={{ marginTop: 24 }}>Sin compromiso. Sin pitch.</p>
+        <div style={{ marginTop: 8 }}>
+          <a className="a4-ghost" href={whatsappUrl} target="_blank" rel="noopener noreferrer">Escríbenos por WhatsApp →</a>
+        </div>
+        <div className="a4-contact a4-sm">
+          <span className="a4-num">+57 302 490 6414</span>
+          <span className="a4-num">hola@ai4u.com.co</span>
+          <span>Medellín, Colombia</span>
+        </div>
+      </section>
+    </div>
   );
 };
 
