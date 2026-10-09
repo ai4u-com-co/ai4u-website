@@ -5,8 +5,7 @@
 .a4-sw-dots { display: inline-flex; gap: 6px; flex: none; }
 .a4-sw-dots i { width: 9px; height: 9px; border: 1px solid var(--a4-ink); border-radius: 50%; }
 .a4-sw-bar .a4-cap { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
-.a4-sw-shot { width: 100%; height: clamp(300px, 52vw, 600px); background-color: var(--a4-ash); background-size: 100% auto; background-repeat: no-repeat; background-position: center 0%; filter: grayscale(100%); transition: filter .6s ease; animation: a4SwPan 26s linear infinite; }
-.a4-sw-win:hover .a4-sw-shot, .a4-sw-win:focus-visible .a4-sw-shot { filter: grayscale(0%); }
+.a4-sw-shot { width: 100%; height: clamp(300px, 52vw, 600px); background-color: var(--a4-ash); background-size: 100% auto; background-repeat: no-repeat; background-position: center 0%; animation: a4SwPan 26s linear infinite; }
 .a4-sw-win:focus-visible { outline: 2px solid var(--a4-ink); outline-offset: 3px; }
 .a4-sw-meta { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 10px clamp(19px, 4vw, 76px); padding: 24px 30px; border-top: 1px solid var(--a4-ink); align-items: start; }
 .a4-sw-meta > * { min-width: 0; }
