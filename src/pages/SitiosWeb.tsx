@@ -53,6 +53,24 @@ const SITES = [
 
 const SitiosWeb: React.FC = () => {
   usePerformanceMonitoring('sitios-web', { lcp: 2500, fcp: 1800 });
+  const winsRef = React.useRef<HTMLDivElement>(null);
+
+  // Sin cursor (táctil) no hay hover: se mueve solo la vista previa más a la vista.
+  React.useEffect(() => {
+    const root = winsRef.current;
+    if (!root || !window.matchMedia('(hover: none)').matches || !('IntersectionObserver' in window)) return;
+    const wins = Array.from(root.querySelectorAll<HTMLElement>('.a4-sw-win'));
+    const ratios = new Map<HTMLElement, number>();
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => ratios.set(e.target as HTMLElement, e.intersectionRatio));
+      let best: HTMLElement | null = null;
+      let bestRatio = 0.5;
+      ratios.forEach((r, el) => { if (r > bestRatio) { best = el; bestRatio = r; } });
+      wins.forEach((w) => w.classList.toggle('is-active', w === best));
+    }, { threshold: [0, 0.25, 0.5, 0.75, 1] });
+    wins.forEach((w) => io.observe(w));
+    return () => io.disconnect();
+  }, []);
   const top = () => scrollToTop('auto');
 
   return (
@@ -91,7 +109,7 @@ const SitiosWeb: React.FC = () => {
 
       <section className="a4-section a4-wrap" aria-label="Sitios que hemos construido">
         <div className="a4-sec-label"><span className="a4-cap">Sitios que hemos construido</span></div>
-        <div className="a4-sw-wins">
+        <div className="a4-sw-wins" ref={winsRef}>
           {SITES.map((site) => (
             <a key={site.name} className="a4-sw-win" href={site.url} target="_blank" rel="noopener noreferrer">
               <div className="a4-sw-bar">
