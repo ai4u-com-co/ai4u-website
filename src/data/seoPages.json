@@ -1,0 +1,110 @@
+[
+  {
+    "path": "/",
+    "name": "Inicio",
+    "title": "Ai4U: agentes de IA, dashboards y software a la medida",
+    "description": "Agentes de IA que hacen el trabajo repetitivo, dashboards que muestran cómo va tu empresa y software a tu medida. Ai4U, Medellín, Colombia.",
+    "type": "WebPage",
+    "priority": 1.0,
+    "sitemap": true
+  },
+  {
+    "path": "/agentes",
+    "name": "Agentes",
+    "title": "Agentes de IA para tu operación | Ai4U",
+    "description": "Catálogo de agentes de IA que leen pedidos y facturas, cobran la cartera, atienden mensajes y más. Elige quién entra a tu equipo.",
+    "type": "CollectionPage",
+    "priority": 0.9,
+    "sitemap": true
+  },
+  {
+    "path": "/dashboards",
+    "name": "Dashboards",
+    "title": "Dashboards: cómo va tu empresa, siempre al día | Ai4U",
+    "description": "Ventas, cartera, producción y cumplimiento en un solo lugar, y un chat para preguntarle a tu empresa. Responde con tus datos en tiempo real.",
+    "type": "WebPage",
+    "priority": 0.9,
+    "sitemap": true
+  },
+  {
+    "path": "/servicios",
+    "name": "A tu medida",
+    "title": "Software y automatización a la medida | Ai4U",
+    "description": "Lo que no existe, lo construimos: software, automatizaciones y sitios web para tu operación. Después los mantenemos funcionando.",
+    "type": "WebPage",
+    "priority": 0.9,
+    "sitemap": true
+  },
+  {
+    "path": "/sitios-web",
+    "name": "Sitios web",
+    "title": "Sitios web y tiendas con diseño propio | Ai4U",
+    "description": "Landing pages y sitios con backend de alto rendimiento, con SEO y velocidad, entregados en unos 14 días. Cotización por WhatsApp.",
+    "type": "CollectionPage",
+    "priority": 0.8,
+    "sitemap": true
+  },
+  {
+    "path": "/orderloader",
+    "name": "orderLoader",
+    "title": "orderLoader: del correo a tu sistema, sin digitar | Ai4U",
+    "description": "Lee el pedido que llega por correo y lo crea en tu sistema, sin digitación. En producción en dos plantas, las 24 horas, con una persona que revisa lo dudoso.",
+    "type": "WebPage",
+    "priority": 0.8,
+    "sitemap": true
+  },
+  {
+    "path": "/portafolio",
+    "name": "Casos",
+    "title": "Casos: empresas que trabajan con agentes de IA | Ai4U",
+    "description": "Empresas de manufactura, contenido, hospitalidad y salud que ya trabajan con agentes de IA de Ai4U: pedidos, cartera y atención a cualquier hora.",
+    "type": "CollectionPage",
+    "priority": 0.7,
+    "sitemap": true
+  },
+  {
+    "path": "/por-que-ai4u",
+    "name": "Nosotros",
+    "title": "¿Por qué Ai4U? La parte humana de la IA",
+    "description": "Quién está detrás de Ai4U y cómo trabajamos: agentes que hacen el trabajo y una persona que revisa lo que importa.",
+    "type": "AboutPage",
+    "priority": 0.7,
+    "sitemap": true
+  },
+  {
+    "path": "/preguntas-frecuentes",
+    "name": "Preguntas frecuentes",
+    "title": "Preguntas frecuentes sobre Ai4U y los agentes de IA",
+    "description": "Qué es un agente de IA, qué hace orderLoader, si reemplaza a tu equipo, si debes cambiar tus sistemas, cuánto tarda y cómo empezar.",
+    "type": "FAQPage",
+    "priority": 0.7,
+    "sitemap": true
+  },
+  {
+    "path": "/politica-de-privacidad",
+    "name": "Política de privacidad",
+    "title": "Política de privacidad | Ai4U",
+    "description": "Cómo manejamos tus datos en el sitio y en las aplicaciones de Ai4U.",
+    "type": "WebPage",
+    "priority": 0.3,
+    "sitemap": false
+  },
+  {
+    "path": "/condiciones-de-servicio",
+    "name": "Condiciones de servicio",
+    "title": "Condiciones de servicio | Ai4U",
+    "description": "Condiciones de uso de los servicios y las aplicaciones de Ai4U.",
+    "type": "WebPage",
+    "priority": 0.3,
+    "sitemap": false
+  },
+  {
+    "path": "/eliminacion-de-datos",
+    "name": "Eliminación de datos",
+    "title": "Eliminación de datos | Ai4U",
+    "description": "Cómo solicitar la eliminación de tus datos de los servicios y las aplicaciones de Ai4U.",
+    "type": "WebPage",
+    "priority": 0.3,
+    "sitemap": false
+  }
+]

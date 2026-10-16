@@ -1,0 +1,29 @@
+# Ai4U
+
+> Ai4U pone inteligencia artificial a trabajar en la operación de tu empresa. Los agentes hacen el trabajo repetitivo, los dashboards muestran cómo va todo y lo que no existe se construye a tu medida. Trabajan las 24 horas y una persona revisa lo que importa. Empresa colombiana con sede en Medellín.
+
+Ai4U trabaja con empresas medianas que tienen operación repetitiva: pedidos, cartera, producción y atención al cliente. Su oferta tiene tres capas: agentes de IA, dashboards y desarrollo a la medida, y además diseña sitios web. No publica precios: empieza con un diagnóstico sin costo y cotiza a la medida de cada caso.
+
+## Qué ofrece
+
+- [Agentes de IA](https://www.ai4u.com.co/agentes): catálogo de agentes que leen pedidos y facturas, cobran la cartera, atienden mensajes y más. Tres niveles de supervisión: propone, ejecuta o autónomo.
+- [Dashboards](https://www.ai4u.com.co/dashboards): ventas, cartera, producción y cumplimiento en un solo lugar, más un chat para preguntarle a tu empresa y que responda con tus datos en tiempo real.
+- [A tu medida](https://www.ai4u.com.co/servicios): software y automatizaciones pensados para la operación de cada empresa, en cuatro pasos: diagnóstico, construcción, puesta en marcha y mantenimiento.
+- [Sitios web](https://www.ai4u.com.co/sitios-web): landing pages y sitios con backend, con diseño propio, entregados en unos 14 días.
+- [orderLoader](https://www.ai4u.com.co/orderloader): lee el pedido que llega por correo y lo crea en el sistema de la empresa, sin digitación. En producción en dos plantas, las 24 horas.
+
+## Sobre Ai4U
+
+- [Casos](https://www.ai4u.com.co/portafolio): empresas de manufactura, contenido, hospitalidad y salud que ya trabajan con agentes de Ai4U.
+- [Nosotros](https://www.ai4u.com.co/por-que-ai4u): quién está detrás de Ai4U y cómo trabaja: agentes que hacen el trabajo y una persona que revisa lo que importa.
+- [Preguntas frecuentes](https://www.ai4u.com.co/preguntas-frecuentes): respuestas directas sobre qué es un agente de IA, si reemplaza al equipo, si hay que cambiar de sistemas, cuánto tarda y cómo empezar.
+
+## Contacto
+
+- WhatsApp: +57 302 490 6414
+- Correo: hola@ai4u.com.co
+- Ciudad: Medellín, Colombia
+
+## Opcional
+
+- [Texto completo del sitio](https://www.ai4u.com.co/llms-full.txt): el contenido de todas las páginas públicas en un solo archivo.

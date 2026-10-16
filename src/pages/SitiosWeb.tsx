@@ -4,6 +4,7 @@ import { SEOHead } from '../components/shared/ui/atoms';
 import { usePerformanceMonitoring } from '../hooks';
 import { APP_CONFIG, ROUTES } from '../utils/constants';
 import { scrollToTop } from '../utils/helpers';
+import { SITES } from '../data/sitiosWeb';
 import '../styles/site-v2.css';
 import '../styles/pages/sitios-web.css';
 
@@ -27,29 +28,6 @@ const PLANS = [
   },
 ];
 
-const SITES = [
-  {
-    name: 'La Magdalena',
-    desc: 'Estudio de storytelling de impacto social y ambiental.',
-    url: 'https://www.lamagdalena.com.co',
-    label: 'lamagdalena.com.co',
-    image: '/assets/images/cases/screenshots/lamagdalena-site.jpg',
-  },
-  {
-    name: 'Catalina Romero',
-    desc: 'Portafolio de dirección de arte, estilismo y narrativa visual.',
-    url: 'https://cromero.vercel.app/',
-    label: 'cromero.vercel.app',
-    image: '/assets/images/cases/screenshots/cromero-site.jpg',
-  },
-  {
-    name: 'Nakoa',
-    desc: 'Perfumería de autor: lo invisible del territorio, en frasco.',
-    url: 'https://nakoa-web.vercel.app/',
-    label: 'nakoa-web.vercel.app',
-    image: '/assets/images/cases/screenshots/nakoa-site.jpg',
-  },
-];
 
 const SitiosWeb: React.FC = () => {
   usePerformanceMonitoring('sitios-web', { lcp: 2500, fcp: 1800 });
@@ -75,11 +53,7 @@ const SitiosWeb: React.FC = () => {
 
   return (
     <div className="a4 a4-page">
-      <SEOHead
-        title="Sitios Web | AI4U"
-        description="Landing pages y sitios con backend, arquitectura de alto rendimiento, entregados en días. Cotización por WhatsApp."
-        canonical="https://www.ai4u.com.co/sitios-web"
-      />
+      <SEOHead path="/sitios-web" />
 
       <header className="a4-page-head a4-wrap">
         <p className="a4-cap">Ai4U · Sitios web</p>

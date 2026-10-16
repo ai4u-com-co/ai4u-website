@@ -28,11 +28,7 @@ const OrderLoader: React.FC = () => {
 
   return (
     <div className="a4 a4-page">
-      <SEOHead
-        title="orderLoader | AI4U"
-        description="El correo del pedido entra, la orden sale creada en tu ERP. Sin digitación manual, corriendo 24/7 en plantas de manufactura reales."
-        canonical="https://www.ai4u.com.co/orderloader"
-      />
+      <SEOHead path="/orderloader" />
 
       <header className="a4-page-head a4-wrap">
         <p className="a4-cap">Ai4U · Producto</p>

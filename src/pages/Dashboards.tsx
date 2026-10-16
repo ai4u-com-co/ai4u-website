@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { SEOHead } from '../components/shared/ui/atoms';
-import { getPageMetaTags } from '../utils/seo';
 import { getRelatedLinks } from '../data/internalLinkingStrategy';
 import { ROUTES, APP_CONFIG } from '../utils/constants';
 import { scrollToTop } from '../utils/helpers';
@@ -46,18 +45,12 @@ const Rows: React.FC<{ items: { n: string; name: string; desc: string }[] }> = (
 );
 
 const Dashboards: React.FC = () => {
-  const metaTags = getPageMetaTags('dashboards');
   const relatedLinks = getRelatedLinks(ROUTES.DASHBOARDS);
   const top = () => scrollToTop('auto');
 
   return (
     <div className="a4 a4-page">
-      <SEOHead
-        title={metaTags.title}
-        description={metaTags.description}
-        keywords={metaTags.keywords}
-        canonical="https://www.ai4u.com.co/dashboards"
-      />
+      <SEOHead path="/dashboards" />
 
       <header className="a4-page-head a4-wrap">
         <p className="a4-cap">Dashboards · Ai4U</p>

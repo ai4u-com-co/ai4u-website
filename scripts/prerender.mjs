@@ -3,11 +3,13 @@
 // Si Playwright no tiene navegador instalado, se salta con warning (el build no falla).
 import { createServer } from 'node:http';
 import { readFile, mkdir, writeFile, access } from 'node:fs/promises';
+import { readFileSync } from 'node:fs';
 import { join, extname, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const DIST = join(dirname(fileURLToPath(import.meta.url)), '..', 'dist');
-const ROUTES = ['/', '/servicios', '/portafolio', '/por-que-ai4u', '/agentes', '/dashboards', '/sitios-web', '/orderloader', '/politica-de-privacidad', '/condiciones-de-servicio', '/eliminacion-de-datos'];
+// Una sola lista de páginas para el prerender, el sitemap y las validaciones: src/data/seoPages.json
+const ROUTES = JSON.parse(readFileSync(join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'data', 'seoPages.json'), 'utf8')).map((p) => p.path);
 const PORT = 4173;
 
 const MIME = {
@@ -75,7 +77,10 @@ async function main() {
         await page.goto(`http://localhost:${PORT}${route}`, { waitUntil: 'load' });
         await page.waitForSelector('#root :first-child', { timeout: 15000 });
         await page.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
-        const html = await page.content();
+        let html = await page.content();
+        // El <link rel="preload" onload=...> de las fuentes de Google ya se convirtió en stylesheet al renderizar:
+        // se deja como estaba para que el HTML servido no tenga CSS bloqueante de terceros.
+        html = html.replace(/<link rel="stylesheet" as="style" href="(https:\/\/fonts\.googleapis\.com\/css2[^"]*)" onload="[^"]*">/, (_m, href) => `<link rel="preload" as="style" href="${href}" onload="this.onload=null;this.rel='stylesheet'">`);
         const outDir = route === '/' ? DIST : join(DIST, route.slice(1));
         await mkdir(outDir, { recursive: true });
         await writeFile(join(outDir, 'index.html'), '<!DOCTYPE html>\n' + html.replace(/^<!DOCTYPE html>/i, '').trim());

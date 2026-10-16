@@ -5,10 +5,7 @@ import '../styles/pages/legal.css';
 
 const DataDeletion = () => (
   <div className="a4 a4-page a4-legal">
-    <SEOHead
-      title="Eliminación de Datos | Ads Manager"
-      description="Instrucciones sobre cómo solicitar la eliminación de tus datos en nuestra aplicación de Facebook Ads."
-    />
+    <SEOHead path="/eliminacion-de-datos" />
     <div className="a4-wrap">
       <header className="a4-page-head">
         <p className="a4-cap">Legal</p>

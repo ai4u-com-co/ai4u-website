@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { SEOHead } from '../components/shared/ui/atoms';
 import { usePerformanceMonitoring } from '../hooks/usePerformanceMonitoring';
 import { useErrorTracking } from '../hooks';
-import { getHomeStructuredData, getPageMetaTags } from '../utils/seo';
 import { clients } from '../data/clients';
 import { ALL_AGENTS } from '../data/agents';
 import FaceTile from '../components/agentes/FaceTile';
@@ -29,25 +28,16 @@ const Home = () => {
     addContext('page', 'home');
     addContext('userAgent', navigator.userAgent.substring(0, 100));
   }, [addContext]);
-
-  const metaTags = getPageMetaTags('home');
-  const structuredData = getHomeStructuredData();
   const shown = clients.filter(c => c.id !== 'ai4u');
   const top = () => scrollToTop('auto');
 
   return (
     <div className="a4">
-      <SEOHead
-        title={metaTags.title}
-        description={metaTags.description}
-        keywords={metaTags.keywords}
-        canonical="https://www.ai4u.com.co/"
-        structuredData={structuredData}
-      />
+      <SEOHead path="/" />
 
       <section className="a4-hero a4-wrap" aria-label="Inicio">
         <div className="a4-orb" aria-hidden="true">
-          <div className="a4-sphere"><img alt="" src="/assets/images/isotipo-negro.png" /></div>
+          <div className="a4-sphere"><img alt="" src="/assets/images/isotipo-negro-512.webp" /></div>
           <i /><i /><i />
         </div>
         <div className="a4-hero-in">
@@ -118,11 +108,11 @@ const Home = () => {
             <h3 className="a4-h-sm">Plataformas de alto rendimiento</h3>
             <div className="a4-shots">
               <figure>
-                <img loading="lazy" width={1200} height={750} alt="Captura del sitio de La Magdalena: paisaje, sección Historias y obra literaria" src="/assets/images/cases/screenshots/lamagdalena-site.jpg" />
+                <img loading="lazy" width={1200} height={750} alt="Captura del sitio de La Magdalena: paisaje, sección Historias y obra literaria" src="/assets/images/cases/screenshots/lamagdalena-site-720.webp" />
                 <figcaption className="a4-cap">La Magdalena · lamagdalena.com.co</figcaption>
               </figure>
               <figure>
-                <img loading="lazy" width={1200} height={750} alt="Captura del portafolio de dirección de arte de Catalina Romero" src="/assets/images/cases/screenshots/cromero-site.jpg" />
+                <img loading="lazy" width={1200} height={750} alt="Captura del portafolio de dirección de arte de Catalina Romero" src="/assets/images/cases/screenshots/cromero-site-720.webp" />
                 <figcaption className="a4-cap">Catalina Romero · cromero.vercel.app</figcaption>
               </figure>
             </div>

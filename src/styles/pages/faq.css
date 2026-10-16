@@ -1,0 +1,5 @@
+/* Preguntas frecuentes. Prefijo a4-faq */
+.a4-faq { align-items: start; }
+.a4-faq-q { font-weight: 500; font-size: clamp(20px, 2.1vw, 28px); line-height: 1.15; letter-spacing: .01em; margin: 0; }
+.a4-faq-a { margin: 0; font-size: clamp(16px, 1.5vw, 19px); line-height: 1.55; max-width: 62ch; }
+.a4-faq-related { display: flex; flex-wrap: wrap; gap: 4px 28px; margin-top: 8px; }

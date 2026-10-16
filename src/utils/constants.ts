@@ -9,6 +9,7 @@ export const ROUTES = {
   SUPER_AI: '/super-ai',
   AGENTES: '/agentes',
   DASHBOARDS: '/dashboards',
+  FAQ: '/preguntas-frecuentes',
   /** @deprecated nombre viejo de /dashboards — solo para el redirect en App.tsx */
   TABLEROS_LEGACY: '/tableros',
   /** @deprecated nombre viejo de /agentes — solo para el redirect en App.tsx, no usar para nada nuevo */

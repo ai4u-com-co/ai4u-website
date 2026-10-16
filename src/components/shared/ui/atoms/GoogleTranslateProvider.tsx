@@ -39,6 +39,12 @@ const GoogleTranslateProvider: React.FC = () => {
   useEffect(() => {
     if (document.getElementById('google-translate-script')) return;
 
+    // El selector de idioma solo guarda la cookie `googtrans` y recarga la página. Sin esa cookie (a un idioma
+    // distinto del español) no hay nada que traducir, así que no se descarga el script de Google (~300 KB que
+    // además bloqueaban el primer pintado y lanzaban un error en consola).
+    const wantsTranslation = /(?:^|;\s*)googtrans=\/[^/;]+\/(?!es(?:;|$))[^;]+/.test(document.cookie);
+    if (!wantsTranslation) return;
+
     window.googleTranslateElementInit = () => {
       try {
         if (
