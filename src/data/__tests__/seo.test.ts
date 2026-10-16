@@ -4,6 +4,8 @@ import { FAQ } from '../faq';
 import { ALL_AGENTS } from '../agents';
 import { CASES } from '../cases';
 import { ROUTES } from '../../utils/constants';
+import { AGENT_PAGES, agentFaq, agentPath } from '../agentPages';
+import { slugify } from '../../utils/slug';
 
 // SEO / GEO / AEO (octubre 2026): una sola lista de páginas, metadatos únicos y datos estructurados sin precios ni cifras.
 describe('registro de páginas (src/data/seoPages.json)', () => {
@@ -115,5 +117,37 @@ describe('preguntas frecuentes', () => {
     const p = FAQ.find(f => f.id === 'cuanto-cuesta')!;
     expect(p.answer).toMatch(/diagnóstico sin costo/);
     expect(p.answer).not.toMatch(/\d/);
+  });
+});
+
+describe('páginas por agente', () => {
+  it('hay una página por agente, con ruta única y registrada en el SEO', () => {
+    expect(AGENT_PAGES).toHaveLength(ALL_AGENTS.length);
+    const paths = AGENT_PAGES.map(p => p.path);
+    expect(new Set(paths).size).toBe(paths.length);
+    paths.forEach(p => expect(p).toMatch(/^\/agentes\/[a-z0-9]+(-[a-z0-9]+)*$/));
+    paths.forEach(p => expect(SEO_PAGES.map(x => x.path)).toContain(p));
+    ALL_AGENTS.forEach(a => expect(agentPath(a)).toBe(`/agentes/${slugify(a.name)}`));
+  });
+
+  it('cada página tiene título y descripción propios, sin SAP ni cifras', () => {
+    AGENT_PAGES.forEach(p => {
+      expect(p.title.length).toBeLessThanOrEqual(65);
+      expect(p.description.length).toBeGreaterThanOrEqual(60);
+      expect(p.description.length).toBeLessThanOrEqual(165);
+      expect(`${p.title} ${p.description}`).not.toMatch(/\bSAP\b|\d+ ?%|\$ ?\d/);
+    });
+  });
+
+  it('su JSON-LD trae el servicio, las migas hasta Agentes y un FAQPage con las mismas preguntas', () => {
+    ALL_AGENTS.forEach(a => {
+      const g: any[] = buildJsonLd(agentPath(a))['@graph'];
+      expect(g.some(n => n['@type'] === 'Service' && n.serviceType === 'Agente de IA')).toBe(true);
+      const crumbs: any = g.find(n => n['@type'] === 'BreadcrumbList');
+      expect(crumbs.itemListElement.map((c: any) => c.name)).toEqual(['Inicio', 'Agentes', a.name.charAt(0).toUpperCase() + a.name.slice(1)]);
+      const page: any = g.find(n => n['@id'] === `${pageUrl(agentPath(a))}#webpage`);
+      expect(page['@type']).toBe('FAQPage');
+      expect(page.mainEntity.map((q: any) => q.name)).toEqual(agentFaq(a).map(f => f.question));
+    });
   });
 });

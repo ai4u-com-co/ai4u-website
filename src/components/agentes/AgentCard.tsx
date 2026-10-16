@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { agentPath } from '@/data/agentPages';
 import { NIVELES, type Agent, type AgentStatus } from '@/data/agents';
 import { generateAgentIdenticon, generateAgentFace, formatAgentCode } from '@/utils/pixelIdenticon';
 import FaceTile from './FaceTile';
@@ -49,7 +51,9 @@ const AgentCard: React.FC<AgentCardProps> = ({ agent, onRecruit, startFlipped = 
           </div>
           <FaceTile name={agent.name} className="a4-photo" />
           <div>
-            <h3 className="a4-sub a4-agentes-name" style={{ fontSize: 'clamp(20px, 1.8vw, 26px)' }}>{agent.name}</h3>
+            <h3 className="a4-sub a4-agentes-name" style={{ fontSize: 'clamp(20px, 1.8vw, 26px)' }}>
+              <Link to={agentPath(agent)} className="a4-agentes-name-link" onClick={() => window.scrollTo(0, 0)}>{agent.name}</Link>
+            </h3>
             <span className={`a4-agentes-status ${agent.status}`} style={{ marginTop: 8 }}>{STATUS_LABEL[agent.status]}</span>
           </div>
           <p className="a4-agentes-level">

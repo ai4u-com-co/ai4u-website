@@ -1,7 +1,8 @@
 // Datos estructurados (schema.org) de todo el sitio, en un solo lugar. Cada página recibe un @graph con
 // la organización, el sitio, la página y su ruta de migas; las páginas con contenido propio suman su entidad
 // (catálogo de agentes, aplicación orderLoader, preguntas frecuentes...). Solo hechos que el sitio publica.
-import pages from '../data/seoPages.json';
+import { SEO_PAGES_ALL } from '../data/allSeoPages';
+import { AGENT_PAGES, agentFaq } from '../data/agentPages';
 import { ALL_AGENTS } from '../data/agents';
 import { CASES } from '../data/cases';
 import { SITES } from '../data/sitiosWeb';
@@ -21,7 +22,12 @@ export interface SeoPage {
   priority: number;
   sitemap: boolean;
 }
-export const SEO_PAGES = pages as SeoPage[];
+// Páginas estáticas (src/data/seoPages.json) + una por agente (src/data/agentPages.ts)
+export const SEO_PAGES = SEO_PAGES_ALL as SeoPage[];
+const agentOf = (path: string) => {
+  const ap = AGENT_PAGES.find(p => p.path === path);
+  return ap ? ALL_AGENTS.find(a => a.name === ap.agentName) : undefined;
+};
 
 export const pageUrl = (path: string) => (path === '/' ? `${SITE_URL}/` : `${SITE_URL}${path}`);
 export const getSeoPage = (path: string): SeoPage => {
@@ -82,20 +88,26 @@ export const websiteNode = () => ({
 export const breadcrumbNode = (path: string) => {
   if (path === '/') return null;
   const page = getSeoPage(path);
+  const crumbs = [{ name: 'Inicio', url: `${SITE_URL}/` }];
+  if (agentOf(path)) crumbs.push({ name: 'Agentes', url: pageUrl('/agentes') });
+  crumbs.push({ name: page.name, url: pageUrl(path) });
   return {
     '@type': 'BreadcrumbList',
     '@id': `${pageUrl(path)}#breadcrumb`,
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${SITE_URL}/` },
-      { '@type': 'ListItem', position: 2, name: page.name, item: pageUrl(path) },
-    ],
+    itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: c.url })),
   };
+};
+
+const faqFor = (path: string): { question: string; answer: string }[] => {
+  if (path === '/preguntas-frecuentes') return FAQ;
+  const agent = agentOf(path);
+  return agent ? agentFaq(agent) : [];
 };
 
 const webPageNode = (path: string) => {
   const page = getSeoPage(path);
   return {
-    '@type': page.type,
+    '@type': faqFor(path).length ? 'FAQPage' : page.type,
     '@id': `${pageUrl(path)}#webpage`,
     url: pageUrl(path),
     name: page.title,
@@ -105,8 +117,8 @@ const webPageNode = (path: string) => {
     about: { '@id': ORG_ID },
     ...(path === '/' ? {} : { breadcrumb: { '@id': `${pageUrl(path)}#breadcrumb` } }),
     // La página de preguntas es un solo nodo FAQPage con sus preguntas (no dos nodos separados).
-    ...(page.type === 'FAQPage'
-      ? { mainEntity: FAQ.map(f => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) }
+    ...(faqFor(path).length
+      ? { mainEntity: faqFor(path).map(f => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) }
       : {}),
   };
 };
@@ -180,8 +192,21 @@ const extrasFor = (path: string): object[] => {
       })))];
     case '/por-que-ai4u':
       return [{ '@type': 'Person', '@id': `${SITE_URL}/#founder`, name: 'Mariano', jobTitle: 'Fundador de Ai4U', url: 'https://www.linkedin.com/in/mariano3/', worksFor: { '@id': ORG_ID } }];
-    default:
-      return [];
+    default: {
+      const agent = agentOf(path);
+      if (!agent) return [];
+      return [{
+        '@type': 'Service',
+        '@id': `${pageUrl(path)}#service`,
+        name: cap(agent.name),
+        description: cap(agent.pitch),
+        serviceType: 'Agente de IA',
+        category: agent.clase,
+        provider: { '@id': ORG_ID },
+        areaServed: 'CO',
+        isRelatedTo: { '@type': 'Service', name: 'Catálogo de agentes de IA de Ai4U', url: pageUrl('/agentes') },
+      }];
+    }
   }
 };
 

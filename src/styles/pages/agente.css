@@ -1,0 +1,15 @@
+/* Página de un agente. Prefijo a4-agente- */
+.a4-agente-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 220px); gap: clamp(20px, 4vw, 60px); align-items: end; }
+.a4-agente-head > * { min-width: 0; }
+.a4-agente-head nav a { text-decoration: none; }
+.a4-agente-head nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.a4-agente-title { margin: 18px 0 18px; overflow-wrap: anywhere; }
+.a4-agente-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; margin: 18px 0 0; }
+.a4-agente-face { width: 100%; max-width: 220px; justify-self: end; }
+.a4-agente-rows .a4-row { align-items: start; }
+.a4-agente-rows dt, .a4-agente-rows dd { margin: 0; }
+.a4-agente-rows dd { font-size: clamp(16px, 1.5vw, 19px); line-height: 1.5; }
+@media (max-width: 900px) {
+  .a4-agente-head { grid-template-columns: minmax(0, 1fr); }
+  .a4-agente-face { max-width: 150px; justify-self: start; order: -1; }
+}
