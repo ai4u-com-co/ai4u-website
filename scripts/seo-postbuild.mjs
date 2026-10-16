@@ -16,20 +16,43 @@ const fileOf = (path) => join(DIST, path === '/' ? '' : path.slice(1), 'index.ht
 const decode = (s) => s.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#x27;|&#39;/g, "'").replace(/&nbsp;/g, ' ');
 
 // ---------- 1. sitemap.xml ----------
+// Archivos que, al cambiar, cambian el contenido de cada página (la fecha del sitemap es la del más reciente).
 const SOURCES = {
-  '/': 'src/pages/Home.tsx', '/agentes': 'src/pages/Agentes.tsx', '/dashboards': 'src/pages/Dashboards.tsx',
-  '/servicios': 'src/pages/Services.tsx', '/sitios-web': 'src/pages/SitiosWeb.tsx', '/orderloader': 'src/pages/OrderLoader.tsx',
-  '/portafolio': 'src/pages/Portfolio.tsx', '/por-que-ai4u': 'src/pages/WhyAI4U.tsx', '/preguntas-frecuentes': 'src/data/faq.ts',
+  '/': ['src/pages/Home.tsx', 'src/data/agents.ts', 'src/data/cases.ts'],
+  '/agentes': ['src/pages/Agentes.tsx', 'src/data/agents.ts', 'src/components/agentes'],
+  '/dashboards': ['src/pages/Dashboards.tsx'],
+  '/servicios': ['src/pages/Services.tsx'],
+  '/sitios-web': ['src/pages/SitiosWeb.tsx', 'src/data/sitiosWeb.ts'],
+  '/orderloader': ['src/pages/OrderLoader.tsx'],
+  '/portafolio': ['src/pages/Portfolio.tsx', 'src/data/cases.ts'],
+  '/por-que-ai4u': ['src/pages/WhyAI4U.tsx'],
+  '/preguntas-frecuentes': ['src/pages/Faq.tsx', 'src/data/faq.ts'],
 };
 let shallow = true;
 try { shallow = execSync('git rev-parse --is-shallow-repository', { cwd: ROOT, stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim() !== 'false'; } catch { /* sin git */ }
-const lastmod = (path) => {
-  if (shallow || !SOURCES[path]) return null; // con historial recortado la fecha sería falsa: mejor omitirla
-  try { return execSync(`git log -1 --format=%cs -- ${SOURCES[path]}`, { cwd: ROOT, stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim() || null; } catch { return null; }
+// Fecha del último commit que tocó un archivo: git si hay historial completo; si no (Vercel clona con historial
+// recortado), la API pública de GitHub. Si ninguna responde se omite lastmod: una fecha falsa es peor que ninguna.
+const REPO = 'ai4u-com-co/ai4u-website';
+const fileDate = async (file) => {
+  if (!shallow) {
+    try { return execSync(`git log -1 --format=%cI -- ${file}`, { cwd: ROOT, stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim() || null; } catch { return null; }
+  }
+  try {
+    const headers = { 'User-Agent': 'ai4u-website-build', Accept: 'application/vnd.github+json', ...(process.env.GITHUB_TOKEN ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` } : {}) };
+    const r = await fetch(`https://api.github.com/repos/${REPO}/commits?path=${encodeURIComponent(file)}&sha=master&per_page=1`, { headers, signal: AbortSignal.timeout(6000) });
+    if (!r.ok) return null;
+    return (await r.json())[0]?.commit?.committer?.date || null;
+  } catch { return null; }
 };
+const lastmod = async (path) => {
+  const dates = (await Promise.all((SOURCES[path] || []).map(fileDate))).filter(Boolean);
+  if (dates.length === 0 || dates.length < (SOURCES[path] || []).length) return null; // si falta alguna fecha, mejor omitir
+  return dates.sort().pop().slice(0, 10);
+};
+const mods = Object.fromEntries(await Promise.all(PAGES.filter((p) => p.sitemap).map(async (p) => [p.path, await lastmod(p.path)])));
 const sitemap = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
   .concat(PAGES.filter((p) => p.sitemap).map((p) => {
-    const lm = lastmod(p.path);
+    const lm = mods[p.path];
     return `  <url>\n    <loc>${urlOf(p.path)}</loc>${lm ? `\n    <lastmod>${lm}</lastmod>` : ''}\n  </url>`;
   }))
   .concat('</urlset>', '').join('\n');
@@ -120,6 +143,7 @@ for (const page of PAGES) {
 writeFileSync(join(DIST, 'llms-full.txt'), full);
 
 console.table(report);
+console.log(`[seo] lastmod en ${Object.values(mods).filter(Boolean).length}/${Object.keys(mods).length} URL`);
 console.log(`[seo] sitemap.xml: ${PAGES.filter((p) => p.sitemap).length} URL · llms-full.txt: ${(full.length / 1024).toFixed(0)} KB`);
 warnings.forEach((w) => console.warn(`[seo] aviso: ${w}`));
 if (errors.length) {
