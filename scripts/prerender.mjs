@@ -3,13 +3,14 @@
 // Si Playwright no tiene navegador instalado, se salta con warning (el build no falla).
 import { createServer } from 'node:http';
 import { readFile, mkdir, writeFile, access } from 'node:fs/promises';
-import { readFileSync } from 'node:fs';
+import { loadSeoPages } from './lib/seo-pages.mjs';
 import { join, extname, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const DIST = join(dirname(fileURLToPath(import.meta.url)), '..', 'dist');
 // Una sola lista de páginas para el prerender, el sitemap y las validaciones: src/data/seoPages.json
-const ROUTES = JSON.parse(readFileSync(join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'data', 'seoPages.json'), 'utf8')).map((p) => p.path);
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+const ROUTES = (await loadSeoPages(ROOT)).map((p) => p.path);
 const PORT = 4173;
 
 const MIME = {

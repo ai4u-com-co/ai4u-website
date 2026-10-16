@@ -5,11 +5,12 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execSync } from 'node:child_process';
+import { loadSeoPages } from './lib/seo-pages.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = join(ROOT, 'dist');
 const SITE = 'https://www.ai4u.com.co';
-const PAGES = JSON.parse(readFileSync(join(ROOT, 'src', 'data', 'seoPages.json'), 'utf8'));
+const PAGES = await loadSeoPages(ROOT);
 
 const urlOf = (path) => (path === '/' ? `${SITE}/` : `${SITE}${path}`);
 const fileOf = (path) => join(DIST, path === '/' ? '' : path.slice(1), 'index.html');
@@ -33,7 +34,12 @@ try { shallow = execSync('git rev-parse --is-shallow-repository', { cwd: ROOT, s
 // Fecha del último commit que tocó un archivo: git si hay historial completo; si no (Vercel clona con historial
 // recortado), la API pública de GitHub. Si ninguna responde se omite lastmod: una fecha falsa es peor que ninguna.
 const REPO = 'ai4u-com-co/ai4u-website';
-const fileDate = async (file) => {
+const dateCache = new Map();
+const fileDate = (file) => {
+  if (!dateCache.has(file)) dateCache.set(file, fileDateUncached(file));
+  return dateCache.get(file);
+};
+const fileDateUncached = async (file) => {
   if (!shallow) {
     try { return execSync(`git log -1 --format=%cI -- ${file}`, { cwd: ROOT, stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim() || null; } catch { return null; }
   }
@@ -45,8 +51,9 @@ const fileDate = async (file) => {
   } catch { return null; }
 };
 const lastmod = async (path) => {
-  const dates = (await Promise.all((SOURCES[path] || []).map(fileDate))).filter(Boolean);
-  if (dates.length === 0 || dates.length < (SOURCES[path] || []).length) return null; // si falta alguna fecha, mejor omitir
+  const sources = SOURCES[path] || PAGES.find((p) => p.path === path)?.sources || [];
+  const dates = (await Promise.all(sources.map(fileDate))).filter(Boolean);
+  if (dates.length === 0 || dates.length < sources.length) return null; // si falta alguna fecha, mejor omitir
   return dates.sort().pop().slice(0, 10);
 };
 const mods = Object.fromEntries(await Promise.all(PAGES.filter((p) => p.sitemap).map(async (p) => [p.path, await lastmod(p.path)])));
