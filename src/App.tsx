@@ -1,10 +1,11 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { Layout, ScrollToTop, BasicLoadingWrapper } from './components/shared/ui/layouts';
 import { ErrorBoundary } from './components/shared/ui/molecules';
 import { ThemeProvider, ServicesProvider } from '@/context';
 import { ROUTES } from './utils/constants';
+import { lazyWithReload as lazy } from './utils/lazyWithReload';
 import './utils/errorTracking';
 // Home se importa directo (ruta crítica / LCP); el resto va lazy para partir el bundle
 import Home from './pages/Home';
