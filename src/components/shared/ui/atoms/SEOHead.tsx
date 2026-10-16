@@ -1,77 +1,57 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { SITE_URL, buildJsonLd, getSeoPage, pageUrl } from '../../../../utils/jsonld';
 
 interface SEOHeadProps {
-  title?: string;
-  description?: string;
-  keywords?: string;
-  canonical?: string;
-  ogImage?: string;
-  ogType?: string;
-  structuredData?: object;
+  /** Ruta de la página (debe estar en src/data/seoPages.json). De ahí salen título, descripción, canónica y datos estructurados. */
+  path: string;
   noIndex?: boolean;
-  noFollow?: boolean;
+  ogImage?: string;
 }
 
-const SEOHead: React.FC<SEOHeadProps> = ({
-  title = 'AI4U - Inteligencia Artificial para tu Negocio',
-  description = 'AI4U es la primera capa de inteligencia de tu empresa. Equipos de agentes de IA que trabajan como parte de tu equipo.',
-  keywords = 'inteligencia artificial, IA, automatización, agentes de IA, capa de inteligencia, AI empresarial, Colombia',
-  canonical,
-  ogImage = 'https://www.ai4u.com.co/assets/images/whatsapp-share.png',
-  ogType = 'website',
-  structuredData,
-  noIndex = false,
-  noFollow = false,
-}) => {
-  const fullTitle = title.includes('AI4U') ? title : `${title} | AI4U`;
-  const fullCanonical = canonical || window.location.href;
-  const robotsContent = noIndex || noFollow 
-    ? `${noIndex ? 'noindex' : 'index'},${noFollow ? 'nofollow' : 'follow'}`
+const DEFAULT_OG_IMAGE = `${SITE_URL}/assets/images/whatsapp-share.png`;
+
+// Una sola fuente de metadatos por página. La canónica sale SIEMPRE de la ruta registrada y nunca de
+// window.location: durante el prerender la URL es localhost y terminaba en la etiqueta canonical.
+const SEOHead: React.FC<SEOHeadProps> = ({ path, noIndex = false, ogImage = DEFAULT_OG_IMAGE }) => {
+  const page = getSeoPage(path);
+  const url = pageUrl(path);
+  const robots = noIndex
+    ? 'noindex, follow'
     : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1';
 
   return (
     <Helmet>
-      {/* Meta tags básicos */}
-      <title>{fullTitle}</title>
-      <meta name="description" content={description} />
-      <meta name="keywords" content={keywords} />
-      <meta name="robots" content={robotsContent} />
-      
-      {/* Canonical URL */}
-      <link rel="canonical" href={fullCanonical} />
-      
-      {/* Open Graph */}
-      <meta property="og:title" content={fullTitle} />
-      <meta property="og:description" content={description} />
-      <meta property="og:type" content={ogType} />
-      <meta property="og:url" content={fullCanonical} />
+      <title>{page.title}</title>
+      <meta name="description" content={page.description} />
+      <meta name="robots" content={robots} />
+      <link rel="canonical" href={url} />
+      <link rel="alternate" hrefLang="es-CO" href={url} />
+      <link rel="alternate" hrefLang="x-default" href={url} />
+
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="Ai4U" />
+      <meta property="og:locale" content="es_CO" />
+      <meta property="og:title" content={page.title} />
+      <meta property="og:description" content={page.description} />
+      <meta property="og:url" content={url} />
       <meta property="og:image" content={ogImage} />
       <meta property="og:image:secure_url" content={ogImage} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image:type" content="image/png" />
-      <meta property="og:image:alt" content="AI4U" />
-      <meta property="og:site_name" content="AI4U" />
-      <meta property="og:locale" content="es_CO" />
+      <meta property="og:image:alt" content={`${page.name} · Ai4U`} />
 
-      {/* Twitter Card */}
-      <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:title" content={fullTitle} />
-      <meta property="twitter:description" content={description} />
-      <meta property="twitter:image" content={ogImage} />
-      <meta property="twitter:image:alt" content="AI4U" />
-      <meta property="twitter:site" content="@ai4u_co" />
-      <meta property="twitter:creator" content="@ai4u_co" />
-      
-      {/* Structured Data */}
-      {structuredData && (
-        <script type="application/ld+json">
-          {JSON.stringify(structuredData)}
-        </script>
-      )}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@_ai4u_" />
+      <meta name="twitter:title" content={page.title} />
+      <meta name="twitter:description" content={page.description} />
+      <meta name="twitter:image" content={ogImage} />
+      <meta name="twitter:image:alt" content={`${page.name} · Ai4U`} />
+
+      <script type="application/ld+json">{JSON.stringify(buildJsonLd(path))}</script>
     </Helmet>
   );
 };
 
-export default SEOHead; 
+export default SEOHead;

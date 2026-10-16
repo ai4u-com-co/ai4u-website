@@ -1,151 +1,57 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-CO">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
     
     <!-- Viewport optimizado para móviles -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     
-    <!-- Prevención de caché para index.html -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    
     <!-- Content Security Policy básico -->
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://translate.googleapis.com https://www.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.google.com https://www.googletagmanager.com https://translate.googleapis.com https://translate.google.com https://translate-pa.googleapis.com; frame-src 'self' https://translate.google.com https://translate.googleapis.com;" />
-    
-    <!-- Meta tags básicos SEO -->
-    <title>AI4U - Recupera tiempo automatizando tu operación</title>
-    <meta name="description" content="Automatizamos lo repetitivo, conectamos tu ERP, construimos tu software y tu sitio web. Sin vueltas, en producción." />
-    <meta name="keywords" content="automatización de procesos, mejora de procesos, software a medida, sitios web, conexión ERP, inteligencia artificial, AI4U, Colombia" />
-    <meta name="author" content="AI4U" />
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-    <meta name="googlebot" content="index, follow" />
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://www.ai4u.com.co" />
-
-    <!-- Script para soportar React Router en GitHub Pages -->
-    <script type="text/javascript">
-      // Single Page Apps for GitHub Pages
-      // https://github.com/rafgraph/spa-github-pages
-      // Copyright (c) 2016 Rafael Pedicini, licensed under the MIT License
-      // ----------------------------------------------------------------------
-      // Este script comprueba si hay un redirect presente en la query string,
-      // lo convierte de nuevo en la url correcta y lo añade al historial
-      // del navegador usando window.history.replaceState(...)
-      (function(l) {
-        if (l.search[1] === '/' ) {
-          var decoded = l.search.slice(1).split('&').map(function(s) { 
-            return s.replace(/~and~/g, '&')
-          }).join('?');
-          window.history.replaceState(null, null,
-              l.pathname.slice(0, -1) + decoded + l.hash
-          );
-        }
-      }(window.location))
-    </script>
-    
-    <!-- Open Graph / Facebook / WhatsApp -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.ai4u.com.co" />
-    <meta property="og:title" content="AI4U - Recupera tiempo automatizando tu operación" />
-    <meta property="og:description" content="Automatizamos lo repetitivo, conectamos tu ERP, construimos tu software y tu sitio web. Sin vueltas, en producción." />
-    <meta property="og:image" content="https://www.ai4u.com.co/assets/images/whatsapp-share.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="AI4U" />
-    <meta property="og:site_name" content="AI4U" />
-    <meta property="og:locale" content="es_CO" />
-    <meta property="og:locale:alternate" content="en_US" />
-    
-    <!-- WhatsApp específico -->
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:secure_url" content="https://www.ai4u.com.co/assets/images/whatsapp-share.png" />
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://www.ai4u.com.co" />
-    <meta property="twitter:title" content="AI4U - Recupera tiempo automatizando tu operación" />
-    <meta property="twitter:description" content="Automatizamos lo repetitivo, conectamos tu ERP, construimos tu software y tu sitio web. Sin vueltas, en producción." />
-    <meta property="twitter:image" content="https://www.ai4u.com.co/assets/images/whatsapp-share.png" />
-    <meta property="twitter:image:alt" content="AI4U" />
-    <meta property="twitter:site" content="@ai4u_co" />
-    <meta property="twitter:creator" content="@ai4u_co" />
+    <!-- Meta tags básicos: título, descripción, canónica, Open Graph, Twitter y datos estructurados los pone SEOHead en cada página (src/components/shared/ui/atoms/SEOHead.tsx) -->
+    <title>Ai4U: agentes de IA, dashboards y software a la medida</title>
+    <meta name="author" content="Ai4U" />
     
     <!-- Meta tags para PWA -->
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#e5e4e0" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="AI4U" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="msapplication-TileColor" content="#000000" />
+    <meta name="msapplication-TileColor" content="#e5e4e0" />
     <meta name="msapplication-tap-highlight" content="no" />
     
     <!-- Iconos para diferentes dispositivos -->
-    <link rel="apple-touch-icon" href="/assets/images/robot-assistant.png" />
-    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/robot-assistant.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/robot-assistant.png" />
-    <link rel="apple-touch-icon" sizes="167x167" href="/assets/images/robot-assistant.png" />
-    
     <link rel="manifest" href="/manifest.json" />
     
     <!-- Preconnect para fuentes y recursos externos -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="preconnect" href="https://www.google-analytics.com">
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <link rel="dns-prefetch" href="https://www.google-analytics.com">
     
-    <!-- Fuentes: un único link con display=swap y pesos usados (Red Hat 300,400,600,900; Fira Mono 400,500) -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;900&family=Fira+Mono:wght@400;500&display=swap">
+    <!-- Fuentes: carga sin bloquear el primer pintado (display=swap) -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;900&family=Fira+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;900&family=Fira+Mono:wght@400;500&display=swap"></noscript>
+    <link rel="preload" href="/fonts/NectoMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
     
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-44D5SE9KCR"></script>
+    <!-- Google Analytics: los eventos se encolan en dataLayer desde el inicio y el script se pide después de la carga (no compite con el CSS crítico) -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-44D5SE9KCR', {
-        page_title: 'AI4U - Inteligencia Artificial para tu Negocio',
-        page_location: window.location.href
+      gtag('config', 'G-44D5SE9KCR', { page_location: window.location.href });
+      window.addEventListener('load', function () {
+        var load = function () {
+          var t = document.createElement('script');
+          t.async = true;
+          t.src = 'https://www.googletagmanager.com/gtag/js?id=G-44D5SE9KCR';
+          document.head.appendChild(t);
+        };
+        if ('requestIdleCallback' in window) requestIdleCallback(load, { timeout: 4000 }); else setTimeout(load, 2000);
       });
-    </script>
-    
-    <!-- Structured Data - Organization -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "AI4U",
-      "url": "https://www.ai4u.com.co",
-      "logo": "https://www.ai4u.com.co/assets/images/whatsapp-share.png",
-      "description": "Ponemos inteligencia artificial a trabajar en la operación de tu empresa",
-      "foundingDate": "2023",
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "CO",
-        "addressRegion": "Colombia"
-      },
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+57-302-490-6414",
-        "contactType": "customer service",
-        "email": "hola@ai4u.com.co"
-      },
-      "sameAs": [
-        "https://linkedin.com/company/ai4u",
-        "https://twitter.com/ai4u_co",
-        "https://instagram.com/ai4u_co"
-      ],
-      "serviceArea": {
-        "@type": "Country",
-        "name": "Colombia"
-      }
-    }
     </script>
   </head>
   <body>

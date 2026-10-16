@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { SEOHead } from '../components/shared/ui/atoms';
-import { getPageMetaTags } from '../utils/seo';
 import { getRelatedLinks } from '../data/internalLinkingStrategy';
 import { CASES } from '../data/cases';
 import { ROUTES, APP_CONFIG } from '../utils/constants';
@@ -13,18 +12,12 @@ const whatsappUrl = `https://wa.me/${APP_CONFIG.CONTACT.WHATSAPP}?text=${encodeU
 
 // Ruta /portafolio, mostrada como "Casos": se conserva la URL por continuidad en buscadores.
 const Portfolio = () => {
-  const metaTags = getPageMetaTags('portfolio');
   const relatedLinks = getRelatedLinks(ROUTES.PORTFOLIO);
   const top = () => scrollToTop('auto');
 
   return (
     <div className="a4 a4-page">
-      <SEOHead
-        title={metaTags.title}
-        description={metaTags.description}
-        keywords={metaTags.keywords}
-        canonical="https://www.ai4u.com.co/portafolio"
-      />
+      <SEOHead path="/portafolio" />
 
       <header className="a4-page-head a4-wrap">
         <p className="a4-cap">Casos · {CASES.length} empresas</p>

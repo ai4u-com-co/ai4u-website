@@ -20,6 +20,14 @@ export const SITE_LINKS: SiteLink[] = [
   { name: 'Nosotros', path: ROUTES.WHY_AI4U, note: 'La parte humana de la IA' },
 ];
 
+// Enlaces del pie que no son destinos del menú: preguntas frecuentes y legales (rastreables desde todas las páginas).
+export const FOOTER_EXTRA_LINKS: { name: string; path: string }[] = [
+  { name: 'Preguntas frecuentes', path: ROUTES.FAQ },
+  { name: 'Privacidad', path: ROUTES.PRIVACY_POLICY },
+  { name: 'Condiciones', path: ROUTES.TERMS_OF_SERVICE },
+  { name: 'Eliminación de datos', path: ROUTES.DATA_DELETION },
+];
+
 export const SOCIAL_LINKS = [
   { name: 'Instagram', url: 'https://www.instagram.com/ai.4.u_/' },
   { name: 'Facebook', url: 'https://www.facebook.com/artificial.intelligence.4.you/' },

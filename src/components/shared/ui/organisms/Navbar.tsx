@@ -71,7 +71,7 @@ const Navbar = () => {
     <header className={`a4 a4-nav${scrolled ? ' is-scrolled' : ''}`}>
       <nav className="a4-nav-in a4-wrap" aria-label="Principal">
         <RouterLink to={ROUTES.HOME} aria-label="Ai4U, inicio" onClick={go}>
-          <img src="/assets/images/logo-v2-negro.png" alt="Ai4U" width={90} height={30} />
+          <img src="/assets/images/logo-v2-negro.png" alt="Ai4U" width={81} height={30} />
         </RouterLink>
         <button
           ref={btnRef}
@@ -96,7 +96,7 @@ const Navbar = () => {
       >
         <div className="a4-nav-in a4-wrap a4-menu-bar">
           <RouterLink to={ROUTES.HOME} aria-label="Ai4U, inicio" onClick={go}>
-            <img src="/assets/images/logo-v2-negro.png" alt="Ai4U" width={90} height={30} />
+            <img src="/assets/images/logo-v2-negro.png" alt="Ai4U" width={81} height={30} />
           </RouterLink>
           <button type="button" className="a4-ghost a4-menu-btn" onClick={close}>Cerrar −</button>
         </div>

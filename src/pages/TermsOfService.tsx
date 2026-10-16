@@ -5,10 +5,7 @@ import '../styles/pages/legal.css';
 
 const TermsOfService = () => (
   <div className="a4 a4-page a4-legal">
-    <SEOHead
-      title="Condiciones de Servicio | Ads Manager"
-      description="Términos y condiciones legales para el uso de nuestra aplicación de Facebook Ads."
-    />
+    <SEOHead path="/condiciones-de-servicio" />
     <div className="a4-wrap">
       <header className="a4-page-head">
         <p className="a4-cap">Legal</p>

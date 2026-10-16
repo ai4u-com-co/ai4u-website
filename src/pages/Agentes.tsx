@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { SEOHead } from '@/components/shared/ui/atoms';
-import { getPageMetaTags, getCanonicalUrl } from '@/utils/seo';
 import { AGENT_GROUPS, ALL_AGENTS, NIVELES, type Agent, type AgentStatus, type Nivel } from '@/data/agents';
 import type { ToolId } from '@/data/tools';
 import AgentCard, { Pips } from '@/components/agentes/AgentCard';
@@ -28,7 +27,6 @@ function computeCounts(agents: Agent[]): FilterCounts {
 const whatsappUrl = `https://wa.me/${APP_CONFIG.CONTACT.WHATSAPP}?text=${encodeURIComponent(APP_CONFIG.CONTACT.WHATSAPP_MESSAGE)}`;
 
 const Agentes: React.FC = () => {
-  const metaTags = getPageMetaTags('agentes');
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [search, setSearch] = useState('');
@@ -75,7 +73,7 @@ const Agentes: React.FC = () => {
 
   return (
     <div className="a4 a4-page">
-      <SEOHead title={metaTags.title} description={metaTags.description} canonical={getCanonicalUrl('/agentes')} />
+      <SEOHead path="/agentes" />
 
       <div className="a4-wrap" style={{ paddingBottom: 'clamp(56px, 8vw, 119px)' }}>
         {reclutado && agenteActivo ? (

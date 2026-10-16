@@ -44,6 +44,9 @@ jobs:
       - name: Prerender rutas públicas
         run: node scripts/prerender.mjs
 
+      - name: SEO (sitemap, llms-full.txt y validación)
+        run: node scripts/seo-postbuild.mjs
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 

@@ -5,10 +5,7 @@ import '../styles/pages/legal.css';
 
 const PrivacyPolicy = () => (
   <div className="a4 a4-page a4-legal">
-    <SEOHead
-      title="Política de Privacidad | Ads Manager"
-      description="Información sobre cómo manejamos tus datos en nuestra aplicación de Facebook Ads."
-    />
+    <SEOHead path="/politica-de-privacidad" />
     <div className="a4-wrap">
       <header className="a4-page-head">
         <p className="a4-cap">Legal</p>

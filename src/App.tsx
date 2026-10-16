@@ -14,6 +14,7 @@ const Services = lazy(() => import('./pages/Services'));
 const Agentes = lazy(() => import('./pages/Agentes'));
 const Dashboards = lazy(() => import('./pages/Dashboards'));
 const WhyAI4U = lazy(() => import('./pages/WhyAI4U'));
+const Faq = lazy(() => import('./pages/Faq'));
 const Portfolio = lazy(() => import('./pages/Portfolio'));
 const SitiosWeb = lazy(() => import('./pages/SitiosWeb'));
 const OrderLoader = lazy(() => import('./pages/OrderLoader'));
@@ -60,6 +61,11 @@ function App() {
                           <Route
                             path={ROUTES.WHY_AI4U}
                             element={<WhyAI4U />}
+                          />
+
+                          <Route
+                            path={ROUTES.FAQ}
+                            element={<Faq />}
                           />
 
                           {/* Portfolio Route */}

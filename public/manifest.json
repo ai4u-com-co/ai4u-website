@@ -1,30 +1,37 @@
 {
-  "short_name": "AI4U",
-  "name": "AI4U - Soluciones de Inteligencia Artificial",
+  "short_name": "Ai4U",
+  "name": "Ai4U: inteligencia artificial para tu operación",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "src": "/favicon.ico",
+      "sizes": "48x48 32x32 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "assets/images/robot-assistant.png",
+      "src": "/assets/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "assets/images/robot-assistant.png",
+      "src": "/assets/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff",
-  "orientation": "portrait-primary",
+  "theme_color": "#e5e4e0",
+  "background_color": "#e5e4e0",
+  "orientation": "any",
   "scope": "/",
-  "lang": "es"
-} 
+  "lang": "es-CO",
+  "description": "Agentes de IA, dashboards y software a la medida."
+}
