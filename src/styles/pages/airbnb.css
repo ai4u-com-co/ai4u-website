@@ -1,0 +1,21 @@
+/* Landing del agente para Airbnb. Prefijo a4-bnb- */
+.a4-bnb-head { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(24px, 4vw, 64px); align-items: end; }
+.a4-bnb-head > * { min-width: 0; }
+.a4-bnb-head nav a { text-decoration: none; }
+.a4-bnb-head nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.a4-bnb-title { margin: 18px 0 18px; overflow-wrap: anywhere; }
+.a4-bnb-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; margin: 26px 0 0; }
+.a4-bnb-chat { margin: 0; display: grid; gap: 10px; padding: clamp(16px, 2vw, 26px); background: var(--a4-paper); border: 1px solid var(--a4-ash); border-radius: 10px; min-width: 0; }
+.a4-bnb-msg { margin: 0; padding: 10px 14px; max-width: 88%; font-size: 15px; line-height: 1.45; border-radius: 10px; overflow-wrap: anywhere; }
+.a4-bnb-msg.in { justify-self: start; border: 1px solid var(--a4-ash); }
+.a4-bnb-msg.out { justify-self: end; background: var(--a4-ink); color: var(--a4-canvas); }
+.a4-bnb-note { margin: 4px 0 0; color: #55554f; }
+.a4-bnb-steps, .a4-bnb-list { list-style: none; padding-inline: 0; margin-block: clamp(24px, 3vw, 40px) 0; }
+.a4-bnb-steps .a4-row h3, .a4-bnb-steps .a4-row p { margin: 0; }
+.a4-bnb-grid { margin-top: clamp(24px, 3vw, 40px); }
+.a4-bnb-card { padding: 26px; display: grid; gap: 12px; align-content: start; min-width: 0; background: var(--a4-paper); border: 1px solid var(--a4-ash); border-radius: 10px; }
+.a4-bnb-card h3, .a4-bnb-card p { margin: 0; }
+@media (max-width: 900px) {
+  .a4-bnb-head { grid-template-columns: minmax(0, 1fr); }
+  .a4-bnb-msg { max-width: 94%; }
+}

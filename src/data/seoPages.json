@@ -18,6 +18,15 @@
     "sitemap": true
   },
   {
+    "path": "/agente-airbnb",
+    "name": "Agente para Airbnb",
+    "title": "Agente de IA para anfitriones de Airbnb | Ai4U",
+    "description": "Un agente que acompaña cada reserva de Airbnb: mensajes a los huéspedes, registro, aseo y reportes para el propietario.",
+    "type": "WebPage",
+    "priority": 0.8,
+    "sitemap": true
+  },
+  {
     "path": "/dashboards",
     "name": "Dashboards",
     "title": "Dashboards: cómo va tu empresa, siempre al día | Ai4U",

@@ -59,6 +59,16 @@ const AgentePage: React.FC = () => {
         </dl>
       </section>
 
+      {agent.name === 'agente de huéspedes' && (
+        <section className="a4-section a4-wrap" aria-label="Versión para Airbnb">
+          <div className="a4-sec-label"><span className="a4-cap">Para anfitriones de Airbnb</span></div>
+          <p className="a4-sm" style={{ maxWidth: '62ch', margin: '0 0 16px' }}>
+            Este agente tiene una versión especializada para quienes alquilan en Airbnb, con el recorrido completo de cada reserva.
+          </p>
+          <Link className="a4-pill" to={ROUTES.AGENTE_AIRBNB} onClick={top}>Ver el agente para Airbnb →</Link>
+        </section>
+      )}
+
       <section className="a4-section a4-wrap" aria-label="Preguntas sobre este agente">
         <div className="a4-sec-label"><span className="a4-cap">Preguntas sobre este agente</span></div>
         <div className="a4-rows">

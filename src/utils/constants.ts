@@ -8,6 +8,7 @@ export const ROUTES = {
   ORDER_LOADER: '/orderloader',
   SUPER_AI: '/super-ai',
   AGENTES: '/agentes',
+  AGENTE_AIRBNB: '/agente-airbnb',
   DASHBOARDS: '/dashboards',
   FAQ: '/preguntas-frecuentes',
   /** @deprecated nombre viejo de /dashboards — solo para el redirect en App.tsx */

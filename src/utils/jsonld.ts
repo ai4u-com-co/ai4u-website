@@ -7,6 +7,7 @@ import { ALL_AGENTS } from '../data/agents';
 import { CASES } from '../data/cases';
 import { SITES } from '../data/sitiosWeb';
 import { FAQ } from '../data/faq';
+import { AIRBNB_PATH, AIRBNB_FAQ, AIRBNB_DESCRIPTION } from '../data/airbnb';
 import { SOCIAL_LINKS } from '../data/siteLinks';
 
 export const SITE_URL = 'https://www.ai4u.com.co';
@@ -89,7 +90,7 @@ export const breadcrumbNode = (path: string) => {
   if (path === '/') return null;
   const page = getSeoPage(path);
   const crumbs = [{ name: 'Inicio', url: `${SITE_URL}/` }];
-  if (agentOf(path)) crumbs.push({ name: 'Agentes', url: pageUrl('/agentes') });
+  if (agentOf(path) || path === AIRBNB_PATH) crumbs.push({ name: 'Agentes', url: pageUrl('/agentes') });
   crumbs.push({ name: page.name, url: pageUrl(path) });
   return {
     '@type': 'BreadcrumbList',
@@ -100,6 +101,7 @@ export const breadcrumbNode = (path: string) => {
 
 const faqFor = (path: string): { question: string; answer: string }[] => {
   if (path === '/preguntas-frecuentes') return FAQ;
+  if (path === AIRBNB_PATH) return AIRBNB_FAQ;
   const agent = agentOf(path);
   return agent ? agentFaq(agent) : [];
 };
@@ -142,6 +144,19 @@ const extrasFor = (path: string): object[] => {
         provider: { '@id': ORG_ID },
         areaServed: 'CO',
       })))];
+    case AIRBNB_PATH:
+      return [{
+        '@type': 'Service',
+        '@id': `${pageUrl(path)}#service`,
+        name: 'Agente de IA para anfitriones de Airbnb',
+        serviceType: 'Agente de IA',
+        category: 'Hospitalidad',
+        description: AIRBNB_DESCRIPTION,
+        provider: { '@id': ORG_ID },
+        areaServed: 'CO',
+        audience: { '@type': 'Audience', audienceType: 'Anfitriones de alquiler de corta estancia' },
+        isRelatedTo: { '@type': 'Service', name: 'Catálogo de agentes de IA de Ai4U', url: pageUrl('/agentes') },
+      }];
     case '/orderloader':
       return [{
         '@type': 'SoftwareApplication',

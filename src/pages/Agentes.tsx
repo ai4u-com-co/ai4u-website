@@ -1,12 +1,12 @@
 import React, { useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { SEOHead } from '@/components/shared/ui/atoms';
 import { AGENT_GROUPS, ALL_AGENTS, NIVELES, type Agent, type AgentStatus, type Nivel } from '@/data/agents';
 import type { ToolId } from '@/data/tools';
 import AgentCard, { Pips } from '@/components/agentes/AgentCard';
 import AgentConfirm from '@/components/agentes/AgentConfirm';
 import AgentFilters, { type FilterCounts } from '@/components/agentes/AgentFilters';
-import { APP_CONFIG } from '@/utils/constants';
+import { APP_CONFIG, ROUTES } from '@/utils/constants';
 import '@/styles/site-v2.css';
 import '@/styles/pages/agentes.css';
 
@@ -89,6 +89,11 @@ const Agentes: React.FC = () => {
                 Cada uno resuelve trabajo real hoy, en empresas reales. Cada uno tiene su propia cara y su color, que salen de su nombre. Dale vuelta a su tarjeta para ver qué recibe, qué entrega y quién lo revisa.
               </p>
             </header>
+
+            <p className="a4-sm" style={{ margin: 'clamp(20px, 3vw, 32px) 0 0' }}>
+              <span className="a4-cap">Nuevo · </span>
+              <Link to={ROUTES.AGENTE_AIRBNB} onClick={() => window.scrollTo(0, 0)}>Agente para anfitriones de Airbnb →</Link>
+            </p>
 
             <section className="a4-section" aria-labelledby="niveles">
               <div className="a4-sec-label"><span className="a4-cap">Nivel</span></div>

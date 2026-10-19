@@ -7,6 +7,7 @@ Ai4U trabaja con empresas medianas que tienen operación repetitiva: pedidos, ca
 ## Qué ofrece
 
 - [Agentes de IA](https://www.ai4u.com.co/agentes): catálogo de agentes que leen pedidos y facturas, cobran la cartera, atienden mensajes y más. Tres niveles de supervisión: propone, ejecuta o autónomo.
+- [Agente para Airbnb](https://www.ai4u.com.co/agente-airbnb): agente para anfitriones que acompaña cada reserva: mensajes programados a los huéspedes, portal de la estadía, registro de viajeros con revisión humana, aviso al equipo de aseo, calendario y reportes para el propietario. Nació en un caso real de apartamentos en El Retiro, Antioquia. No es una integración oficial de Airbnb.
 - [Dashboards](https://www.ai4u.com.co/dashboards): ventas, cartera, producción y cumplimiento en un solo lugar, más un chat para preguntarle a tu empresa y que responda con tus datos en tiempo real.
 - [A tu medida](https://www.ai4u.com.co/servicios): software y automatizaciones pensados para la operación de cada empresa, en cuatro pasos: diagnóstico, construcción, puesta en marcha y mantenimiento.
 - [Sitios web](https://www.ai4u.com.co/sitios-web): landing pages y sitios con backend, con diseño propio, entregados en unos 14 días.

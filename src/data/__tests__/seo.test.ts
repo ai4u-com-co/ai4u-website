@@ -6,6 +6,7 @@ import { CASES } from '../cases';
 import { ROUTES } from '../../utils/constants';
 import { AGENT_PAGES, agentFaq, agentPath } from '../agentPages';
 import { slugify } from '../../utils/slug';
+import { AIRBNB_PATH, AIRBNB_FAQ, MOMENTOS } from '../airbnb';
 
 // SEO / GEO / AEO (octubre 2026): una sola lista de páginas, metadatos únicos y datos estructurados sin precios ni cifras.
 describe('registro de páginas (src/data/seoPages.json)', () => {
@@ -149,5 +150,29 @@ describe('páginas por agente', () => {
       expect(page['@type']).toBe('FAQPage');
       expect(page.mainEntity.map((q: any) => q.name)).toEqual(agentFaq(a).map(f => f.question));
     });
+  });
+});
+
+describe('landing del agente para Airbnb', () => {
+  it('está registrada, en el sitemap y con la ruta de ROUTES', () => {
+    expect(ROUTES.AGENTE_AIRBNB).toBe(AIRBNB_PATH);
+    expect(SEO_PAGES.find(p => p.path === AIRBNB_PATH)?.sitemap).toBe(true);
+  });
+
+  it('su JSON-LD trae servicio, migas Inicio › Agentes › página y un solo FAQPage', () => {
+    const g: any[] = buildJsonLd(AIRBNB_PATH)['@graph'];
+    expect(g.some(n => n['@type'] === 'Service' && n.serviceType === 'Agente de IA')).toBe(true);
+    const crumbs: any = g.find(n => n['@type'] === 'BreadcrumbList');
+    expect(crumbs.itemListElement.map((c: any) => c.name)).toEqual(['Inicio', 'Agentes', 'Agente para Airbnb']);
+    const page: any = g.find(n => n['@id'] === `${pageUrl(AIRBNB_PATH)}#webpage`);
+    expect(page['@type']).toBe('FAQPage');
+    expect(page.mainEntity).toHaveLength(AIRBNB_FAQ.length);
+    expect(g.filter(n => n['@type'] === 'FAQPage')).toHaveLength(1);
+  });
+
+  it('su contenido no lleva precios, cifras prometidas ni datos del sistema del cliente', () => {
+    const texto = JSON.stringify([AIRBNB_FAQ, MOMENTOS]);
+    expect(texto).not.toMatch(/\bSAP\b|\d+ ?%|\$ ?\d|COP/);
+    expect(MOMENTOS).toHaveLength(7);
   });
 });
