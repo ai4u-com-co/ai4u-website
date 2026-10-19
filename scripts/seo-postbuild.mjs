@@ -21,6 +21,7 @@ const decode = (s) => s.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&g
 const SOURCES = {
   '/': ['src/pages/Home.tsx', 'src/data/agents.ts', 'src/data/cases.ts'],
   '/agentes': ['src/pages/Agentes.tsx', 'src/data/agents.ts', 'src/components/agentes'],
+  '/agente-airbnb': ['src/pages/AgenteAirbnb.tsx', 'src/data/airbnb.ts'],
   '/dashboards': ['src/pages/Dashboards.tsx'],
   '/servicios': ['src/pages/Services.tsx'],
   '/sitios-web': ['src/pages/SitiosWeb.tsx', 'src/data/sitiosWeb.ts'],
