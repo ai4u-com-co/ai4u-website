@@ -3,7 +3,8 @@
 .a4.a4-wa-float {
   position: fixed;
   right: var(--a4-gutter, 16px);
-  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  /* Con el banner de cookies abierto, --a4-cookies-h (su alto, que ya incluye el área segura) sube el botón por encima. */
+  bottom: calc(16px + var(--a4-cookies-h, env(safe-area-inset-bottom, 0px)));
   z-index: 1200;
   box-sizing: border-box;
   display: inline-flex;

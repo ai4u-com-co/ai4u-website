@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { HelmetProvider } from 'react-helmet-async';
 import { Layout, ScrollToTop, MetaPixelTracker, BasicLoadingWrapper } from './components/shared/ui/layouts';
 import { ErrorBoundary } from './components/shared/ui/molecules';
+import { CookieBanner } from './components/shared/ui/organisms';
 import { ThemeProvider, ServicesProvider } from '@/context';
 import { ROUTES } from './utils/constants';
 import { lazyWithReload as lazy } from './utils/lazyWithReload';
@@ -21,6 +22,7 @@ const Portfolio = lazy(() => import('./pages/Portfolio'));
 const SitiosWeb = lazy(() => import('./pages/SitiosWeb'));
 const OrderLoader = lazy(() => import('./pages/OrderLoader'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const CookiePolicy = lazy(() => import('./pages/CookiePolicy'));
 const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 const DataDeletion = lazy(() => import('./pages/DataDeletion'));
 
@@ -39,6 +41,7 @@ function App() {
               >
                 <ScrollToTop />
                 <MetaPixelTracker />
+                <CookieBanner />
                 <Suspense fallback={null}>
                 <Routes>
 
@@ -138,6 +141,11 @@ function App() {
                           <Route
                             path={ROUTES.PRIVACY_POLICY}
                             element={<PrivacyPolicy />}
+                          />
+
+                          <Route
+                            path={ROUTES.COOKIE_POLICY}
+                            element={<CookiePolicy />}
                           />
 
                           <Route

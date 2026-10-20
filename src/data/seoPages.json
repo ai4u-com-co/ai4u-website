@@ -93,7 +93,16 @@
     "path": "/politica-de-privacidad",
     "name": "Política de privacidad",
     "title": "Política de privacidad | Ai4U",
-    "description": "Cómo manejamos tus datos en el sitio y en las aplicaciones de Ai4U.",
+    "description": "Cómo trata Ai4U tus datos personales: quién es el responsable, para qué los usamos, tus derechos y cómo ejercerlos.",
+    "type": "WebPage",
+    "priority": 0.3,
+    "sitemap": false
+  },
+  {
+    "path": "/politica-de-cookies",
+    "name": "Política de cookies",
+    "title": "Política de cookies | Ai4U",
+    "description": "Qué cookies usa el sitio de Ai4U, para qué sirven y cómo aceptarlas, rechazarlas o cambiarlas cuando quieras.",
     "type": "WebPage",
     "priority": 0.3,
     "sitemap": false
@@ -111,7 +120,7 @@
     "path": "/eliminacion-de-datos",
     "name": "Eliminación de datos",
     "title": "Eliminación de datos | Ai4U",
-    "description": "Cómo solicitar la eliminación de tus datos de los servicios y las aplicaciones de Ai4U.",
+    "description": "Cómo pedir que Ai4U borre tus datos personales, desde Facebook o escribiéndonos, y en cuánto tiempo respondemos.",
     "type": "WebPage",
     "priority": 0.3,
     "sitemap": false

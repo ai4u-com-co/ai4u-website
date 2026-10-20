@@ -1,0 +1,27 @@
+/* Banner de cookies. Mobile first: a 375 px ocupa el ancho completo, sin scroll horizontal, botones de 44 px. */
+.a4-cookies {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1300;
+  box-sizing: border-box;
+  display: grid;
+  gap: 14px;
+  padding: 16px var(--a4-gutter, 16px) calc(16px + env(safe-area-inset-bottom, 0px));
+  background: var(--a4-paper, #fff);
+  color: var(--a4-ink, #1d1d1d);
+  border-top: 1px solid var(--a4-ink, #1d1d1d);
+}
+
+.a4-cookies-body { display: grid; gap: 6px; min-width: 0; }
+.a4-cookies a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+
+.a4-cookies-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.a4-cookies-actions .a4-pill { flex: 1 1 140px; justify-content: center; }
+
+@media (min-width: 768px) {
+  .a4-cookies { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 32px; }
+  .a4-cookies-actions { flex-wrap: nowrap; }
+  .a4-cookies-actions .a4-pill { flex: 0 0 auto; min-width: 128px; }
+}

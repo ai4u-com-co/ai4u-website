@@ -37,41 +37,39 @@
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;900&family=Fira+Mono:wght@400;500&display=swap"></noscript>
     <link rel="preload" href="/fonts/NectoMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
     
-    <!-- Google Analytics: los eventos se encolan en dataLayer desde el inicio y el script se pide después de la carga (no compite con el CSS crítico) -->
+    <!-- Analítica y publicidad (Google Analytics + píxel de Meta): NADA se descarga hasta que la persona acepta en el banner de cookies
+         (Ley 1581 de 2012: autorización previa). window.__ai4uLoadTrackers es la única puerta; la llama src/utils/consent.ts al aceptar,
+         o esta misma página cuando ya había aceptado en una visita anterior. Antes de aceptar, gtag y fbq existen pero descartan todo,
+         así el código de React puede llamarlos sin comprobar nada. Se pide después de la carga para no competir con el CSS crítico. -->
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-44D5SE9KCR', { page_location: window.location.href });
-      window.addEventListener('load', function () {
-        var load = function () {
-          var t = document.createElement('script');
-          t.async = true;
-          t.src = 'https://www.googletagmanager.com/gtag/js?id=G-44D5SE9KCR';
-          document.head.appendChild(t);
-        };
-        if ('requestIdleCallback' in window) requestIdleCallback(load, { timeout: 4000 }); else setTimeout(load, 2000);
-      });
-    </script>
-
-    <!-- Meta Pixel (AI4U Pixel): igual que Analytics, los eventos se encolan desde el inicio y fbevents.js se pide después de la carga.
-         Aquí solo se hace init; los PageView y el evento Contact los dispara React (MetaPixelTracker / analytics) porque el sitio es una SPA. -->
-    <script>
-      !function(f,n){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      function gtag(){ if (window.__ai4uTrackersLoaded) dataLayer.push(arguments); }
+      !function(f,n){if(f.fbq)return;n=f.fbq=function(){ if(!f.__ai4uTrackersLoaded) return; n.callMethod?
       n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
       n.push=n;n.loaded=!0;n.version='2.0';n.queue=[]}(window);
-      fbq('init', '2098400163896719');
-      window.addEventListener('load', function () {
-        // El prerender del build corre en Chromium automatizado (webdriver): no debe mandar visitas falsas a Meta.
-        if (navigator.webdriver) return;
-        var load = function () {
+      window.__ai4uLoadTrackers = function () {
+        // El prerender del build corre en Chromium automatizado (webdriver): no debe mandar visitas falsas.
+        if (window.__ai4uTrackersLoaded || navigator.webdriver) return;
+        window.__ai4uTrackersLoaded = true;
+        gtag('js', new Date());
+        gtag('config', 'G-44D5SE9KCR', { page_location: window.location.href });
+        fbq('init', '2098400163896719');
+        fbq('track', 'PageView');
+        ['https://www.googletagmanager.com/gtag/js?id=G-44D5SE9KCR', 'https://connect.facebook.net/en_US/fbevents.js'].forEach(function (src) {
           var t = document.createElement('script');
           t.async = true;
-          t.src = 'https://connect.facebook.net/en_US/fbevents.js';
+          t.src = src;
           document.head.appendChild(t);
-        };
-        if ('requestIdleCallback' in window) requestIdleCallback(load, { timeout: 4000 }); else setTimeout(load, 2000);
-      });
+        });
+      };
+      (function () {
+        var granted = false;
+        try { var c = JSON.parse(localStorage.getItem('ai4u_consent_v1') || 'null'); granted = !!c && c.choice === 'granted'; } catch (e) {}
+        if (!granted) return;
+        window.addEventListener('load', function () {
+          if ('requestIdleCallback' in window) requestIdleCallback(window.__ai4uLoadTrackers, { timeout: 4000 }); else setTimeout(window.__ai4uLoadTrackers, 2000);
+        });
+      })();
     </script>
   </head>
   <body>

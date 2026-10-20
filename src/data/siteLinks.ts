@@ -24,6 +24,7 @@ export const SITE_LINKS: SiteLink[] = [
 export const FOOTER_EXTRA_LINKS: { name: string; path: string }[] = [
   { name: 'Preguntas frecuentes', path: ROUTES.FAQ },
   { name: 'Privacidad', path: ROUTES.PRIVACY_POLICY },
+  { name: 'Cookies', path: ROUTES.COOKIE_POLICY },
   { name: 'Condiciones', path: ROUTES.TERMS_OF_SERVICE },
   { name: 'Eliminación de datos', path: ROUTES.DATA_DELETION },
 ];
