@@ -40,7 +40,17 @@ export const getConsent = (): ConsentChoice | null => {
 export const clearTrackerCookies = (): void => {
   if (typeof document === 'undefined') return;
   const host = typeof location !== 'undefined' ? location.hostname : '';
-  const domains = ['', host, `.${host}`, `.${host.split('.').slice(-2).join('.')}`];
+  // Google y Meta guardan sus cookies en el dominio de nivel superior que el navegador les deja usar
+  // (en www.ai4u.com.co es ai4u.com.co). Como no se sabe cuál es, se intenta con el host y con cada dominio
+  // padre, con y sin punto; el navegador ignora los que no puede escribir (p. ej. com.co).
+  const labels = host.split('.');
+  const domains = new Set<string>(['']);
+  for (let i = 0; i < labels.length - 1; i++) {
+    const d = labels.slice(i).join('.');
+    domains.add(d);
+    domains.add(`.${d}`);
+  }
+  if (labels.length === 1 && host) domains.add(host);
   document.cookie.split(';').forEach((c) => {
     const name = c.split('=')[0].trim();
     if (name === '_ga' || name.startsWith('_ga_') || name === '_fbp' || name === '_fbc' || name === '_gid') {
