@@ -1,5 +1,6 @@
 // Analytics utility mejorado para AI4U - Tracking humanístico
 import { logger } from './logger';
+import { trackPixelEvent } from './metaPixel';
 
 // Configuración de eventos específicos AI4U
 const AI4U_EVENTS = {
@@ -61,6 +62,9 @@ class AI4UAnalytics {
   }
 
   trackConsultationRequest(method: string = 'chat', serviceType?: string) {
+    // Los botones de WhatsApp abren el chat por código (no son <a>), así que el
+    // evento de Meta se dispara aquí; los enlaces <a> los cubre MetaPixelTracker.
+    trackPixelEvent('Contact', { contact_method: method, ...(serviceType ? { service_type: serviceType } : {}) });
     this.trackEvent({
       action: AI4U_EVENTS.CONSULTATION_REQUEST,
       category: 'conversion',
