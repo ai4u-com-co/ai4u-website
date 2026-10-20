@@ -1,5 +1,4 @@
 // Molecules - Componentes compuestos
-export { default as ChatButton } from './ChatButton';
 export { default as ServicesButton } from './ServicesButton';
 export { default as TransactionCard } from './TransactionCard';
 export { default as ProcessStep } from './ProcessStep';
