@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import { Layout, ScrollToTop, BasicLoadingWrapper } from './components/shared/ui/layouts';
+import { Layout, ScrollToTop, MetaPixelTracker, BasicLoadingWrapper } from './components/shared/ui/layouts';
 import { ErrorBoundary } from './components/shared/ui/molecules';
 import { ThemeProvider, ServicesProvider } from '@/context';
 import { ROUTES } from './utils/constants';
@@ -38,6 +38,7 @@ function App() {
                 }}
               >
                 <ScrollToTop />
+                <MetaPixelTracker />
                 <Suspense fallback={null}>
                 <Routes>
 

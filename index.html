@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     
     <!-- Content Security Policy básico -->
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://translate.googleapis.com https://www.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.google.com https://www.googletagmanager.com https://translate.googleapis.com https://translate.google.com https://translate-pa.googleapis.com; frame-src 'self' https://translate.google.com https://translate.googleapis.com;" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://translate.googleapis.com https://www.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.google.com https://www.googletagmanager.com https://www.facebook.com https://connect.facebook.net https://translate.googleapis.com https://translate.google.com https://translate-pa.googleapis.com; frame-src 'self' https://translate.google.com https://translate.googleapis.com;" />
     <!-- Meta tags básicos: título, descripción, canónica, Open Graph, Twitter y datos estructurados los pone SEOHead en cada página (src/components/shared/ui/atoms/SEOHead.tsx) -->
     <title>Ai4U: agentes de IA, dashboards y software a la medida</title>
     <meta name="author" content="Ai4U" />
@@ -48,6 +48,26 @@
           var t = document.createElement('script');
           t.async = true;
           t.src = 'https://www.googletagmanager.com/gtag/js?id=G-44D5SE9KCR';
+          document.head.appendChild(t);
+        };
+        if ('requestIdleCallback' in window) requestIdleCallback(load, { timeout: 4000 }); else setTimeout(load, 2000);
+      });
+    </script>
+
+    <!-- Meta Pixel (AI4U Pixel): igual que Analytics, los eventos se encolan desde el inicio y fbevents.js se pide después de la carga.
+         Aquí solo se hace init; los PageView y el evento Contact los dispara React (MetaPixelTracker / analytics) porque el sitio es una SPA. -->
+    <script>
+      !function(f,n){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[]}(window);
+      fbq('init', '2098400163896719');
+      window.addEventListener('load', function () {
+        // El prerender del build corre en Chromium automatizado (webdriver): no debe mandar visitas falsas a Meta.
+        if (navigator.webdriver) return;
+        var load = function () {
+          var t = document.createElement('script');
+          t.async = true;
+          t.src = 'https://connect.facebook.net/en_US/fbevents.js';
           document.head.appendChild(t);
         };
         if ('requestIdleCallback' in window) requestIdleCallback(load, { timeout: 4000 }); else setTimeout(load, 2000);
