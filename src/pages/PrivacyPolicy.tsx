@@ -8,6 +8,9 @@ import '../styles/pages/legal.css';
 
 // Política de tratamiento de datos personales y aviso de privacidad (Ley 1581 de 2012).
 // Borrador pendiente de revisión legal: ver el PR que lo introduce.
+// Mientras falte algún dato del responsable en legalEntity.ts (valor "PENDIENTE"), no se muestra
+// ninguno: se publica solo lo confirmado (marca, ciudad y correo) y legalEntity.test.ts sigue fallando.
+const IDENTIFICADO = ![E.nombre, E.documento, E.direccion].some((v) => /PENDIENTE/i.test(v));
 const PrivacyPolicy = () => (
   <div className="a4 a4-page a4-legal">
     <SEOHead path="/politica-de-privacidad" />
@@ -19,11 +22,18 @@ const PrivacyPolicy = () => (
       <section className="a4-section a4-legal-end">
         <div className="a4-prose">
           <h2>1. Quién es el responsable</h2>
-          <p>
-            El responsable del tratamiento de tus datos personales es {E.nombre} ({E.documento}), que opera
-            bajo la marca {E.marca}, con domicilio en {E.domicilio}. Dirección para notificaciones: {E.direccion}.
-            Para cualquier tema de datos personales escribe a <a href={`mailto:${E.correoDatos}`}>{E.correoDatos}</a>.
-          </p>
+          {IDENTIFICADO ? (
+            <p>
+              El responsable del tratamiento de tus datos personales es {E.nombre} ({E.documento}), que opera
+              bajo la marca {E.marca}, con domicilio en {E.domicilio}. Dirección para notificaciones: {E.direccion}.
+              Para cualquier tema de datos personales escribe a <a href={`mailto:${E.correoDatos}`}>{E.correoDatos}</a>.
+            </p>
+          ) : (
+            <p>
+              El responsable del tratamiento de tus datos personales es {E.marca}, con domicilio en {E.domicilio}.
+              Para cualquier tema de datos personales escribe a <a href={`mailto:${E.correoDatos}`}>{E.correoDatos}</a>.
+            </p>
+          )}
 
           <h2>2. Qué datos tratamos y para qué</h2>
           <p>Tratamos datos personales solo para las finalidades que se describen aquí:</p>

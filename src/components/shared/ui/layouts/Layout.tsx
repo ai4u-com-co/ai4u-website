@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Toolbar } from '@mui/material';
 import { GoogleTranslateProvider } from '../atoms';
 import { Navbar } from '../organisms';
-import { Footer } from '../organisms';
+import { Footer, WhatsAppFloat } from '../organisms';
 
 interface LayoutProps {
   children?: React.ReactNode;
@@ -24,7 +24,7 @@ const Layout = ({ children }: LayoutProps) => {
         {children}
       </Box>
       <Footer />
-      {/* <ChatButton /> */}
+      <WhatsAppFloat />
     </Box>
   );
 };

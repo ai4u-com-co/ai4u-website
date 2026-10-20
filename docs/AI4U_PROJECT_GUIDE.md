@@ -183,7 +183,7 @@ Esta es la versión pública de la guía completa para el desarrollo del proyect
 ├── src/
 │   ├── components/shared/ui/
 │   │   ├── atoms/           # Button, Typography, Logo, GeometricIcon, SEOHead
-│   │   ├── molecules/       # Card, ServiceCard, MetricCard, ChatButton
+│   │   ├── molecules/       # Card, ServiceCard, MetricCard
 │   │   ├── organisms/       # HeroSection, Navbar, Footer, ServicesFilter
 │   │   ├── layouts/         # Layout wrappers, LazyPage
 │   │   └── tokens/          # palette.ts, typography.ts, theme.ts

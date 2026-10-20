@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../../../utils/constants';
 import {
@@ -27,6 +27,22 @@ const CookieBanner = () => {
     return () => window.removeEventListener(CONSENT_OPEN_EVENT, reopen);
   }, []);
 
+  // Mientras el banner está abierto publica su alto en --a4-cookies-h: el botón flotante de WhatsApp
+  // (whatsapp-float.css) se sube por encima para que el banner no lo tape ni le robe los clics.
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!open || !el) return;
+    const publish = () => document.documentElement.style.setProperty('--a4-cookies-h', `${el.offsetHeight}px`);
+    publish();
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(publish) : null;
+    ro?.observe(el);
+    return () => {
+      ro?.disconnect();
+      document.documentElement.style.removeProperty('--a4-cookies-h');
+    };
+  }, [open]);
+
   if (!open) return null;
 
   const decide = (choice: ConsentChoice) => {
@@ -36,6 +52,7 @@ const CookieBanner = () => {
 
   return (
     <div
+      ref={ref}
       className="a4 a4-cookies"
       role="dialog"
       aria-modal="false"
