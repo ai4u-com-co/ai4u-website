@@ -15,16 +15,16 @@ describe('contacto', () => {
 });
 
 describe('marcas que no usamos', () => {
-  const REMOVIDAS = ['true', 'rascal', 'EAFIT'];
+  const REMOVIDAS = ['rascal', 'EAFIT'];
 
   it('no aparecen entre los clientes', () => {
     const ids = clients.map(c => c.id);
     REMOVIDAS.forEach(id => expect(ids).not.toContain(id));
   });
 
-  it('los cinco casos de la oferta están como clientes', () => {
+  it('los casos de la oferta y True están como clientes', () => {
     const ids = clients.map(c => c.id);
-    ['tamaprint', 'flexoimpresos', 'la-magdalena', 'estudio-indigo', 'multihealth'].forEach(id => expect(ids).toContain(id));
+    ['tamaprint', 'flexoimpresos', 'la-magdalena', 'estudio-indigo', 'multihealth', 'true'].forEach(id => expect(ids).toContain(id));
   });
 });
 
