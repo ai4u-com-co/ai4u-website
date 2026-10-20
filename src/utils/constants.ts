@@ -16,6 +16,7 @@ export const ROUTES = {
   /** @deprecated nombre viejo de /agentes — solo para el redirect en App.tsx, no usar para nada nuevo */
   TIENDA_AI_LEGACY: '/tienda-ai',
   PRIVACY_POLICY: '/politica-de-privacidad',
+  COOKIE_POLICY: '/politica-de-cookies',
   TERMS_OF_SERVICE: '/condiciones-de-servicio',
   DATA_DELETION: '/eliminacion-de-datos'
 } as const;

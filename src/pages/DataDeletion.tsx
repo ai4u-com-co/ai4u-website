@@ -1,5 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { SEOHead } from '../components/shared/ui/atoms';
+import { LEGAL_ENTITY, LEGAL_LAST_UPDATE } from '../data/legalEntity';
+import { ROUTES } from '../utils/constants';
 import '../styles/site-v2.css';
 import '../styles/pages/legal.css';
 
@@ -27,9 +30,9 @@ const DataDeletion = () => (
             <li>Haz clic en "Eliminar" y confirma que deseas borrar toda la actividad asociada.</li>
         </ol>
 
-        <h2>2. Solicitud Directa</h2>
+        <h2>2. Solicitud directa</h2>
         <p>
-        Si prefieres que eliminemos manualmente cualquier información que hayamos podido almacenar (como reportes generados o configuraciones de anuncios), por favor contáctanos enviando un correo electrónico a soporte con el asunto "Solicitud de Eliminación de Datos".
+        Si prefieres que eliminemos manualmente cualquier información que hayamos podido almacenar (como reportes generados, configuraciones de anuncios, tus conversaciones con nosotros o tus datos de contacto), escríbenos a <a href={`mailto:${LEGAL_ENTITY.correoDatos}`}>{LEGAL_ENTITY.correoDatos}</a> con el asunto "Solicitud de eliminación de datos", indicando quién eres y qué quieres que borremos. Respondemos en máximo 15 días hábiles. Más sobre tus derechos en la <Link to={ROUTES.PRIVACY_POLICY}>política de privacidad</Link>.
         </p>
 
         <h2>3. Qué información se elimina</h2>
@@ -38,7 +41,7 @@ const DataDeletion = () => (
         </p>
 
         </div>
-        <p className="a4-cap a4-num a4-legal-meta">Última actualización: 26 de marzo, 2026</p>
+        <p className="a4-cap a4-num a4-legal-meta">Última actualización: {LEGAL_LAST_UPDATE}</p>
       </section>
     </div>
   </div>

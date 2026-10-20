@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { SITE_LINKS, SOCIAL_LINKS, FOOTER_EXTRA_LINKS } from '../../../../data/siteLinks';
 import { scrollToTop } from '../../../../utils/helpers';
+import { openConsentPreferences } from '../../../../utils/consent';
 import '../../../../styles/site-v2.css';
 
 const Footer = () => (
@@ -21,6 +22,13 @@ const Footer = () => (
           {FOOTER_EXTRA_LINKS.map(l => (
             <Link key={l.path} to={l.path} onClick={() => scrollToTop('auto')}>{l.name}</Link>
           ))}
+          <button
+            type="button"
+            onClick={openConsentPreferences}
+            style={{ all: 'unset', cursor: 'pointer', minHeight: 24, textDecoration: 'underline', textUnderlineOffset: 2 }}
+          >
+            Preferencias de cookies
+          </button>
         </div>
         <div className="a4-foot-col">
           <span className="a4-cap">Contacto</span>
