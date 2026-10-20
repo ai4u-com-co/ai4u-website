@@ -1,0 +1,38 @@
+/* Botón flotante de WhatsApp. Mobile first: a 375 px es un cuadrado de 56 px solo con el ícono (área táctil > 44 px);
+   desde 768 px muestra también la etiqueta. Nunca genera scroll horizontal (position: fixed). */
+.a4.a4-wa-float {
+  position: fixed;
+  right: var(--a4-gutter, 16px);
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 1200;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 56px;
+  min-height: 56px;
+  padding: 0 16px;
+  border-radius: 10px;
+  background: var(--a4-ink, #1d1d1d);
+  color: var(--a4-paper, #fff);
+  text-decoration: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+}
+
+.a4.a4-wa-float:hover,
+.a4.a4-wa-float:focus-visible { background: #000; }
+.a4.a4-wa-float:focus-visible { outline: 2px solid var(--a4-paper, #fff); outline-offset: -4px; }
+
+.a4-wa-float-icon { width: 26px; height: 26px; flex: none; }
+.a4-wa-float-label { display: none; color: inherit; }
+
+@media (min-width: 768px) {
+  .a4-wa-float-label { display: inline; }
+}
+
+/* En móvil el botón queda sobre el borde inferior: sin este espacio taparía la última línea del pie
+   (derechos reservados) cuando se llega al final de la página. 56 px del botón + 16 px de margen. */
+@media (max-width: 767px) {
+  .a4-foot { padding-bottom: calc(40px + 72px + env(safe-area-inset-bottom, 0px)); }
+}
