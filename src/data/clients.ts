@@ -29,6 +29,13 @@ export const clients: Client[] = [
     sector: 'Manufactura'
   },
   {
+    id: 'true',
+    name: 'True',
+    website: 'https://www.trueshop.co',
+    logo: '/assets/images/cases/logo-true.png',
+    sector: 'Fashion'
+  },
+  {
     id: 'hua-naturals',
     name: 'HUA Naturals',
     website: 'https://www.huanaturals.com',
@@ -39,14 +46,14 @@ export const clients: Client[] = [
     id: 'estudio-indigo',
     name: 'Estudio Índigo',
     website: '',
-    logo: '',
+    logo: '/assets/images/cases/logo-estudio-indigo.svg',
     sector: 'Hospitalidad'
   },
   {
     id: 'multihealth',
     name: 'Multihealth',
-    website: '',
-    logo: '',
+    website: 'https://multyhealth.com',
+    logo: '/assets/images/cases/logo-multihealth.svg',
     sector: 'Salud y bienestar'
   },
   {
