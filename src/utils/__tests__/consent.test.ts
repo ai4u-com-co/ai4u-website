@@ -102,6 +102,17 @@ describe('setConsent', () => {
     expect(win.__ai4uLoadTrackers).not.toHaveBeenCalled();
   });
 
+  it('borra las cookies en el dominio donde las guardan Google y Meta (ai4u.com.co), no solo en el host ni en .com.co', () => {
+    // Regresión: se calculaba el dominio como las últimas DOS partes del host (.com.co) y en www.ai4u.com.co
+    // las cookies de _ga/_fbp (que viven en ai4u.com.co) quedaban sin borrar. Con localhost no se notaba.
+    const { cookieWrites } = makeEnv({ [CONSENT_KEY]: JSON.stringify({ choice: 'granted', at: 'x' }) });
+    setConsent('denied');
+    const domainsOf = (name: string) => cookieWrites.filter((w) => w.startsWith(`${name}=`)).map((w) => (w.match(/domain=([^;]+)/) ?? [, ''])[1]);
+    for (const name of ['_ga', '_ga_ABC123', '_fbp', '_fbc']) {
+      expect(domainsOf(name), name).toEqual(expect.arrayContaining(['', 'www.ai4u.com.co', '.www.ai4u.com.co', 'ai4u.com.co', '.ai4u.com.co']));
+    }
+  });
+
   it('si el almacenamiento falla al guardar, igual aplica la decisión en esta visita', () => {
     const { win } = makeEnv();
     win.localStorage.setItem = () => {
