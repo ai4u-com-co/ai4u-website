@@ -1,0 +1,84 @@
+/* Accesibilidad: efectos de las preferencias (atributos data-a11y-* en <html>), enlace para saltar al contenido
+   y el panel. Nada de esto cambia el diseño mientras la persona no active una opción. Prefijo a4-a11y- */
+
+/* --- Saltar al contenido: invisible hasta que recibe el foco con Tab --- */
+.a4-skip { position: absolute; left: 16px; top: -200px; z-index: 2000; padding: 10px 16px; background: var(--a4-ink); color: var(--a4-canvas); border-radius: 10px; font: 500 15px/1.4 var(--a4-font); text-decoration: none; }
+.a4-skip:focus { top: 12px; outline: 2px solid var(--a4-canvas); outline-offset: 2px; }
+
+/* --- Tamaño del texto: escala todo el sitio como el zoom del navegador (el diseño ya responde a eso) --- */
+html[data-a11y-texto="125"] body { zoom: 1.25; }
+html[data-a11y-texto="150"] body { zoom: 1.5; }
+/* El diálogo hereda el zoom: su alto máximo se divide por el mismo factor para que quepa en la pantalla real. */
+html[data-a11y-texto="125"] .a4-a11y { max-height: calc((100dvh - 32px) / 1.25); width: min(560px, calc((100vw - 32px) / 1.25)); }
+html[data-a11y-texto="150"] .a4-a11y { max-height: calc((100dvh - 32px) / 1.5); width: min(560px, calc((100vw - 32px) / 1.5)); }
+
+/* --- Contraste alto: tinta negra sobre blanco, enlaces siempre subrayados, líneas negras --- */
+html[data-a11y-contraste] { --a4-canvas: #ffffff; --a4-paper: #ffffff; --a4-ink: #000000; --a4-gray: #000000; --a4-ash: #000000; --a4-stone: #f2f2f2; }
+html[data-a11y-contraste] .a4 a:not(.a4-pill):not(.a4-ghost):not(.a4-skip) { text-decoration: underline; text-underline-offset: 3px; }
+html[data-a11y-contraste] .a4-note, html[data-a11y-contraste] .a4-bnb-note { color: #000; }
+html[data-a11y-contraste] .a4 img { filter: none; }
+
+/* --- Más espacio (valores de WCAG 1.4.12) --- */
+html[data-a11y-espaciado] .a4, html[data-a11y-espaciado] .a4 p, html[data-a11y-espaciado] .a4 li, html[data-a11y-espaciado] .a4 dd, html[data-a11y-espaciado] .a4 a, html[data-a11y-espaciado] .a4 span { line-height: 1.6 !important; letter-spacing: .12em !important; word-spacing: .16em !important; }
+html[data-a11y-espaciado] .a4 h1, html[data-a11y-espaciado] .a4 h2, html[data-a11y-espaciado] .a4 h3 { line-height: 1.25 !important; letter-spacing: .06em !important; }
+html[data-a11y-espaciado] .a4 p { margin-bottom: 1.5em; }
+
+/* --- Fuente simple --- */
+html[data-a11y-fuente] { --a4-font: Verdana, Arial, sans-serif; --a4-mono: 'Courier New', monospace; }
+html[data-a11y-fuente] .a4 { letter-spacing: 0; }
+
+/* --- Sin movimiento --- */
+html[data-a11y-movimiento] *, html[data-a11y-movimiento] *::before, html[data-a11y-movimiento] *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+
+/* --- Botón que abre el panel --- */
+.a4-a11y-btn { gap: 6px; font-size: 13px; }
+.a4-a11y-btn svg { flex: none; }
+@media (max-width: 560px) { .a4-nav-in .a4-a11y-btn span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } .a4-nav-in .a4-a11y-btn { min-width: 44px; justify-content: center; } }
+
+/* --- El panel (dialog nativo) --- */
+.a4-a11y { width: min(560px, calc(100vw - 32px)); max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); overflow: auto; margin: auto; padding: 0; border: 1px solid var(--a4-ink); border-radius: 10px; background: var(--a4-canvas); color: var(--a4-ink); font-family: var(--a4-font); box-sizing: border-box; }
+.a4-a11y::backdrop { background: rgba(29, 29, 29, .55); }
+.a4-a11y-head { display: flex; align-items: start; justify-content: space-between; gap: 16px; padding: 22px 24px 0; }
+.a4-a11y-head h2 { margin-top: 10px; font-size: clamp(20px, 2vw, 26px); }
+.a4-a11y-body { display: grid; gap: 22px; padding: 22px 24px; }
+.a4-a11y-group { border: 0; padding: 0; margin: 0; min-width: 0; display: grid; gap: 10px; }
+.a4-a11y-group legend { padding: 0; margin-bottom: 10px; }
+.a4-a11y-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.a4-a11y-size, .a4-a11y-opt { min-height: 44px; border: 1px solid var(--a4-ink); border-radius: 10px; background: var(--a4-paper); color: var(--a4-ink); cursor: pointer; text-align: left; font-family: var(--a4-font); }
+.a4-a11y-size { padding: 8px 18px; font: 500 15px/1.4 var(--a4-font); }
+.a4-a11y-size[aria-pressed="true"], .a4-a11y-opt[aria-pressed="true"] { background: var(--a4-ink); color: var(--a4-canvas); }
+.a4-a11y-opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.a4-a11y-opt { display: grid; gap: 4px; padding: 12px 14px; min-width: 0; }
+.a4-a11y-opt-t { font-weight: 500; font-size: 15px; }
+.a4-a11y-opt-d { font-size: 13px; line-height: 1.35; opacity: .85; }
+.a4-a11y-help { margin: 0; max-width: 56ch; }
+.a4-a11y-vel { display: inline-flex; align-items: center; gap: 8px; }
+.a4-a11y-vel .a4-input { width: auto; min-height: 44px; }
+.a4-a11y .a4-pill:disabled { opacity: .45; cursor: default; }
+.a4-a11y .a4-pill:disabled:hover { background: none; color: var(--a4-ink); }
+.a4-a11y-status { margin: 0; min-height: 1.4em; }
+.a4-a11y-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px; padding: 0 24px 22px; border-top: 1px solid var(--a4-ash); padding-top: 14px; }
+.a4-a11y .a4-ghost:disabled { opacity: .45; cursor: default; text-decoration: none; }
+.a4-a11y button:focus-visible, .a4-a11y a:focus-visible, .a4-a11y select:focus-visible { outline: 2px solid var(--a4-ink); outline-offset: 3px; }
+@media (max-width: 560px) { .a4-a11y-opts { grid-template-columns: minmax(0, 1fr); } }
+
+/* --- Barra mientras se lee en voz alta (el panel se cierra para poder navegar y seleccionar texto) --- */
+.a4-a11y-bar { position: fixed; left: var(--a4-gutter, 16px); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 1200; display: flex; align-items: center; gap: 8px; padding: 8px 8px 8px 14px; background: var(--a4-ink); color: var(--a4-canvas); border-radius: 10px; font: 500 14px/1.3 var(--a4-font); max-width: calc(100vw - 32px - 72px); }
+.a4-a11y-bar button { min-height: 36px; min-width: 44px; padding: 6px 12px; border: 1px solid var(--a4-canvas); border-radius: 8px; background: none; color: inherit; font: 500 13px/1.2 var(--a4-font); cursor: pointer; }
+.a4-a11y-bar button:hover { background: var(--a4-canvas); color: var(--a4-ink); }
+.a4-a11y-bar button:focus-visible { outline: 2px solid var(--a4-canvas); outline-offset: 2px; }
+.a4-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* --- Con el texto ampliado en pantallas angostas, los títulos en mayúsculas pueden partir palabra y las tarjetas se apilan
+   (solo en ese modo: el diseño por defecto no cambia) --- */
+html[data-a11y-texto] .a4-h-lg, html[data-a11y-texto] .a4-display, html[data-a11y-texto] .a4-h-sm, html[data-a11y-texto] .a4-sub, html[data-a11y-texto] .a4-cap, html[data-a11y-texto] .a4-lead, html[data-a11y-texto] .a4-faq-q { overflow-wrap: anywhere; hyphens: auto; }
+@media (max-width: 760px) {
+  html[data-a11y-texto] .a4-cards { grid-template-columns: minmax(0, 1fr); }
+  html[data-a11y-texto] .a4-cards > * { grid-column: auto; }
+  html[data-a11y-texto] .a4-logos, html[data-a11y-texto] .a4-why-clients, html[data-a11y-texto] .a4-grid, html[data-a11y-texto] .a4-grid.two-col { grid-template-columns: minmax(0, 1fr); }
+}
+/* Dentro del panel, con el texto ampliado, el título se compacta y solo parte palabra si no queda otra. */
+html[data-a11y-texto] .a4-a11y .a4-sub, html[data-a11y-texto] .a4-a11y .a4-cap { overflow-wrap: break-word; hyphens: manual; letter-spacing: .02em !important; }
+html[data-a11y-texto="150"] .a4-a11y-head h2 { font-size: 18px; }
+html[data-a11y-texto="150"] .a4-a11y-head { padding-inline: 16px; }
+html[data-a11y-texto="150"] .a4-a11y-body, html[data-a11y-texto="150"] .a4-a11y-foot { padding-inline: 16px; }

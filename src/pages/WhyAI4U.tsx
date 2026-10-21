@@ -63,7 +63,7 @@ const WhyAI4U = () => {
           {BENEFITS.map((b, i) => (
             <article key={b.title} className="a4-card" style={{ gridColumn: 'span 2' }}>
               <p className="a4-cap a4-num">{String(i + 1).padStart(2, '0')}</p>
-              <h3 className="a4-h-sm">{b.title}</h3>
+              <h2 className="a4-h-sm">{b.title}</h2>
               <p className="a4-sm">{b.text}</p>
             </article>
           ))}

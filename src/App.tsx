@@ -18,6 +18,7 @@ const WhyAI4U = lazy(() => import('./pages/WhyAI4U'));
 const Faq = lazy(() => import('./pages/Faq'));
 const AgentePage = lazy(() => import('./pages/AgentePage'));
 const AgenteAirbnb = lazy(() => import('./pages/AgenteAirbnb'));
+const Accesibilidad = lazy(() => import('./pages/Accesibilidad'));
 const Portfolio = lazy(() => import('./pages/Portfolio'));
 const SitiosWeb = lazy(() => import('./pages/SitiosWeb'));
 const OrderLoader = lazy(() => import('./pages/OrderLoader'));
@@ -77,6 +78,11 @@ function App() {
                           <Route
                             path={`${ROUTES.AGENTES}/:slug`}
                             element={<AgentePage />}
+                          />
+
+                          <Route
+                            path={ROUTES.ACCESIBILIDAD}
+                            element={<Accesibilidad />}
                           />
 
                           <Route

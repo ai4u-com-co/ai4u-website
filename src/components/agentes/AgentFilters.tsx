@@ -81,7 +81,7 @@ const AgentFilters: React.FC<AgentFiltersProps> = ({
                   title={TOOLS[t].label}
                   onClick={() => onToggleTool(t)}
                 >
-                  <ToolIcon size={18} color="currentColor" />
+                  <ToolIcon size={18} color="currentColor" aria-hidden="true" />
                 </button>
               );
             })}

@@ -3,6 +3,8 @@ import { Box, Toolbar } from '@mui/material';
 import { GoogleTranslateProvider } from '../atoms';
 import { Navbar } from '../organisms';
 import { Footer, WhatsAppFloat } from '../organisms';
+import AccesibilidadPanel from '../organisms/AccesibilidadPanel';
+import '../../../../styles/accesibilidad.css';
 
 interface LayoutProps {
   children?: React.ReactNode;
@@ -11,10 +13,13 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <a className="a4 a4-skip" href="#contenido">Saltar al contenido</a>
       <GoogleTranslateProvider />
       <Navbar />
       <Box 
-        component="main" 
+        component="main"
+        id="contenido"
+        tabIndex={-1}
         sx={{ 
           flexGrow: 1,
           width: '100%', 
@@ -24,7 +29,8 @@ const Layout = ({ children }: LayoutProps) => {
         {children}
       </Box>
       <Footer />
-      <WhatsAppFloat />
+      <aside aria-label="Contacto rápido"><WhatsAppFloat /></aside>
+      <AccesibilidadPanel />
     </Box>
   );
 };

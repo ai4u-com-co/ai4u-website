@@ -12,6 +12,15 @@
     <!-- Content Security Policy básico -->
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://translate.googleapis.com https://www.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.google.com https://www.googletagmanager.com https://www.facebook.com https://connect.facebook.net https://translate.googleapis.com https://translate.google.com https://translate-pa.googleapis.com; frame-src 'self' https://translate.google.com https://translate.googleapis.com;" />
     <!-- Meta tags básicos: título, descripción, canónica, Open Graph, Twitter y datos estructurados los pone SEOHead en cada página (src/components/shared/ui/atoms/SEOHead.tsx) -->
+    <script>
+      // Preferencias de lectura (panel de accesibilidad): se aplican antes de pintar para que no parpadee al recargar.
+      try {
+        var a11y = JSON.parse(localStorage.getItem('ai4u-a11y') || 'null') || {};
+        var h = document.documentElement;
+        if (a11y.texto === 125 || a11y.texto === 150) h.setAttribute('data-a11y-texto', String(a11y.texto));
+        ['contraste', 'espaciado', 'fuente', 'movimiento'].forEach(function (k) { if (a11y[k] === true) h.setAttribute('data-a11y-' + k, ''); });
+      } catch (e) {}
+    </script>
     <title>Ai4U: agentes de IA, dashboards y software a la medida</title>
     <meta name="author" content="Ai4U" />
     

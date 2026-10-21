@@ -18,7 +18,7 @@ const ToolBadges: React.FC<ToolBadgesProps> = ({ tools, label = 'Equipado con' }
           const ToolIcon = tool.Icon;
           return (
             <span key={toolId} className="a4-agentes-tool" title={tool.label} role="img" aria-label={tool.label}>
-              <ToolIcon size={16} color="currentColor" />
+              <ToolIcon size={16} color="currentColor" aria-hidden="true" />
             </span>
           );
         })}

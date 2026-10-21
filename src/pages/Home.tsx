@@ -70,7 +70,7 @@ const Home = () => {
           {SERVICES_INDEX.map(s => {
             const inner = (
               <>
-                <h3 className="a4-sub">{s.title}</h3>
+                <h2 className="a4-sub">{s.title}</h2>
                 <p className="a4-sm">{s.text}</p>
                 <span className="a4-arr" aria-hidden="true">→</span>
               </>
@@ -89,14 +89,14 @@ const Home = () => {
         <div className="a4-cards">
           <article className="a4-card">
             <p className="a4-cap">Producto</p>
-            <h3 className="a4-h-sm">orderLoader</h3>
+            <h2 className="a4-h-sm">orderLoader</h2>
             <div className="a4-flow" role="img" aria-label="Correo, agente, tu sistema"><b>Correo</b><em /><b>Agente</b><em /><b>Tu sistema</b></div>
             <p className="a4-sm">Lee el pedido que llega por correo y lo crea en tu sistema. En producción en dos plantas, las 24 horas, sin digitación.</p>
             <Link className="a4-ghost" to={ROUTES.ORDER_LOADER} onClick={top} style={{ justifySelf: 'start' }}>Ver orderLoader →</Link>
           </article>
           <article className="a4-card">
             <p className="a4-cap">Catálogo</p>
-            <h3 className="a4-h-sm">{ALL_AGENTS.length} agentes</h3>
+            <h2 className="a4-h-sm">{ALL_AGENTS.length} agentes</h2>
             <div className="a4-avatars" aria-hidden="true">
               {ALL_AGENTS.map(a => <FaceTile key={a.name} name={a.name} />)}
             </div>
@@ -105,7 +105,7 @@ const Home = () => {
           </article>
           <article className="a4-card wide">
             <p className="a4-cap">Sitios web</p>
-            <h3 className="a4-h-sm">Plataformas de alto rendimiento</h3>
+            <h2 className="a4-h-sm">Plataformas de alto rendimiento</h2>
             <div className="a4-shots">
               <figure>
                 <img loading="lazy" width={1200} height={750} alt="Captura del sitio de La Magdalena: paisaje, sección Historias y obra literaria" src="/assets/images/cases/screenshots/lamagdalena-site-720.webp" />
