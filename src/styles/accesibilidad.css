@@ -82,3 +82,22 @@ html[data-a11y-texto] .a4-a11y .a4-sub, html[data-a11y-texto] .a4-a11y .a4-cap {
 html[data-a11y-texto="150"] .a4-a11y-head h2 { font-size: 18px; }
 html[data-a11y-texto="150"] .a4-a11y-head { padding-inline: 16px; }
 html[data-a11y-texto="150"] .a4-a11y-body, html[data-a11y-texto="150"] .a4-a11y-foot { padding-inline: 16px; }
+
+/* --- Resaltado del bloque que se está leyendo en voz alta --- */
+.a4-a11y-reading { background: var(--a4-paper); box-shadow: 0 0 0 4px var(--a4-paper), 0 0 0 6px var(--a4-ink); border-radius: 4px; }
+html[data-a11y-contraste] .a4-a11y-reading { background: #fff3b0; box-shadow: 0 0 0 4px #fff3b0, 0 0 0 6px #000; }
+
+/* --- Lectura fácil: texto grande, interlineado amplio, una idea por párrafo, sin mayúsculas sostenidas --- */
+.a4-facil-h1 { font-weight: 500; font-size: clamp(30px, 4.5vw, 52px); line-height: 1.15; margin: 10px 0 14px; max-width: 22ch; text-wrap: balance; }
+.a4-facil-lead { font-size: clamp(19px, 2vw, 24px); line-height: 1.5; max-width: 40ch; margin: 0 0 14px; }
+.a4-facil-nota { font-size: 16px; line-height: 1.5; max-width: 60ch; margin: 0; color: #55554f; }
+.a4-facil-link { all: unset; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; color: var(--a4-ink); min-height: 44px; display: inline-flex; align-items: center; }
+.a4-facil-link:focus-visible { outline: 2px solid var(--a4-ink); outline-offset: 3px; }
+.a4-facil-cuerpo { max-width: 56ch; display: grid; gap: 22px; font-size: clamp(19px, 1.8vw, 22px); line-height: 1.6; }
+.a4-facil-cuerpo h2 { font-weight: 500; font-size: 1.15em; line-height: 1.3; margin: 0 0 6px; }
+.a4-facil-cuerpo p { margin: 0; }
+.a4-facil-p { padding-left: 16px; border-left: 3px solid var(--a4-ash); }
+.a4-facil-acciones { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; }
+html[data-a11y-contraste] .a4-facil-nota { color: #000; }
+.a4-facil-h1, .a4-facil-lead, .a4-facil-cuerpo { overflow-wrap: break-word; hyphens: auto; }
+html[data-a11y-texto] .a4-facil-cuerpo, html[data-a11y-texto] .a4-facil-h1 { overflow-wrap: anywhere; }

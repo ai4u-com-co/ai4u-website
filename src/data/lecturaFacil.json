@@ -1,0 +1,529 @@
+{
+  "/": {
+    "titulo": "Ai4U: inteligencia artificial para empresas",
+    "resumen": "Ai4U ayuda a las empresas a ahorrar tiempo con inteligencia artificial en su trabajo diario.",
+    "parrafos": [
+      {
+        "titulo": "Quiénes somos",
+        "texto": "Ai4U es una empresa de Medellín, Colombia. Usamos inteligencia artificial para ayudar a tu empresa a trabajar mejor. Así recuperas tu tiempo."
+      },
+      {
+        "titulo": "Qué es un agente",
+        "texto": "Un agente de inteligencia artificial es un programa que hace tareas por ti. Hace el trabajo repetitivo todo el día. Una persona revisa lo que es importante."
+      },
+      {
+        "titulo": "Qué hacen los agentes",
+        "texto": "Los agentes leen pedidos y facturas. También cobran la cartera, es decir, el dinero que te deben. Además, responden mensajes."
+      },
+      {
+        "titulo": "Dashboards",
+        "texto": "Un dashboard es una pantalla que muestra cómo va tu empresa. Ves las ventas, la cartera y la producción. Además, puedes preguntarle a tus datos y recibir una respuesta al instante."
+      },
+      {
+        "titulo": "Trabajo a tu medida",
+        "texto": "Si lo que necesitas no existe, lo construimos. Hacemos software y automatizaciones pensados para tu empresa."
+      },
+      {
+        "titulo": "Sitios web",
+        "texto": "También hacemos sitios web y tiendas en internet. Tienen diseño propio. Están hechos para trabajar por ti."
+      },
+      {
+        "titulo": "orderLoader y el catálogo",
+        "texto": "orderLoader lee el pedido que llega por correo y lo crea en tu sistema. Ya funciona en dos plantas, las 24 horas, sin que nadie escriba los datos. También tenemos un catálogo con 33 agentes."
+      },
+      {
+        "titulo": "Quiénes ya nos usan",
+        "texto": "Ya trabajan con agentes La Magdalena, Tamaprint, Flexoimpresos, True, HUA Naturals, Estudio Índigo y Multihealth. Tu empresa también puede ser una de ellas."
+      },
+      {
+        "titulo": "Empecemos",
+        "texto": "¿Qué te quita más tiempo? Cuéntanos tu problema. Te decimos qué agente lo puede resolver."
+      }
+    ],
+    "acciones": [
+      "Escríbenos por WhatsApp al +57 302 490 6414",
+      "Mira el catálogo de agentes",
+      "Escríbenos al correo hola@ai4u.com.co"
+    ],
+    "generado": "2026-10-21",
+    "revisado": false
+  },
+  "/agentes": {
+    "titulo": "Agentes de Ai4U",
+    "resumen": "La página presenta 33 agentes de inteligencia artificial que hacen tareas de trabajo en tu empresa.",
+    "parrafos": [
+      {
+        "titulo": "Qué es un agente",
+        "texto": "Un agente de inteligencia artificial es un programa que hace una tarea de trabajo por ti. Esta página muestra 33 agentes. Cada uno resuelve trabajo real en empresas reales."
+      },
+      {
+        "titulo": "Cómo ver cada agente",
+        "texto": "Cada agente tiene una tarjeta. Si le das vuelta, ves qué recibe, qué entrega y quién lo revisa. También ves su horario."
+      },
+      {
+        "titulo": "Tres niveles de control",
+        "texto": "Los agentes tienen tres niveles. Así eliges cuánto trabajo te quitan y cuánto control conservas."
+      },
+      {
+        "titulo": "Nivel 1: propone",
+        "texto": "El agente prepara el trabajo. Una persona decide y ejecuta."
+      },
+      {
+        "titulo": "Nivel 2: ejecuta",
+        "texto": "El agente hace el trabajo. Una persona revisa lo que genera duda."
+      },
+      {
+        "titulo": "Nivel 3: autónomo",
+        "texto": "El agente trabaja solo. Te avisa cuando hay una excepción."
+      },
+      {
+        "titulo": "Qué tareas hacen",
+        "texto": "Hay agentes para pedidos, compras, cobros y finanzas. También hay agentes para paneles de datos, alertas, producción, atención a clientes, contenido y ventas."
+      },
+      {
+        "titulo": "Estado de los agentes",
+        "texto": "28 agentes ya están en producción, es decir, ya trabajan en empresas. Otros 4 están en piloto, es decir, en prueba. Uno es de uso interno de Ai4U."
+      },
+      {
+        "titulo": "El próximo agente puede ser tuyo",
+        "texto": "Cuéntanos qué tarea te quita tiempo cada semana. Revisamos si ya existe un agente para eso. Si no existe, construimos uno nuevo."
+      }
+    ],
+    "acciones": [
+      "Escríbenos por WhatsApp y cuéntanos tu tarea.",
+      "Dale vuelta a una tarjeta para ver qué hace el agente.",
+      "Elige un nivel para ver agentes con más o menos control."
+    ],
+    "generado": "2026-10-21",
+    "revisado": false
+  },
+  "/agente-airbnb": {
+    "titulo": "Tu agente para Airbnb",
+    "resumen": "Esta página explica cómo un agente de inteligencia artificial te ayuda a atender a los huéspedes de tu Airbnb, de la reserva a la reseña.",
+    "parrafos": [
+      {
+        "titulo": "Qué es este agente",
+        "texto": "Es un agente de inteligencia artificial. Es un programa que hace tareas por ti. Acompaña cada reserva de principio a fin."
+      },
+      {
+        "titulo": "Qué hace por ti",
+        "texto": "Escribe a tus huéspedes y los registra. Avisa al equipo de aseo y te entrega las cuentas. Tú atiendes lo que de verdad necesita a una persona."
+      },
+      {
+        "titulo": "El recorrido de una reserva",
+        "texto": "El agente te ayuda en siete momentos. Envía la bienvenida, pide el registro y explica cómo llegar. Después manda el mensaje de check-in, responde preguntas y recuerda la salida. Al final da las gracias e invita a dejar una reseña."
+      },
+      {
+        "titulo": "Respuestas a los huéspedes",
+        "texto": "El agente responde lo de siempre, como wifi, parqueadero y recomendaciones. Si no sabe algo, no inventa. Te avisa a ti o a tu equipo."
+      },
+      {
+        "titulo": "Mensajes, aseo y cuentas",
+        "texto": "Los mensajes salen con la voz de tu casa y firmados por tu equipo. Cuando un huésped sale, el equipo de aseo recibe un aviso. Tú ves la ocupación, los ingresos y los gastos de cada apartamento."
+      },
+      {
+        "titulo": "Lo que sigues decidiendo tú",
+        "texto": "Tú decides los precios y las reservas. El registro de turismo se envía solo después de que lo revisas y lo confirmas. Los códigos de acceso solo se muestran con el registro completo y a la hora del check-in."
+      },
+      {
+        "titulo": "Cuidado de los datos",
+        "texto": "Los documentos de los huéspedes se guardan en un almacenamiento privado. Los datos se usan solo para el registro de turismo."
+      },
+      {
+        "titulo": "Un agente probado",
+        "texto": "Este agente se construyó con Estudio Índigo. Ellos administran apartamentos de alquiler corto en El Retiro, Antioquia. Hoy está construido sobre Airbnb y no es una conexión oficial. Ai4U no es socio ni representante de Airbnb."
+      },
+      {
+        "titulo": "Cuánto cuesta",
+        "texto": "El precio depende de cuántos apartamentos tienes y de qué partes quieres automatizar. Primero hacemos un diagnóstico sin costo. Después te damos una cotización a tu medida."
+      }
+    ],
+    "acciones": [
+      "Escríbenos por WhatsApp",
+      "Mira el recorrido de una reserva",
+      "Mira todos los agentes"
+    ],
+    "generado": "2026-10-21",
+    "revisado": false
+  },
+  "/dashboards": {
+    "titulo": "Dashboards para tu empresa",
+    "resumen": "Esta página explica cómo los dashboards de Ai4U te muestran en un solo lugar cómo va tu empresa.",
+    "parrafos": [
+      {
+        "titulo": "Ve cómo va tu empresa",
+        "texto": "Un dashboard es una pantalla con los datos de tu empresa. Ves ventas, cartera, producción y cumplimiento en un solo lugar. La información está siempre al día y no tienes que pedir reportes."
+      },
+      {
+        "titulo": "Habla con tu empresa",
+        "texto": "Tienes un chat conectado a tus bases de datos y a tu sistema de gestión. Le escribes como a una persona. Él busca los datos y te responde al momento."
+      },
+      {
+        "titulo": "Pregunta lo que quieras",
+        "texto": "Puedes preguntar cuánto vendiste este mes por vendedor. Puedes preguntar qué clientes tienen la cartera más vencida. También puedes preguntar qué órdenes de producción van atrasadas, o cuánto inventario tienes de un artículo."
+      },
+      {
+        "titulo": "Datos reales",
+        "texto": "Las respuestas salen de los datos de tu empresa. No son un ejemplo. Los dashboards leen directamente de los sistemas que ya usas."
+      },
+      {
+        "titulo": "Qué puedes ver",
+        "texto": "Ves las ventas por cliente, por vendedor y por mes, comparadas con el año anterior. Ves quién debe dinero, cuánto y desde cuándo. Ves qué se produce y qué va atrasado, incluso en pantallas junto a cada máquina."
+      },
+      {
+        "titulo": "Entregas y finanzas",
+        "texto": "Ves lo que prometiste frente a lo que entregaste, por línea de producto. También ves el estado de resultados y las cuentas principales al día. Con un clic ves el detalle."
+      },
+      {
+        "titulo": "Avisos y ayuda",
+        "texto": "Los dashboards te avisan cuando una cifra se sale de lo normal. Así tu equipo actúa a tiempo. Además, un asistente dentro del panel te ayuda y siempre conoce el estado real de tu operación."
+      },
+      {
+        "titulo": "Sin cambiar tu trabajo",
+        "texto": "Los dashboards se conectan a lo que ya usas. No cambias tu forma de trabajar y no mueves tus datos. Una persona revisa que lo que ves sea lo que pasa en tu empresa."
+      },
+      {
+        "titulo": "Ya funciona",
+        "texto": "Empresas de manufactura y de contenido ya ven su operación en los dashboards de Ai4U. Puedes conocer sus casos en esta página."
+      }
+    ],
+    "acciones": [
+      "Escríbenos por WhatsApp y cuéntanos qué cifras quieres ver",
+      "Mira los casos de otras empresas",
+      "Conoce a los agentes de inteligencia artificial"
+    ],
+    "generado": "2026-10-21",
+    "revisado": false
+  },
+  "/servicios": {
+    "titulo": "Soluciones hechas a tu medida",
+    "resumen": "Ai4U construye programas, automatizaciones y sitios web para tu trabajo, y después los mantiene funcionando.",
+    "parrafos": [
+      {
+        "titulo": "Hacemos lo que no existe",
+        "texto": "Si necesitas algo que no existe, lo construimos. Hacemos programas, tareas automáticas y sitios web para tu trabajo. Después los mantenemos funcionando."
+      },
+      {
+        "titulo": "Empezamos por lo que más tiempo te quita",
+        "texto": "Primero buscamos la tarea que más tiempo te cuesta. Si ya existe una herramienta que la resuelve, la usamos. Si no existe, la construimos."
+      },
+      {
+        "titulo": "Qué construimos",
+        "texto": "Hacemos programas que resuelven pedidos, cotizaciones, facturas y planeación de producción. También conectamos tu sistema de gestión, tu correo y WhatsApp. Así la información pasa de uno a otro sin escribirla a mano."
+      },
+      {
+        "titulo": "Tableros y sitios web",
+        "texto": "Hacemos tableros con las cifras que necesitas, siempre al día y con alertas. También hacemos sitios web y tiendas con diseño propio. Están hechos para trabajar por ti."
+      },
+      {
+        "titulo": "Cómo trabajamos",
+        "texto": "Primero entendemos tu trabajo y escogemos lo que más tiempo te cuesta. Luego lo armamos contigo y usamos lo que ya funciona. Después empieza a trabajar con una persona que revisa lo importante. Al final lo mantenemos funcionando y lo mejoramos contigo."
+      },
+      {
+        "titulo": "Lo que ya hicimos",
+        "texto": "Ya hicimos herramientas para varios tipos de trabajo. Una cotiza al instante y deja la cotización lista. Otra ordena las órdenes de producción por máquina. Otra crea artículos nuevos sin hacerlos a mano."
+      },
+      {
+        "titulo": "Más ejemplos",
+        "texto": "Otra herramienta revisa un arte antes de producir y avisa si algo debe corregirse. Otra convierte grabaciones largas en texto y dice quién habló y a qué hora. Otra atiende a huéspedes: responde mensajes, mantiene calendarios al día y avisa al equipo de aseo."
+      },
+      {
+        "titulo": "Hablemos",
+        "texto": "Cuéntanos qué te quita más tiempo. Te escuchamos y te decimos cómo lo resolveríamos."
+      }
+    ],
+    "acciones": [
+      "Escríbenos por WhatsApp",
+      "Mira los casos que ya hicimos",
+      "Conoce los tableros de cifras"
+    ],
+    "generado": "2026-10-21",
+    "revisado": false
+  },
+  "/sitios-web": {
+    "titulo": "Sitios web de Ai4U",
+    "resumen": "Esta página explica qué sitios web construye Ai4U y cómo puedes pedir el tuyo.",
+    "parrafos": [
+      {
+        "titulo": "Qué hacemos",
+        "texto": "En Ai4U construimos sitios web. Los entregamos listos y son tuyos. Los hacemos rápidos y bien organizados."
+      },
+      {
+        "titulo": "Sitio de una sola página",
+        "texto": "La primera opción es una página llamada landing. Es una sola página, sin base de datos ni sistema detrás. Queda lista para publicar y para recibir visitas."
+      },
+      {
+        "titulo": "Sitio con sistema detrás",
+        "texto": "La segunda opción es la misma página, pero con más funciones. Puede tener un formulario y una base de datos. También puede tener reglas propias para tu negocio."
+      },
+      {
+        "titulo": "Cómo trabajamos",
+        "texto": "Optimizamos tu sitio para que los buscadores lo encuentren. También lo hacemos para que cargue rápido. La entrega tarda cerca de 14 días."
+      },
+      {
+        "titulo": "La Magdalena",
+        "texto": "Es un estudio que cuenta historias de impacto social y ambiental. Hicimos su sitio web. Puedes visitarlo en lamagdalena.com.co."
+      },
+      {
+        "titulo": "Catalina Romero",
+        "texto": "Es un portafolio de dirección de arte, estilismo y narrativa visual. Hicimos su sitio web. Puedes visitarlo en cromero.vercel.app."
+      },
+      {
+        "titulo": "Nakoa",
+        "texto": "Es una perfumería de autor. Su sitio habla de lo invisible del territorio, puesto en un frasco. Puedes visitarlo en nakoa-web.vercel.app."
+      },
+      {
+        "titulo": "¿Quieres tu sitio web?",
+        "texto": "Si quieres que construyamos tu sitio, escríbenos. Te respondemos por WhatsApp."
+      }
+    ],
+    "acciones": [
+      "Escríbenos por WhatsApp para pedir tu sitio web",
+      "Pide una cotización de landing",
+      "Pide una cotización de sitio con sistema detrás"
+    ],
+    "generado": "2026-10-21",
+    "revisado": false
+  },
+  "/orderloader": {
+    "titulo": "orderLoader: pedidos sin digitar",
+    "resumen": "orderLoader es un producto de Ai4U que lee los correos de pedidos y los crea solo en el sistema de la empresa.",
+    "parrafos": [
+      {
+        "titulo": "Qué es orderLoader",
+        "texto": "orderLoader es un producto de Ai4U. Es un agente de inteligencia artificial: un programa que hace tareas solo, como lo haría una persona."
+      },
+      {
+        "titulo": "Qué hace",
+        "texto": "Lee los correos con pedidos de los clientes. Luego crea cada pedido en el sistema de tu empresa. Nadie tiene que escribirlo a mano."
+      },
+      {
+        "titulo": "Su historia",
+        "texto": "orderLoader es el producto con el que nació Ai4U. Hoy funciona en dos plantas reales."
+      },
+      {
+        "titulo": "Paso 1: llega el correo",
+        "texto": "Un pedido llega al correo del cliente. Puede venir en PDF, en Excel o en texto simple."
+      },
+      {
+        "titulo": "Paso 2: orderLoader lo lee",
+        "texto": "El agente busca los artículos, las cantidades, el cliente y las fechas. No necesita un formato fijo. Nadie escribe los datos a mano."
+      },
+      {
+        "titulo": "Paso 3: crea el pedido",
+        "texto": "El agente crea el pedido en el sistema de tu empresa. La orden queda lista para producción. Nadie la escribe."
+      },
+      {
+        "titulo": "Funciona de verdad",
+        "texto": "orderLoader no es una prueba: trabaja en dos empresas de manufactura. Usa el mismo motor en las dos. Funciona todos los días, sin turnos, y no espera a que alguien lo revise."
+      },
+      {
+        "titulo": "Seguro y ordenado",
+        "texto": "Cada planta tiene su propia configuración. El código no cambia de una empresa a otra. Se conecta a tu sistema por una sola vía, propia y controlada."
+      },
+      {
+        "titulo": "Una pregunta para ti",
+        "texto": "¿Tu equipo todavía escribe los pedidos a mano? Si es así, podemos hablar."
+      }
+    ],
+    "acciones": [
+      "Escríbenos por WhatsApp",
+      "Mira la página de Agentes",
+      "Mira la página de Portafolio"
+    ],
+    "generado": "2026-10-21",
+    "revisado": false
+  },
+  "/portafolio": {
+    "titulo": "Empresas que trabajan con Ai4U",
+    "resumen": "Esta página muestra cinco empresas que ya usan agentes de inteligencia artificial de Ai4U.",
+    "parrafos": [
+      {
+        "titulo": "Qué encuentras aquí",
+        "texto": "Aquí ves cinco empresas que ya trabajan con Ai4U. Usan agentes de inteligencia artificial. Un agente es un programa que hace tareas por ti."
+      },
+      {
+        "titulo": "Tamaprint",
+        "texto": "Tamaprint es una empresa de manufactura. Sus pedidos y su cartera funcionan solos. También tiene paneles para ver cómo va su trabajo."
+      },
+      {
+        "titulo": "Flexoimpresos",
+        "texto": "Flexoimpresos también es una empresa de manufactura. Ve su planta, sus entregas y su cartera en un solo lugar. Los pedidos entran solos."
+      },
+      {
+        "titulo": "La Magdalena",
+        "texto": "La Magdalena cuenta historias que ayudan a la sociedad. Ai4U le ayuda con su contenido y con escuchar a su marca. Tiene un chat que conoce su obra."
+      },
+      {
+        "titulo": "Estudio Índigo",
+        "texto": "Estudio Índigo trabaja en hospitalidad. Es decir, recibe a huéspedes. Un agente atiende a sus huéspedes a cualquier hora."
+      },
+      {
+        "titulo": "Multihealth",
+        "texto": "Multihealth trabaja en salud y bienestar. Atiende a las personas por WhatsApp a cualquier hora."
+      },
+      {
+        "titulo": "Sigue explorando",
+        "texto": "Puedes ver los agentes que usan estas empresas. También puedes ver cómo miran su trabajo en los paneles. Y puedes conocer las soluciones hechas a la medida, para cuando lo que necesitas no existe."
+      },
+      {
+        "titulo": "¿Cuál sería tu caso?",
+        "texto": "Si quieres algo parecido para tu empresa, cuéntanos. Te leemos con gusto."
+      }
+    ],
+    "acciones": [
+      "Escríbenos por WhatsApp",
+      "Visita el sitio de una empresa",
+      "Mira los agentes que usan estas empresas"
+    ],
+    "generado": "2026-10-21",
+    "revisado": false
+  },
+  "/por-que-ai4u": {
+    "titulo": "Quiénes somos en Ai4U",
+    "resumen": "Esta página cuenta quiénes somos en Ai4U y cómo trabajamos con inteligencia artificial.",
+    "parrafos": [
+      {
+        "titulo": "Nuestra idea",
+        "texto": "En Ai4U creemos en la parte humana de la inteligencia artificial. La inteligencia artificial es una tecnología que aprende y ayuda a hacer tareas."
+      },
+      {
+        "titulo": "Quién está detrás",
+        "texto": "Mariano es el fundador de Ai4U. También es cofundador de Matt Movilidad y especialista en automatización."
+      },
+      {
+        "titulo": "Su experiencia",
+        "texto": "Mariano tiene experiencia en startups, movilidad y tecnología. Crea soluciones que funcionan. Puedes ver su perfil en LinkedIn."
+      },
+      {
+        "titulo": "Primero, un diagnóstico gratis",
+        "texto": "Te ofrecemos un diagnóstico gratuito. Buscamos contigo oportunidades reales para tu negocio, sin costo."
+      },
+      {
+        "titulo": "Una IA que mejora",
+        "texto": "Nuestra inteligencia artificial aprende y mejora junto con tu negocio."
+      },
+      {
+        "titulo": "Resultados que se miden",
+        "texto": "Definimos contigo qué se va a medir. Después revisamos los resultados juntos."
+      },
+      {
+        "titulo": "Con quién trabajamos",
+        "texto": "Trabajamos con empresas como La Magdalena, Tamaprint, Flexoimpresos, True, HUA Naturals, Estudio Índigo y Multihealth. Queremos que estas alianzas duren mucho tiempo."
+      },
+      {
+        "titulo": "Nuestros agentes",
+        "texto": "Nuestros agentes trabajan las 24 horas del día. Así tu equipo gasta menos tiempo en tareas repetitivas y se enfoca en lo importante. También puedes ver la información de tu negocio al momento para decidir."
+      },
+      {
+        "titulo": "Conoce más",
+        "texto": "En esta página puedes ver los casos de empresas que ya trabajan con nosotros. También puedes conocer a los agentes y ver cómo construimos y mantenemos las soluciones a tu medida."
+      }
+    ],
+    "acciones": [
+      "Escríbenos por WhatsApp",
+      "Mira los casos de las empresas que trabajan con nosotros",
+      "Conoce a nuestros agentes"
+    ],
+    "generado": "2026-10-21",
+    "revisado": false
+  },
+  "/preguntas-frecuentes": {
+    "titulo": "Preguntas frecuentes sobre Ai4U",
+    "resumen": "Esta página responde las dudas más comunes sobre Ai4U, sus agentes de inteligencia artificial y cómo empezar.",
+    "parrafos": [
+      {
+        "titulo": "¿Qué es Ai4U?",
+        "texto": "Ai4U es una empresa colombiana. Su sede está en Medellín. Pone inteligencia artificial a trabajar en otras empresas."
+      },
+      {
+        "titulo": "¿Qué es un agente de IA?",
+        "texto": "Un agente de inteligencia artificial es un programa de computador. Hace un trabajo concreto por su cuenta, como leer pedidos que llegan por correo o responder mensajes. Una persona revisa lo importante."
+      },
+      {
+        "titulo": "¿Qué hace orderLoader?",
+        "texto": "orderLoader lee el pedido que llega por correo. Luego lo crea en tu sistema, sin que nadie lo escriba a mano. Trabaja las 24 horas y una persona revisa los casos con dudas."
+      },
+      {
+        "titulo": "¿Reemplazan a mi equipo?",
+        "texto": "No. Los agentes hacen el trabajo repetitivo. Tú decides cuánta supervisión quieres."
+      },
+      {
+        "titulo": "¿Tengo que cambiar mis sistemas?",
+        "texto": "No. Los agentes se conectan a lo que ya usas, como tu correo y WhatsApp. No cambias tu forma de trabajar."
+      },
+      {
+        "titulo": "¿Cuánto cuesta?",
+        "texto": "Depende de tu caso. Por eso empezamos con un diagnóstico sin costo. Después hacemos una cotización a tu medida."
+      },
+      {
+        "titulo": "¿Y si lo que necesito no existe?",
+        "texto": "Lo construimos a tu medida. Empezamos por el proceso que más tiempo te quita. Una persona de Ai4U mantiene y mejora lo que construimos."
+      },
+      {
+        "titulo": "¿Hacen sitios web?",
+        "texto": "Sí. Hacemos sitios y tiendas con diseño propio. Se entregan en unos 14 días y se cotizan por WhatsApp."
+      },
+      {
+        "titulo": "¿Cómo empiezo?",
+        "texto": "Cuéntanos qué tarea te quita más tiempo. Escríbenos por WhatsApp al +57 302 490 6414 o al correo hola@ai4u.com.co. Te decimos qué agente la resolvería."
+      }
+    ],
+    "acciones": [
+      "Escríbenos por WhatsApp",
+      "Escríbenos al correo hola@ai4u.com.co",
+      "Mira los agentes en la página Agentes"
+    ],
+    "generado": "2026-10-21",
+    "revisado": false
+  },
+  "/accesibilidad": {
+    "titulo": "Accesibilidad en nuestro sitio",
+    "resumen": "Esta página explica cómo hacemos que el sitio sea fácil de usar para todas las personas.",
+    "parrafos": [
+      {
+        "titulo": "Un sitio para todas las personas",
+        "texto": "Queremos que cualquier persona use nuestro sitio. Puedes usarlo con lector de pantalla, solo con teclado, con letra grande o con poca visión."
+      },
+      {
+        "titulo": "Qué reglas seguimos",
+        "texto": "Seguimos unas reglas internacionales de accesibilidad llamadas WCAG 2.2, nivel AA. Con ellas cumplimos también lo que piden las normas de Colombia. Además, todos nuestros videos llevan subtítulos y puedes agrandar el texto."
+      },
+      {
+        "titulo": "Herramientas para leer mejor",
+        "texto": "En el botón «Accesibilidad» hay un panel de ayudas. Allí puedes agrandar el texto, subir el contraste y dar más espacio a las letras. También puedes usar una letra simple, quitar el movimiento y escuchar la página en voz alta."
+      },
+      {
+        "titulo": "Tus preferencias están seguras",
+        "texto": "Tus preferencias se guardan en tu navegador. No usan cookies y no se envían a ningún servicio."
+      },
+      {
+        "titulo": "Otras ayudas que ya tienes",
+        "texto": "El sitio también funciona con el zoom del navegador y con lectores de pantalla. Puedes moverte solo con el teclado. Respeta las opciones de contraste y de poco movimiento de tu aparato."
+      },
+      {
+        "titulo": "Cómo estamos hoy",
+        "texto": "Revisamos todas las páginas públicas el 21 de octubre de 2026. Usamos herramientas automáticas y también revisamos a mano. Si un cambio crea una barrera, no lo publicamos."
+      },
+      {
+        "titulo": "Todavía nos falta algo",
+        "texto": "Cumplimos de forma parcial. Falta una prueba con personas que usan lectores de pantalla. La haremos antes de decir que cumplimos del todo."
+      },
+      {
+        "titulo": "Límites que conocemos",
+        "texto": "El traductor de Google está en el pie de página. Es un servicio de otra empresa y no controlamos su accesibilidad. Las vistas previas de sitios web son fotos de pantalla. Su descripción no cuenta todo el contenido del sitio."
+      },
+      {
+        "titulo": "Si algo no funciona",
+        "texto": "Si encuentras una barrera, escríbenos y la corregimos. Te respondemos en máximo cinco días hábiles y te contamos qué hicimos. Dinos qué página usabas, qué querías hacer y qué navegador o ayuda técnica usas."
+      }
+    ],
+    "acciones": [
+      "Escríbenos por WhatsApp al +57 302 490 6414",
+      "Escríbenos al correo hola@ai4u.com.co",
+      "Abre el botón «Accesibilidad» para cambiar cómo ves la página"
+    ],
+    "generado": "2026-10-21",
+    "revisado": false
+  }
+}

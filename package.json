@@ -24,6 +24,7 @@
     "build:analyze": "cross-env ANALYZE=true vite build",
     "preview": "vite preview",
     "test": "vitest",
+    "lectura-facil": "node scripts/lectura-facil.mjs",
     "predeploy": "npm run build",
     "validate-translations": "node scripts/validate-translations.js",
     "analyze-images": "node scripts/analyze-image-performance.js",
