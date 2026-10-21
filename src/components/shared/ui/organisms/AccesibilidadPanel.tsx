@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ROUTES } from '../../../../utils/constants';
 import { scrollToTop } from '../../../../utils/helpers';
 import {
-  type Prefs, type Texto, TEXTOS, DEFAULTS, load, save, apply, isDefault,
-  splitSentences, pickVoice, textToRead,
+  type Prefs, type Texto, TEXTOS, DEFAULTS, isDefault, getPrefs, setPrefs, usePrefs,
+  splitSentences, pickVoice, readingBlocks,
 } from '../../../../utils/accesibilidad';
+import { lecturaFacilDe } from '../../../../data/lecturaFacil';
 import '../../../../styles/site-v2.css';
 import '../../../../styles/accesibilidad.css';
 
@@ -14,6 +15,7 @@ type Lectura = 'inactiva' | 'leyendo' | 'pausada';
 // Un solo diálogo por página (lo monta Layout); los botones de cabecera y pie lo abren con este evento.
 const OPEN_EVENT = 'ai4u:a11y-open';
 export const abrirPanel = () => window.dispatchEvent(new CustomEvent(OPEN_EVENT));
+const READING_CLASS = 'a4-a11y-reading';
 
 /** Botón «Accesibilidad» para cabecera y pie. */
 export const AccesibilidadBoton: React.FC = () => (
@@ -31,32 +33,42 @@ export const AccesibilidadBoton: React.FC = () => (
 // vive en el navegador de la persona (ver utils/accesibilidad.ts).
 const AccesibilidadPanel: React.FC = () => {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const [prefs, setPrefs] = useState<Prefs>(DEFAULTS);
+  const prefs = usePrefs();
+  const { pathname } = useLocation();
   const [lectura, setLectura] = useState<Lectura>('inactiva');
   const [velocidad, setVelocidad] = useState(1);
   const [aviso, setAviso] = useState('');
   // Anuncio para lectores de pantalla que vive fuera del diálogo: sigue oyéndose cuando el panel se cierra para leer.
   const [anuncio, setAnuncio] = useState('');
+  const resaltado = useRef<HTMLElement | null>(null);
   const puedeLeer = typeof window !== 'undefined' && 'speechSynthesis' in window;
+  const hayFacil = Boolean(lecturaFacilDe(pathname));
 
-  useEffect(() => { const p = load(); setPrefs(p); apply(p); }, []);
+  useEffect(() => { setPrefs(getPrefs()); }, []);
   useEffect(() => {
     const onOpen = () => { const d = dialogRef.current; if (d && !d.open) d.showModal(); };
     window.addEventListener(OPEN_EVENT, onOpen);
     return () => window.removeEventListener(OPEN_EVENT, onOpen);
   }, []);
 
-  const update = useCallback((patch: Partial<Prefs>) => {
-    setPrefs(prev => { const next = { ...prev, ...patch }; apply(next); save(next); return next; });
-  }, []);
-
+  const update = useCallback((patch: Partial<Prefs>) => setPrefs({ ...getPrefs(), ...patch }), []);
   const restablecer = () => { update({ ...DEFAULTS }); setAviso('Preferencias restablecidas.'); };
-
   const close = () => dialogRef.current?.close();
 
-  // ---- lectura en voz alta ----
+  // ---- lectura en voz alta, bloque por bloque, resaltando el que suena ----
+  const quitarResaltado = () => { resaltado.current?.classList.remove(READING_CLASS); resaltado.current = null; };
+  const resaltar = (el: HTMLElement | null) => {
+    quitarResaltado();
+    if (!el) return;
+    el.classList.add(READING_CLASS);
+    resaltado.current = el;
+    const r = el.getBoundingClientRect();
+    if (r.top < 80 || r.bottom > window.innerHeight - 80) el.scrollIntoView({ block: 'center', behavior: getPrefs().movimiento ? 'auto' : 'smooth' });
+  };
+
   const detener = useCallback(() => {
     if (puedeLeer) window.speechSynthesis.cancel();
+    quitarResaltado();
     setLectura('inactiva');
     setAnuncio('Lectura detenida.');
   }, [puedeLeer]);
@@ -66,27 +78,32 @@ const AccesibilidadPanel: React.FC = () => {
     const synth = window.speechSynthesis;
     if (lectura === 'pausada') { synth.resume(); setLectura('leyendo'); return; }
     synth.cancel();
-    const frases = splitSentences(textToRead());
-    if (!frases.length) { setAviso('No hay texto para leer en esta página.'); return; }
+    const bloques = readingBlocks();
+    if (!bloques.length) { setAviso('No hay texto para leer en esta página.'); return; }
     const voz = pickVoice(synth.getVoices());
-    frases.forEach((f, i) => {
-      const u = new SpeechSynthesisUtterance(f);
+    const piezas = bloques.flatMap(b => splitSentences(b.text).map(text => ({ el: b.el, text })));
+    piezas.forEach((pz, i) => {
+      const u = new SpeechSynthesisUtterance(pz.text);
       u.lang = voz?.lang ?? 'es-CO';
       if (voz) u.voice = voz;
       u.rate = velocidad;
-      if (i === frases.length - 1) u.onend = () => setLectura('inactiva');
-      u.onerror = () => setLectura('inactiva');
+      // Al empezar cada frase se resalta su bloque (si cambió); al terminar la última, se limpia.
+      u.onstart = () => { if (pz.el !== resaltado.current) resaltar(pz.el); };
+      if (i === piezas.length - 1) u.onend = () => { quitarResaltado(); setLectura('inactiva'); setAnuncio('Lectura terminada.'); };
+      u.onerror = (e) => { if (e.error !== 'interrupted' && e.error !== 'canceled') { quitarResaltado(); setLectura('inactiva'); } };
       synth.speak(u);
     });
     setLectura('leyendo');
     setAnuncio(voz ? `Leyendo en voz alta con la voz ${voz.name}. Abajo a la izquierda tienes pausar y detener.` : 'Leyendo en voz alta con la voz por defecto del dispositivo (no tiene una voz en español instalada). Abajo a la izquierda tienes pausar y detener.');
-    // Cerrar el panel para que la persona pueda seleccionar texto y seguir navegando mientras escucha.
+    // Cerrar el panel para que la persona pueda seguir la lectura en la página.
     close();
   };
   const pausar = () => { window.speechSynthesis.pause(); setLectura('pausada'); setAnuncio('Lectura en pausa.'); };
   const continuar = () => { window.speechSynthesis.resume(); setLectura('leyendo'); setAnuncio('Lectura reanudada.'); };
 
-  useEffect(() => () => { if (puedeLeer) window.speechSynthesis.cancel(); }, [puedeLeer]);
+  // Al cambiar de página o desmontar, se detiene lo que estuviera sonando.
+  useEffect(() => () => { if (puedeLeer) window.speechSynthesis.cancel(); quitarResaltado(); }, [puedeLeer, pathname]);
+  useEffect(() => { setLectura('inactiva'); }, [pathname]);
 
   const opcion = (k: keyof Omit<Prefs, 'texto'>, titulo: string, texto: string) => (
     <button type="button" className="a4-a11y-opt" aria-pressed={prefs[k]} onClick={() => update({ [k]: !prefs[k] } as Partial<Prefs>)}>
@@ -107,6 +124,13 @@ const AccesibilidadPanel: React.FC = () => {
         </div>
 
         <div className="a4-a11y-body">
+          <fieldset className="a4-a11y-group">
+            <legend className="a4-cap">Entender</legend>
+            <div className="a4-a11y-opts">
+              {opcion('facil', 'Explícamelo fácil', hayFacil ? 'La misma página con frases cortas y palabras sencillas.' : 'Esta página todavía no tiene versión fácil; se verá en las que sí la tienen.')}
+            </div>
+          </fieldset>
+
           <fieldset className="a4-a11y-group">
             <legend className="a4-cap">Tamaño del texto</legend>
             <div className="a4-a11y-row" role="group" aria-label="Tamaño del texto">
@@ -132,7 +156,7 @@ const AccesibilidadPanel: React.FC = () => {
             <legend className="a4-cap">Leer en voz alta</legend>
             {puedeLeer ? (
               <>
-                <p className="a4-sm a4-a11y-help">Lee el texto que tengas seleccionado o, si no hay selección, toda la página. Usa la voz de tu dispositivo: no se envía nada a internet.</p>
+                <p className="a4-sm a4-a11y-help">Lee el texto que tengas seleccionado o, si no hay selección, toda la página, resaltando lo que va leyendo. Usa la voz de tu dispositivo: no se envía nada a internet.</p>
                 <div className="a4-a11y-row">
                   {lectura === 'leyendo'
                     ? <button type="button" className="a4-pill" onClick={pausar}>Pausar</button>

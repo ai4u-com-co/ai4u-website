@@ -1,3 +1,4 @@
+import { useSyncExternalStore } from 'react';
 // Preferencias de lectura (panel de accesibilidad). Se guardan en el navegador de la persona, sin cookies ni
 // terceros, y se aplican como atributos data-a11y-* en <html> para que el CSS haga el resto (styles/accesibilidad.css).
 // index.html las aplica antes de pintar (script inline) para que no haya parpadeo al recargar.
@@ -15,13 +16,15 @@ export interface Prefs {
   fuente: boolean;
   /** Sin animaciones ni transiciones. */
   movimiento: boolean;
+  /** Versión en lectura fácil de la página (cuando existe). */
+  facil: boolean;
 }
 
 export const STORAGE_KEY = 'ai4u-a11y';
 export const TEXTOS: Texto[] = [100, 125, 150];
-export const DEFAULTS: Prefs = { texto: 100, contraste: false, espaciado: false, fuente: false, movimiento: false };
+export const DEFAULTS: Prefs = { texto: 100, contraste: false, espaciado: false, fuente: false, movimiento: false, facil: false };
 
-const BOOLS = ['contraste', 'espaciado', 'fuente', 'movimiento'] as const;
+const BOOLS = ['contraste', 'espaciado', 'fuente', 'movimiento', 'facil'] as const;
 
 /** Convierte lo que haya guardado (o cualquier cosa) en preferencias válidas. */
 export const normalize = (raw: unknown): Prefs => {
@@ -58,6 +61,7 @@ export const attrsFor = (p: Prefs): Record<string, string | null> => ({
   'data-a11y-espaciado': p.espaciado ? '' : null,
   'data-a11y-fuente': p.fuente ? '' : null,
   'data-a11y-movimiento': p.movimiento ? '' : null,
+  'data-a11y-facil': p.facil ? '' : null,
 });
 
 export const apply = (p: Prefs, el: HTMLElement = document.documentElement) => {
@@ -66,6 +70,15 @@ export const apply = (p: Prefs, el: HTMLElement = document.documentElement) => {
     else el.setAttribute(k, v);
   }
 };
+
+// ---- Estado compartido: el panel cambia las preferencias y Layout (lectura fácil) las lee ----
+
+let current: Prefs | null = null;
+const listeners = new Set<() => void>();
+export const getPrefs = (): Prefs => current ?? (current = typeof window === 'undefined' ? { ...DEFAULTS } : load());
+export const setPrefs = (p: Prefs) => { current = p; apply(p); save(p); listeners.forEach(l => l()); };
+export const subscribe = (l: () => void) => { listeners.add(l); return () => { listeners.delete(l); }; };
+export const usePrefs = () => useSyncExternalStore(subscribe, getPrefs, () => DEFAULTS);
 
 // ---- Leer en voz alta (API nativa del navegador; sin servicio externo) ----
 
@@ -94,10 +107,29 @@ export const pickVoice = (voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice 
   return by(/CO/i) ?? by(/419|MX|AR|CL|PE|US/i) ?? es[0];
 };
 
-/** Texto que se lee: lo seleccionado por la persona o, si no hay selección, el contenido principal de la página. */
-export const textToRead = (): string => {
+export interface Bloque { el: HTMLElement | null; text: string }
+
+const BLOQUES = 'h1, h2, h3, h4, p, li, dt, dd, figcaption, blockquote';
+const esVisible = (el: HTMLElement) => el.offsetParent !== null || getComputedStyle(el).position === 'fixed';
+
+/** Qué se lee y en qué orden: lo seleccionado por la persona (un solo bloque, sin resaltar) o, si no hay selección,
+ *  los bloques de texto del contenido principal, uno por uno, para poder resaltar el que suena. */
+export const readingBlocks = (): Bloque[] => {
   const sel = window.getSelection?.()?.toString().trim();
-  if (sel) return sel;
-  const main = document.querySelector('main');
-  return (main?.innerText ?? document.body.innerText).trim();
+  if (sel) return [{ el: null, text: sel }];
+  const main = document.querySelector('main') ?? document.body;
+  const out: Bloque[] = [];
+  for (const el of Array.from(main.querySelectorAll<HTMLElement>(BLOQUES))) {
+    // Un <li> o <dd> que contiene a su vez párrafos ya se lee por sus hijos.
+    if (el.querySelector(BLOQUES)) continue;
+    if (el.closest('dialog, [aria-hidden="true"], .a4-sr-only, .a4-a11y-bar')) continue;
+    if (!esVisible(el)) continue;
+    const text = (el.innerText ?? el.textContent ?? '').replace(/\s+/g, ' ').trim();
+    if (text.length < 2) continue;
+    out.push({ el, text });
+  }
+  return out;
 };
+
+/** Compatibilidad: todo el texto junto. */
+export const textToRead = (): string => readingBlocks().map(b => b.text).join(' ');

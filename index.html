@@ -18,7 +18,7 @@
         var a11y = JSON.parse(localStorage.getItem('ai4u-a11y') || 'null') || {};
         var h = document.documentElement;
         if (a11y.texto === 125 || a11y.texto === 150) h.setAttribute('data-a11y-texto', String(a11y.texto));
-        ['contraste', 'espaciado', 'fuente', 'movimiento'].forEach(function (k) { if (a11y[k] === true) h.setAttribute('data-a11y-' + k, ''); });
+        ['contraste', 'espaciado', 'fuente', 'movimiento', 'facil'].forEach(function (k) { if (a11y[k] === true) h.setAttribute('data-a11y-' + k, ''); });
       } catch (e) {}
     </script>
     <title>Ai4U: agentes de IA, dashboards y software a la medida</title>
