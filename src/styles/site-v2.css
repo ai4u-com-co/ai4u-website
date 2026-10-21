@@ -58,6 +58,7 @@ html { scroll-padding-top: 88px; }
 .a4-nav-in { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 22px; }
 .a4-nav-in > a img { height: 30px; width: auto; }
 .a4-nav-lang { display: flex; align-items: center; }
+.a4-nav-tools { display: flex; align-items: center; gap: 4px 22px; flex-wrap: wrap; justify-content: end; }
 
 /* hero */
 .a4-hero { position: relative; overflow: clip; min-height: clamp(520px, 82vh, 780px); display: flex; flex-direction: column; justify-content: flex-end; padding-block: 30px clamp(56px, 7vw, 90px); }

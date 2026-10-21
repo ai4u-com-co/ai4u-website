@@ -90,6 +90,15 @@
     "sitemap": true
   },
   {
+    "path": "/accesibilidad",
+    "name": "Accesibilidad",
+    "title": "Declaración de accesibilidad | Ai4U",
+    "description": "Qué estándar sigue www.ai4u.com.co (WCAG 2.2 AA), qué herramientas de lectura ofrece, cómo está hoy y cómo avisarnos si encuentras una barrera.",
+    "type": "WebPage",
+    "priority": 0.3,
+    "sitemap": true
+  },
+  {
     "path": "/politica-de-privacidad",
     "name": "Política de privacidad",
     "title": "Política de privacidad | Ai4U",

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { SITE_LINKS, SOCIAL_LINKS, FOOTER_EXTRA_LINKS } from '../../../../data/siteLinks';
 import { scrollToTop } from '../../../../utils/helpers';
 import { openConsentPreferences } from '../../../../utils/consent';
+import { AccesibilidadBoton } from './AccesibilidadPanel';
 import '../../../../styles/site-v2.css';
 
 const Footer = () => (
@@ -29,6 +30,7 @@ const Footer = () => (
           >
             Preferencias de cookies
           </button>
+          <span style={{ marginTop: 6 }}><AccesibilidadBoton /></span>
         </div>
         <div className="a4-foot-col">
           <span className="a4-cap">Contacto</span>
@@ -37,7 +39,7 @@ const Footer = () => (
           <span>Medellín, Colombia</span>
           <span style={{ display: 'flex', flexWrap: 'wrap', gap: '0 18px' }}>
             {SOCIAL_LINKS.map(s => (
-              <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer">{s.name}</a>
+              <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" style={{ minWidth: 44, minHeight: 44, display: 'inline-flex', alignItems: 'center' }}>{s.name}</a>
             ))}
           </span>
         </div>

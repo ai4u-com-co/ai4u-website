@@ -29,6 +29,7 @@ const SOURCES = {
   '/portafolio': ['src/pages/Portfolio.tsx', 'src/data/cases.ts'],
   '/por-que-ai4u': ['src/pages/WhyAI4U.tsx'],
   '/preguntas-frecuentes': ['src/pages/Faq.tsx', 'src/data/faq.ts'],
+  '/accesibilidad': ['src/pages/Accesibilidad.tsx'],
 };
 let shallow = true;
 try { shallow = execSync('git rev-parse --is-shallow-repository', { cwd: ROOT, stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim() !== 'false'; } catch { /* sin git */ }

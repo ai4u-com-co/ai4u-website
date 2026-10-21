@@ -102,7 +102,7 @@ const Services: React.FC = () => {
               <p className="a4-sm">
                 {e.desc}
                 {e.name === 'Atención a huéspedes' && (
-                  <>{' '}<Link to={ROUTES.AGENTE_AIRBNB} onClick={top} style={{ whiteSpace: 'nowrap' }}>Conoce el agente para Airbnb →</Link></>
+                  <>{' '}<Link to={ROUTES.AGENTE_AIRBNB} onClick={top}>Conoce el agente para Airbnb →</Link></>
                 )}
               </p>
             </div>

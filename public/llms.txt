@@ -17,6 +17,7 @@ Ai4U trabaja con empresas medianas que tienen operación repetitiva: pedidos, ca
 
 - [Casos](https://www.ai4u.com.co/portafolio): empresas de manufactura, contenido, hospitalidad y salud que ya trabajan con agentes de Ai4U.
 - [Nosotros](https://www.ai4u.com.co/por-que-ai4u): quién está detrás de Ai4U y cómo trabaja: agentes que hacen el trabajo y una persona que revisa lo que importa.
+- [Accesibilidad](https://www.ai4u.com.co/accesibilidad): el sitio sigue WCAG 2.2 nivel AA (cubre NTC 5854 y la Resolución MinTIC 1519 de 2020) y ofrece un panel propio para agrandar el texto, contraste alto, más espacio, fuente simple, sin movimiento y lectura en voz alta; cómo reportar una barrera.
 - [Preguntas frecuentes](https://www.ai4u.com.co/preguntas-frecuentes): respuestas directas sobre qué es un agente de IA, si reemplaza al equipo, si hay que cambiar de sistemas, cuánto tarda y cómo empezar.
 
 ## Contacto

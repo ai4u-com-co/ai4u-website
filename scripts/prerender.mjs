@@ -51,6 +51,16 @@ async function launchOptions() {
   return { executablePath: await sparticuz.executablePath(), args: sparticuz.args, headless: true };
 }
 
+// Gate de accesibilidad: en la misma pasada se corre axe-core (WCAG 2.0/2.1/2.2 A y AA) sobre cada ruta.
+// Cualquier violación tumba el build, igual que la validación de SEO: una barrera nueva no llega a producción.
+const AXE_SRC = await readFile(join(ROOT, 'node_modules/axe-core/axe.min.js'), 'utf8');
+const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
+async function auditA11y(page, route) {
+  await page.addScriptTag({ content: AXE_SRC });
+  const r = await page.evaluate(tags => window.axe.run(document, { runOnly: { type: 'tag', values: tags } }), AXE_TAGS);
+  return r.violations.map(v => ({ route, id: v.id, impact: v.impact, help: v.help, nodes: v.nodes.length, ejemplo: v.nodes[0]?.html.slice(0, 120) }));
+}
+
 async function main() {
   let chromium;
   try {
@@ -70,6 +80,7 @@ async function main() {
   }
 
   const server = await serveDist();
+  const violaciones = [];
   try {
     const page = await browser.newPage();
     for (const route of ROUTES) {
@@ -78,6 +89,7 @@ async function main() {
         await page.goto(`http://localhost:${PORT}${route}`, { waitUntil: 'load' });
         await page.waitForSelector('#root :first-child', { timeout: 15000 });
         await page.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
+        violaciones.push(...await auditA11y(page, route));
         let html = await page.content();
         // El <link rel="preload" onload=...> de las fuentes de Google ya se convirtió en stylesheet al renderizar:
         // se deja como estaba para que el HTML servido no tenga CSS bloqueante de terceros.
@@ -94,6 +106,13 @@ async function main() {
     await browser.close();
     server.close();
   }
+  if (violaciones.length) {
+    console.error(`[a11y] ${violaciones.length} violación(es) WCAG A/AA — el build no pasa:`);
+    console.table(violaciones.map(v => ({ ruta: v.route, regla: v.id, impacto: v.impact, nodos: v.nodes, ejemplo: v.ejemplo })));
+    for (const v of violaciones) console.error(`  ${v.route} · ${v.id}: ${v.help}`);
+    process.exit(1);
+  }
+  console.log(`[a11y] 0 violaciones WCAG A/AA en ${ROUTES.length} rutas (axe-core)`);
 }
 
 main().catch(err => {

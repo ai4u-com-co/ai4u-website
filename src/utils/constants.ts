@@ -11,6 +11,7 @@ export const ROUTES = {
   AGENTE_AIRBNB: '/agente-airbnb',
   DASHBOARDS: '/dashboards',
   FAQ: '/preguntas-frecuentes',
+  ACCESIBILIDAD: '/accesibilidad',
   /** @deprecated nombre viejo de /dashboards — solo para el redirect en App.tsx */
   TABLEROS_LEGACY: '/tableros',
   /** @deprecated nombre viejo de /agentes — solo para el redirect en App.tsx, no usar para nada nuevo */

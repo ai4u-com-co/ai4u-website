@@ -5,6 +5,7 @@ import { ROUTES, APP_CONFIG } from '../../../../utils/constants';
 import { scrollToTop } from '../../../../utils/helpers';
 import { SITE_LINKS, SOCIAL_LINKS } from '../../../../data/siteLinks';
 import '../../../../styles/site-v2.css';
+import { AccesibilidadBoton } from './AccesibilidadPanel';
 
 // La barra solo muestra el logo y "Menú". Los destinos viven en una pantalla completa.
 // La esfera de la pantalla "apunta" al destino sobre el que está el cursor o el foco:
@@ -73,6 +74,8 @@ const Navbar = () => {
         <RouterLink to={ROUTES.HOME} aria-label="Ai4U, inicio" onClick={go}>
           <img src="/assets/images/logo-v2-negro.png" alt="Ai4U" width={81} height={30} />
         </RouterLink>
+        <div className="a4-nav-tools">
+        <AccesibilidadBoton />
         <button
           ref={btnRef}
           type="button"
@@ -84,6 +87,7 @@ const Navbar = () => {
         >
           Menú +
         </button>
+        </div>
       </nav>
 
       <div

@@ -14,7 +14,7 @@ describe('registro de páginas (src/data/seoPages.json)', () => {
     const paths = SEO_PAGES.map(p => p.path);
     expect(new Set(paths).size).toBe(paths.length);
     const publicas = [ROUTES.HOME, ROUTES.AGENTES, ROUTES.DASHBOARDS, ROUTES.SERVICES, ROUTES.SITIOS_WEB, ROUTES.ORDER_LOADER,
-      ROUTES.PORTFOLIO, ROUTES.WHY_AI4U, ROUTES.FAQ, ROUTES.PRIVACY_POLICY, ROUTES.TERMS_OF_SERVICE, ROUTES.DATA_DELETION];
+      ROUTES.PORTFOLIO, ROUTES.WHY_AI4U, ROUTES.FAQ, ROUTES.ACCESIBILIDAD, ROUTES.PRIVACY_POLICY, ROUTES.TERMS_OF_SERVICE, ROUTES.DATA_DELETION];
     publicas.forEach(r => expect(paths).toContain(r));
   });
 
