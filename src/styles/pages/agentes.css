@@ -20,7 +20,7 @@
 .a4-agentes-name { margin: 0; overflow-wrap: anywhere; }
 .a4-agentes-card p { margin: 0; }
 .a4-agentes-card-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
-.a4-agentes-status { display: inline-block; font-family: var(--a4-mono); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; border: 1px solid var(--a4-ink); padding: 2px 8px; background: var(--a4-paper); }
+.a4-agentes-status { display: inline-block; font-family: var(--a4-mono); font-size: 12px; letter-spacing: .02em; border: 1px solid var(--a4-ink); padding: 2px 8px; background: var(--a4-paper); }
 .a4-agentes-status.interno { background: var(--a4-ink); color: var(--a4-canvas); }
 .a4-agentes-status.piloto { border-style: dashed; }
 

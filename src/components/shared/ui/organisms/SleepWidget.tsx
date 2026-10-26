@@ -198,7 +198,7 @@ default:
                 Calidad del Sueño
               </SmallText>
               <Chip
-                label={data.quality.toUpperCase()}
+                label={data.quality}
                 size="small"
                 sx={{
                   backgroundColor: getQualityColor(data.quality) + '20',

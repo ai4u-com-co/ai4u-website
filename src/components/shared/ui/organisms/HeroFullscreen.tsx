@@ -214,7 +214,6 @@ const HeroFullscreen: React.FC<HeroFullscreenProps> = ({
                 letterSpacing: '0.2em',
                 color: colors.contrast.text.primary,
                 opacity: 0.35,
-                textTransform: 'uppercase',
               }}>
                 {svc}
               </CodeText>
