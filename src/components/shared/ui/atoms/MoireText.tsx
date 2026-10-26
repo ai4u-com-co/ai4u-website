@@ -26,7 +26,6 @@ const MoireText: React.FC<MoireTextProps> = ({ children, color, sx, ...props }) 
         fontWeight: 900,
         lineHeight: 0.86,
         letterSpacing: '-0.01em',
-        textTransform: 'uppercase',
         display: 'inline-block',
         backgroundImage: `repeating-radial-gradient(circle at 30% 40%, ${lineColor} 0px, ${lineColor} 1.4px, transparent 2.6px, transparent 6px)`,
         WebkitBackgroundClip: 'text',

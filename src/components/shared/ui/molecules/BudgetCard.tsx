@@ -142,7 +142,7 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
               <Typography sx={{ ...TEXT_VARIANTS.label.secondary, opacity: 0.5 }}>
                 {String(index + 1).padStart(2, '0')}
               </Typography>
-              <Typography sx={{ fontWeight: 700, textTransform: 'uppercase' }}>
+              <Typography sx={{ fontWeight: 700 }}>
                 {category.name}
               </Typography>
             </Box>

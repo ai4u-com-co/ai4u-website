@@ -61,6 +61,30 @@ async function auditA11y(page, route) {
   return r.violations.map(v => ({ route, id: v.id, impact: v.impact, help: v.help, nodes: v.nodes.length, ejemplo: v.nodes[0]?.html.slice(0, 120) }));
 }
 
+// Compuerta de mayúscula sostenida (recomendación de accesibilidad, octubre 2026): en lo que de verdad se ve no puede haber
+// texto forzado a mayúsculas con CSS ni frases escritas en MAYÚSCULAS. Las siglas sueltas (API, NIT, QR…) están permitidas.
+const SIGLAS = ['API', 'NIT', 'PDF', 'QR', 'URL', 'HTML', 'WCAG', 'UNE', 'CRM', 'ERP', 'PQRS', 'FAQ', 'CTP', 'SIRE', 'TRA', 'RNT', 'IVA', 'DIAN', 'LSC', 'NTC', 'EAA', 'ADR', 'ROI', 'SAP', 'HORECA', 'MINTIC', 'COP', 'USD', 'EUR', 'NVDA', 'JAWS', 'TTS'];
+async function auditMayusculas(page, route) {
+  return page.evaluate((siglas) => {
+    const out = [];
+    const visible = (el) => { const s = getComputedStyle(el); return s.display !== 'none' && s.visibility !== 'hidden' && el.getClientRects().length > 0; };
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    const vistos = new Set();
+    while (walker.nextNode()) {
+      const n = walker.currentNode; const el = n.parentElement;
+      if (!el || ['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(el.tagName) || !visible(el)) continue;
+      const txt = n.textContent.replace(/\s+/g, ' ').trim(); if (txt.length < 3) continue;
+      if (getComputedStyle(el).textTransform === 'uppercase') { const k = 'css:' + el.className; if (!vistos.has(k)) { vistos.add(k); out.push({ tipo: 'text-transform', ejemplo: txt.slice(0, 50), clase: String(el.className).slice(0, 40) }); } continue; }
+      // dos o más palabras seguidas (3+ letras) escritas solo en mayúsculas, salvo siglas permitidas
+      const palabras = txt.split(/\s+/).map((w) => w.replace(/[^A-Za-zÁÉÍÓÚÑÜáéíóúñü]/g, ''));
+      let racha = 0, maxRacha = 0;
+      for (const w of palabras) { const caps = w.length >= 3 && w === w.toUpperCase() && w !== w.toLowerCase() && !siglas.includes(w); racha = caps ? racha + 1 : 0; maxRacha = Math.max(maxRacha, racha); }
+      if (maxRacha >= 2) out.push({ tipo: 'texto en mayúsculas', ejemplo: txt.slice(0, 60), clase: String(el.className).slice(0, 40) });
+    }
+    return out;
+  }, SIGLAS);
+}
+
 async function main() {
   let chromium;
   try {
@@ -90,6 +114,7 @@ async function main() {
         await page.waitForSelector('#root :first-child', { timeout: 15000 });
         await page.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
         violaciones.push(...await auditA11y(page, route));
+        for (const m of await auditMayusculas(page, route)) violaciones.push({ route, id: 'mayuscula-sostenida', impact: 'regla-de-la-casa', help: `${m.tipo}: «${m.ejemplo}» (${m.clase})`, nodes: 1, ejemplo: m.ejemplo });
         let html = await page.content();
         // El <link rel="preload" onload=...> de las fuentes de Google ya se convirtió en stylesheet al renderizar:
         // se deja como estaba para que el HTML servido no tenga CSS bloqueante de terceros.

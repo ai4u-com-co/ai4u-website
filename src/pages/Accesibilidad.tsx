@@ -26,6 +26,10 @@ const Accesibilidad: React.FC = () => (
         <p>
           Este sitio se construye para cumplir las Pautas de Accesibilidad para el Contenido Web <strong>WCAG 2.2, nivel AA</strong>, del W3C. Ese nivel cubre lo que piden en Colombia la Norma Técnica NTC 5854 y el Anexo 1 de la Resolución 1519 de 2020 del MinTIC (WCAG 2.1 AA), y lo que exige la norma europea EN 301 549. Además aplicamos dos reglas de la Resolución 1519: cualquier video que publiquemos lleva subtítulos y el texto puede ampliarse hasta el tamaño que la persona necesite.
         </p>
+        <h2>Cómo escribimos</h2>
+        <p>
+          No usamos mayúscula sostenida: los títulos, los botones y las etiquetas se escriben con la mayúscula inicial de cualquier frase, porque el texto en mayúsculas es más lento de leer, sobre todo para personas con dislexia o baja visión, y algunos lectores de pantalla lo deletrean. Esta regla se comprueba automáticamente en cada publicación.
+        </p>
         <h2>Herramientas de lectura</h2>
         <p>
           El botón <strong>«Accesibilidad»</strong>, en la cabecera y en el pie de todas las páginas, abre un panel con el que puedes agrandar el texto, activar contraste alto, dar más espacio a la lectura, usar una fuente simple, quitar el movimiento y escuchar la página en voz alta con la voz de tu propio dispositivo. Las preferencias se guardan en tu navegador; no usan cookies ni se envían a ningún servicio.
