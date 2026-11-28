@@ -152,3 +152,6 @@ assets/Marca/
 
 # Experimentos locales — cada uno tiene su propio repo
 experiments/
+
+# Worktrees locales de Claude Code: nunca al repo (un gitlink suelto rompe el checkout de Actions)
+.claude/worktrees/
